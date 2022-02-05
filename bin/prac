@@ -1,0 +1,112 @@
+#!/usr/bin/env node
+
+var fs = require("fs-extra");
+var args = process.argv;
+
+var path = __dirname + "/../";
+var base = process.cwd() + "/";
+var spec =
+    `prac specs
+
+Commands
+    prac init    Initialize a ui project
+    prac run     Start a web server to serve the ui project
+
+basic
+    -h           Show usage information
+    -v           Show version number
+
+prac run
+    -p           Assign a port for web server
+`;
+
+if (args.length == 2) {
+    console.log(spec);
+    return;
+}
+
+args.forEach(function (arg, i) {
+    if (arg == "-h") {
+        console.log(spec);
+        return;
+    }
+
+    if (arg == "-v") {
+        var package = JSON.parse(fs.readFileSync(path + "package.json").toString());
+        console.log(package.version);
+        return;
+    }
+
+    if (arg == "init") {
+        if (i + 1 < args.length) {
+            // mobile
+            if (args[i + 1] == "-m") {
+                fs.copySync(path + "dist/js/lib", base + "js/lib", function (src, dest) {
+                    if (src.indexOf(".component.") > 0 || src.indexOf(".com.datepicker.") > 0 || src.indexOf(".com.uploader.") > 0) {
+                        return false;
+                    }
+                    return true;
+                });
+                fs.copyFileSync(path + "dist/js/prac-m.js", base + "js/prac.js");
+                fs.copySync(path + "dist/style", base + "style", function (src, dest) {
+                    if (src.indexOf("prac.css") > 0) {
+                        return false;
+                    }
+                    return true;
+                });
+                fs.copyFileSync(path + "index-m.html", base + "index.html");
+                fs.copyFileSync(path + "main-m.js", base + "main.js");
+                fs.copySync(path + "app/home", base + "app/home", function (src, dest) {
+                    if (src.indexOf("home.js") >= 0 || src.indexOf("home-tpl.html") >= 0) {
+                        return false;
+                    }
+                    return true;
+                });
+                fs.copySync(path + "app/nav", base + "app/nav");
+                fs.copySync(path + "app.js", base + "app.js");
+                console.log("Done.");
+                return;
+            }
+        }
+
+        // pc
+        fs.copySync(path + "dist/js/lib", base + "js/lib", function (src, dest) {
+            if (src.indexOf(".m.") > 0) {
+                return false;
+            }
+            return true;
+        });
+        fs.copyFileSync(path + "dist/js/prac.js", base + "js/prac.js");
+        fs.copySync(path + "dist/style", base + "style", function (src, dest) {
+            if (src.indexOf("-m") > 0) {
+                return false;
+            }
+            return true;
+        });
+        fs.copyFileSync(path + "index.html", base + "index.html");
+        fs.copyFileSync(path + "main.js", base + "main.js");
+        fs.copySync(path + "app/home", base + "app/home", function (src, dest) {
+            if (src.indexOf("-m") > 0) {
+                return false;
+            }
+            return true;
+        });
+        fs.copySync(path + "app.js", base + "app.js");
+        console.log("Done.");
+        return;
+    }
+
+    if (arg == "run") {
+        var app = require(base + "app.js");
+        var port = 8080;
+        for (var j = i; j < args.length; j++) {
+            if (args[j] == "-p") {
+                if (j + 1 < args.length) {
+                    port = parseInt(args[j + 1]);
+                }
+            }
+        }
+        app.start(port);
+        return;
+    }
+});

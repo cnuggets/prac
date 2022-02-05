@@ -1,0 +1,215 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="uploader"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mt-5">
+        <form class="row g-3 needs-validation" novalidate onsubmit="return false;" id="form">
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">省</label>
+                <select class="form-select" name="province" required id="province">
+                </select>
+                <div class="invalid-feedback">Please select province</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">市</label>
+                <select class="form-select" name="city" required id="city">
+                </select>
+                <div class="invalid-feedback">Please select city</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">区</label>
+                <select class="form-select" name="district" required id="district">
+                </select>
+                <div class="invalid-feedback">Please select district</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    not good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="validationCustom02" required>
+                <div class="invalid-feedback">
+                    not good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustomUsername" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+                        required>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">City</label>
+                <input type="text" class="form-control" id="validationCustom03" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom05" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="validationCustom05" pattern="^[0-9]+$">
+                <div class="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Test</label>
+                <select class="form-select" aria-label="Default select example" required>
+                    <option value="">Please select</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="validationCustom03" class="form-label">Multi Select</label>
+                <select class="form-select" name="multi" multiple required>
+                    <option value="1">One</option>
+                    <option value="2" selected>Two</option>
+                    <option value="3">Three</option>
+                    <option value="4" selected>Four</option>
+                    <option value="5" selected>Five</option>
+                    <option value="6">Six</option>
+                    <option value="7">Seven</option>
+                    <option value="8">Eight</option>
+                    <option value="9">Nine</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select, you can select multiple items.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="validationCustom03" required p-integer min="1" max="99999">
+                <div class="invalid-feedback">
+                    Please provide a phone number.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Birthday</label>
+                <input type="text" class="form-control" id="birthday" required>
+                <div class="invalid-feedback">
+                    Please provide your birthday.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom03" class="form-label">Stepper</label>
+                <input type="text" class="form-control" id="stepper">
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Switch</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                </div>
+            </div>
+            <div class="col-12 position-relative">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                    </label>
+                    <div class="invalid-tooltip">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>   
+        </form>
+    </div>
+    <div class="col-md-12">
+        <a class="btn btn-danger" href="javascript:void(0)" id="alert">Alert</a><br />
+        <a class="btn btn-danger" href="javascript:void(0)" p-alert="This is a auto bind alert">Auto alert info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" id="info">Info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" p-info="This is a auto bind info">Auto bind info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" id="dialog">Dialog</a><br />
+        <a class="btn btn-warning" href="javascript:void(0)" id="confirm">Confirm</a><br />
+    </div>
+    <div class="col-md-6 mt-5">
+        <div p-slider max="150" min="40" default="77"></div>
+    </div>
+    <div class="col-md-6 mt-5">
+        <div id="slider"></div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+    
+</div>
+
+<script type="text/html" id="form-tpl">
+    <form class="row g-3 needs-validation" novalidate onsubmit="return false;">
+        <div class="col-md-4">
+            <label for="validationCustom01" class="form-label">First name</label>
+            <input type="text" class="form-control" id="validationCustom01" required>
+            <div class="invalid-feedback">
+                not good!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="validationCustom02" required>
+            <div class="invalid-feedback">
+                not good!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="validationCustomUsername" class="form-label">Username</label>
+            <div class="input-group has-validation">
+                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+                    required>
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="validationCustom03" class="form-label">City</label>
+            <input type="text" class="form-control" id="validationCustom03" required>
+            <div class="invalid-feedback">
+                Please provide a valid city.
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="validationCustom05" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="validationCustom05" pattern="^[0-9]+$">
+            <div class="invalid-feedback">
+                Please provide a valid zip.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select class="form-select" aria-label="Default select example" required>
+                <option value="">Please select</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col-12 position-relative">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                    Agree to terms and conditions
+                </label>
+                <div class="invalid-tooltip">
+                    You must agree before submitting.
+                </div>
+            </div>
+        </div>   
+    </form>
+</script>

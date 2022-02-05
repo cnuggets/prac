@@ -1,0 +1,2 @@
+!function(e){"function"==typeof define&&define.amd?define(["jquery","underscore","bootstrap","common"],e):"object"==typeof exports?require("jquery"):jQuery}(function(e,o,n){});
+//# sourceMappingURL=jquery.prac.com.m.biz.js.map

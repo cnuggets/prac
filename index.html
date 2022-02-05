@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Prac</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link href="/style/css/bootstrap.css" rel="stylesheet">
+    <link href="/style/icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/style/css/prac.css" rel="stylesheet">
+    <script src="/js/prac.js"></script>
+    <script src="/main.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-x-diamond-fill text-primary"></i>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled">Disabled</a>
+                    </li>
+                </ul>
+                <div class="d-flex op">
+                    <div class="search-input" style="width: 280px;">
+                        <i class="bi bi-search"></i>
+                        <input type="text" placeholder="search" p-search>
+                    </div>
+                </div>
+                <div class="d-flex op">
+                    <a href="javascript:void(0)"><i class="bi bi-bell-fill text-dark"></i></a>
+                    <a href="javascript:void(0)"><i class="bi bi-gear-fill text-dark"></i></a>
+                    <a href="javascript:void(0)"><i class="bi bi-person-fill text-secondary"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="side-menu" p-menu>
+        <div class="fold-btn">
+            <i class="bi bi-chevron-right"></i>
+            <i class="bi bi-chevron-left"></i>
+        </div>
+        <div class="header">
+            <h4><i class="bi bi-x-diamond-fill"></i>&nbsp;PracJS</h4>
+            <div>Easy, Powerful UI Framework</div>
+        </div>
+        <ul class="menu">
+            <li>
+                <a href="/" p-router>
+                    <i class="bi bi-x-diamond-fill"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>Settings</span>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/component" p-router>
+                            <i class="bi bi-x-diamond-fill"></i>
+                            <span>Security</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" p-router>
+                            <i class="bi bi-gear-fill"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="footer">
+            Power by @inuggets
+        </div>
+    </div>
+    <div class="content">
+        <!-- Your page content -->
+        <div p-content>
+        </div>
+    </div>
+</body>
+
+</html>
