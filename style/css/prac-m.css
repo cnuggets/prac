@@ -864,6 +864,8 @@ input:-webkit-autofill {
 }
 
 .p-tabbar .nav {
+    position: fixed;
+    bottom: 0;
     width: 100%;
     list-style: none;
     padding: 0.25rem 0;
@@ -871,6 +873,7 @@ input:-webkit-autofill {
     display: flex;
     flex-wrap: nowrap;
     height: 4rem;
+    background-color: #fff;
     border-top: 1px solid rgb(0, 0, 0, 0.05);
     border-bottom: 1px solid rgb(0, 0, 0, 0.05);
 }
