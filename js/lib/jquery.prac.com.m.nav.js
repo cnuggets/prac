@@ -287,8 +287,8 @@
 
         self.find(".item.selected").closest("ul").show();
         self.css("top", -self.height()).css("transition", "none");
+        self.hide();
 
-        var shown = false;
         var items = self.find(".item");
         items.on("click", function (e) {
             e.stopPropagation();
@@ -317,17 +317,19 @@
         });
 
         function _show() {
-            shown = true;
+            self.show();
             self.css("top", 0).css("transition", "top 0.2s");
         }
 
         function _hide() {
-            shown = false;
             self.css("top", -self.height()).css("transition", "top 0.2s");
+            setTimeout(function () {
+                self.hide();
+            }, 200);
         }
 
         function _toggle() {
-            if (shown) {
+            if (self.is(":visible")) {
                 _hide();
             } else {
                 _show();
