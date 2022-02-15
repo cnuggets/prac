@@ -168,8 +168,6 @@ function Prac() {
                 $.each(ctx.find("[p-swipe]"), function (i, item) {
                     $(item).swipeCell();
                 });
-
-                ctx.find("[p-index-nav]").indexNav();
             }
         });
     }
