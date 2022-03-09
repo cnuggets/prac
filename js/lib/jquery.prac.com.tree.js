@@ -440,10 +440,14 @@
                         descriptions.push($(text).text());
                     }
                 });
+                var type = _type(node);
                 var editingNode = _new({
                     content: content,
                     descriptions: descriptions
-                }, _type(node), true);
+                }, type, true);
+                if (type == "folder" && node.hasClass("unfold")) {
+                    editingNode.addClass("unfold");
+                }
                 editingNode.attr("level", node.attr("level"));
                 editingNode.data("value", node.data("value"));
                 editingNode.find("input[type='text']").on("click", function (e) {
@@ -548,10 +552,14 @@
                     descriptions.push($(input).val());
                 }
             });
+            var type = _type(editingNode);
             var newNode = _new({
                 content: content,
                 descriptions: descriptions
-            }, _type(editingNode));
+            }, type);
+            if (type == "folder" && editingNode.hasClass("unfold")) {
+                newNode.addClass("unfold");
+            }
             newNode.attr("level", editingNode.attr("level"));
             newNode.data("value", editingNode.data("value"));
             editingNode.after(newNode);
