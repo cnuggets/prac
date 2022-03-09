@@ -12,7 +12,8 @@ var require = {
         "common": "jquery.prac.common",
         "component": "jquery.prac.component",
         "datepicker": "jquery.prac.com.datepicker",
-        "uploader": "jquery.prac.com.uploader"
+        "uploader": "jquery.prac.com.uploader",
+        "tree": "jquery.prac.com.tree"
     },
     shim: {
         "component": ["jquery", "underscore", "bootstrap", "common"]

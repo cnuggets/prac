@@ -727,3 +727,219 @@ body {
     color: #fff;
     font-size: 1.25rem;
 }
+
+.tree {
+    width: 100%;
+    color: #212529;
+    position: relative;
+}
+
+.tree.none-user-select {
+    user-select: none;
+}
+
+.tree ul {
+    padding: 0;
+}
+
+.tree>ul ul {
+    padding-left: 1.25rem;
+}
+
+.tree ul {
+    list-style: none;
+    width: 100%;
+}
+
+.tree ul li {
+    width: 100%;
+}
+
+.tree ul li .node, .tree .moving-node {
+    width: 100%;
+    display: flex;
+    height: 2rem;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.tree ul li .node .content {
+    background-color: transparent;
+}
+
+.tree .moving-node {
+    position: absolute;
+    z-index: 11;
+}
+
+.tree .moving-node .content {
+    border: 1px dashed rgb(0, 0, 0, 0.2);
+    background-color: #fff;
+    padding: 0 0.5rem;
+}
+
+.tree ul li .node>i.bi, .tree .moving-node>i.bi {
+    color: rgb(33, 37, 41, 0.6);
+}
+
+.tree ul li .node>.item, .tree .moving-node>.item{
+    height: 100%;
+    width: calc(100% - 1.5rem);
+    display: flex;
+    justify-content: space-between;
+    margin-left: 1.5rem;
+}
+
+.tree ul li .node>i.bi+.item {
+    margin-left: 0.5rem;
+}
+
+.tree ul li .node>.item>*, .tree .moving-node>.item>* {
+    display: flex;
+    align-items: center;
+}
+
+.tree ul li .node>.item>.content>i.bi, .tree .moving-node>.item>.content>i.bi {
+    width: 1.25rem;
+    color: rgb(33, 37, 41, 0.4);
+}
+
+.tree ul li .node>.item>.content>.text, .tree .moving-node>.item.content>.text {
+    width: calc(100% - 1.25rem);
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.tree ul li .node>.item>.description {
+    color: rgb(33, 37, 41, 0.5);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.tree ul li .node>.item>.description>.text{
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.tree ul li .node~ul {
+    display: none;
+}
+
+.tree ul li .node>i.bi {
+    cursor: pointer;
+    transform: rotate(0);
+    transition: all 0.2s;
+}
+
+.tree ul li .node.unfold>i.bi {
+    transform: rotate(90deg);
+    transition: all 0.2s;
+}
+
+.tree ul li .node.selected {
+    background-color: rgb(13, 110, 253, 0.8);
+}
+
+.tree ul li .node.selected * {
+    color: #fff;
+}
+
+.tree ul li .node.selected>.item>.content>i.bi {
+    color: #fff;
+}
+
+.tree ul li .node.selected>i.bi {
+    color: #fff;
+}
+
+.tree ul li .node.focus {
+    border: 1px dashed rgb(0, 0, 0, 0.2);
+}
+
+.tree .selector {
+    height: 2rem;
+    width: 100%;
+    background-color: rgb(13, 110, 253, 0.8);
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.tree-menu {
+    position: absolute;
+    width: 10rem;
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    padding: 0.5rem 0;
+    box-shadow: 2px 1px 2px 1px rgb(0 0 0 / 5%);
+    z-index: 9999;
+}
+
+.tree-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree-menu ul li {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    cursor: pointer;
+}
+
+.tree-menu ul li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tree-menu hr {
+    margin: 0.25rem 0;
+    padding: 0;
+}
+
+.tree ul li .node>.item input[type='text'] {
+    border: none;
+    color: #212529!important;
+    border-radius: 2px;
+    width: 88%;
+}
+
+.tree ul li .node>.item input[type='text']:focus {
+    border: none;
+}
+
+.tree ul li .node>.item input[type='checkbox'] {
+    margin: 0 0.25rem 0 0;
+}
+
+.tree .insert-line {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 1.2rem);
+    color: #0d6efd;
+    position: absolute;
+    height: 12px;
+    z-index: 10;
+    margin: -0.4rem 0 0 1.2rem;
+}
+
+.tree .insert-line i.bi {
+    font-size: 12px;
+}
+
+.tree .insert-line div.line {
+    width: calc(100% - 1rem);
+    height: 1px;
+    background-color: #0d6efd;
+    position: relative;
+    left: -0.25rem;
+}

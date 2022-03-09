@@ -82,13 +82,19 @@
         };
         var moving = false;
         self.on("mousedown", function (e) {
+            if (e.button != 0) {
+                return;
+            }
             e.stopPropagation();
             moving = true;
             onBegin(e, {
                 x: e.pageX,
                 y: e.pageY
-            });
+            }, self);
             $(document).on("mousemove", function (e) {
+                if (e.button != 0) {
+                    return;
+                }
                 e.stopPropagation();
                 if (!timestamp) {
                     timestamp = new Date().getTime();
@@ -104,10 +110,13 @@
                     x: e.pageX,
                     y: e.pageY
                 }
-                onMove(e, lastPos, speed);
+                onMove(e, lastPos, speed, self);
             });
         });
         $(document).on("mouseup", function (e) {
+            if (e.button != 0) {
+                return;
+            }
             $(document).unbind("mousemove");
             onEnd(e, {
                 x: e.pageX,
@@ -128,7 +137,7 @@
             onBegin(e, {
                 x: e.originalEvent.changedTouches[0].clientX,
                 y: e.originalEvent.changedTouches[0].clientY
-            });
+            }, self);
             $(document).on("touchmove", function (e) {
                 e.stopPropagation();
                 if (!timestamp) {
@@ -147,7 +156,7 @@
                     x: e.originalEvent.touches[0].clientX,
                     y: e.originalEvent.touches[0].clientY
                 }
-                onMove(e, lastPos, speed);
+                onMove(e, lastPos, speed, self);
             });
         });
         $(document).on("touchend", function (e) {
@@ -212,5 +221,9 @@
         return {
             stop: _stop
         }
+    }
+
+    $.remToPixels = function (rem) {
+        return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
     }
 }));
