@@ -16,7 +16,6 @@ var require = {
         "tree": "jquery.prac.com.tree"
     },
     shim: {
-        "component": ["jquery", "underscore", "bootstrap", "common"]
     }
 };
 
