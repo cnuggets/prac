@@ -1,7 +1,7 @@
 (function (factory) {
     if (typeof define === "function" && define.amd) {
         // AMD
-        define(["jquery", "underscore", "common"], factory);
+        define(["jquery", "underscore", "bootstrap", "common"], factory);
     } else if (typeof exports === "object") {
         // CommonJS
         factory(require("jquery"));
@@ -9,7 +9,7 @@
         // Browser globals
         factory(jQuery);
     }
-}(function ($, _) {
+}(function ($, _, b) {
 
     /* ------------------- Pagination ------------------- */
     $.fn.pagination = function (skip, limit, total, url, options) {
