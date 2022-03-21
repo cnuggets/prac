@@ -1,47 +1,45 @@
-# prac
+# PracJS
 A Simple but Powerful Web UI Framework & Toolkit
 
-## Getting Started
+## Quick Start
+- Create project
+
 ```
-# Create project folder
 mkdir YOUR-PROJECT
 cd YOUR-PROJECT
-
-# Intialize project info
 npm init
+```
+- Install prac
 
-# Install prac
+```
 npm install pracjs --save-dev
-# Install it global
 sudo npm install pracjs -g
+```
+- Intialize prac project
 
-# Intialize the project
-./node_modules/.bin/prac init
-# or
+```
+# responsive web
 prac init
-
-# Initialize the project for mobile web
+# or mobile
 prac init -m
-
-# Start a web server to test
-prac run -p 8081
 ```
 
-## User Guide
+- Start a web server
+
+```
+prac run -p 8080
+```
+
+- Access
+
+```
+http://localhost:8080
+```
+
+## Docs
 - [Documentation](https://pracjs.com)
 - layout, css, form, basic component fully use Bootstrap 5, so for this basic usage please refer to [Bootstrap 5](https://getbootstrap.com/docs/5.1/getting-started/introduction/).
 - icon please refer to [Bootstrap icon](https://icons.getbootstrap.com/)
 
-## Project
-### Initialize
-```
-npm install
-```
-### Build
-```
-grunt min
-```
-### Publish
-```
-npm publish --access public .
-```
+## License
+[MIT](https://github.com/cnuggets/prac/blob/main/LICENSE)
