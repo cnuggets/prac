@@ -8,7 +8,6 @@ A Simple but Powerful Web UI Framework & Toolkit
 mkdir YOUR-PROJECT
 cd YOUR-PROJECT
 npm init
-
 ```
 - Install prac
 
@@ -29,6 +28,12 @@ prac init -m
 
 ```
 prac run -p 8080
+```
+
+- Access
+
+```
+http://localhost:8080
 ```
 
 ## Docs

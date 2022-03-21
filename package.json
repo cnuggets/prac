@@ -1,6 +1,6 @@
 {
   "name": "pracjs",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A Simple but Powerful Web UI Framework & Toolkit",
   "main": "prac.js",
   "scripts": {},
@@ -14,10 +14,10 @@
   "keywords": [
     "ui",
     "framework",
+    "component",
     "jquery",
     "bootstrap",
-    "component",
-    "AMD"
+    "requirejs"
   ],
   "author": "cnuggets",
   "license": "MIT",
