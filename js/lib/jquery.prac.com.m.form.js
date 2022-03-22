@@ -866,6 +866,14 @@
                 $.each(selected, function (i, item) {
                     dates.push(new Date($(item).attr("value")));
                 });
+
+                if (options.multiple && dates.length == 0) {
+                    return;
+                }
+                if (options.range && dates.length != 2) {
+                    return;
+                }
+
                 if (dates.length == 1) {
                     options.confirm.onConfirm(options.multiple ? dates : dates[0]);
                 } else {
