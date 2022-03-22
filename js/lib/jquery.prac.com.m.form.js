@@ -208,7 +208,7 @@
                 _onScroll(pos.y - beginY);
             }, function (e, pos, speed) {
                 endY = pos.y;
-                if (speed.y > 1) {
+                if (speed.y > 0.8) {
                     _fastScroll(speed.y);
                 } else {
                     _onStopScroll();
@@ -241,7 +241,7 @@
                 if (!scrolling) {
                     return
                 }
-                var factor = 3;
+                var factor = 4;
                 var c = Math.round(speedY * factor);
                 var distance = endY < beginY ? -c * itemHeight : c * itemHeight;
                 var stoppedPos = position + distance;
@@ -251,7 +251,7 @@
                     stoppedPos = bottom;
                 }
                 items.css("transform", "translateY(" + stoppedPos + "px)");
-                items.css("transition", "all 0.6s linear");
+                items.css("transition", "all 0.4s ease-out");
                 position = stoppedPos;
                 _onSelect();
             }
