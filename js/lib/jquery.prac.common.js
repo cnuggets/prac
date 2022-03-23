@@ -124,12 +124,25 @@
             }, speed);
         });
 
-        if (options.preventBody) {
-            document.body.addEventListener("touchmove", function (e) {
-                if (moving) {
-                    e.preventDefault();
+        function _onBodyTouchmove(e) {
+            e.stopPropagation();
+            if (!timestamp) {
+                timestamp = new Date().getTime();
+            } else {
+                var now = new Date().getTime();
+                if (now - timestamp != 0) {
+                    speed = {
+                        x: Math.abs(e.touches[0].clientX - lastPos.x) / (now - timestamp),
+                        y: Math.abs(e.touches[0].clientY - lastPos.y) / (now - timestamp),
+                    }
+                    timestamp = now;
                 }
-            }, { passive: false });
+            }
+            lastPos = {
+                x: e.touches[0].clientX,
+                y: e.touches[0].clientY
+            }
+            onMove(e, lastPos, speed, self);
         }
         self.on("touchstart", function (e) {
             e.stopPropagation();
@@ -138,29 +151,11 @@
                 x: e.originalEvent.changedTouches[0].clientX,
                 y: e.originalEvent.changedTouches[0].clientY
             }, self);
-            $(document).on("touchmove", function (e) {
-                e.stopPropagation();
-                if (!timestamp) {
-                    timestamp = new Date().getTime();
-                } else {
-                    var now = new Date().getTime();
-                    if (now - timestamp != 0) {
-                        speed = {
-                            x: Math.abs(e.originalEvent.touches[0].clientX - lastPos.x) / (now - timestamp),
-                            y: Math.abs(e.originalEvent.touches[0].clientY - lastPos.y) / (now - timestamp),
-                        }
-                        timestamp = now;
-                    }
-                }
-                lastPos = {
-                    x: e.originalEvent.touches[0].clientX,
-                    y: e.originalEvent.touches[0].clientY
-                }
-                onMove(e, lastPos, speed, self);
-            });
+
+            document.body.addEventListener("touchmove", _onBodyTouchmove, { passive: false });
         });
-        $(document).on("touchend", function (e) {
-            $(document).off("touchmove");
+        $("body").on("touchend", function (e) {
+            document.body.removeEventListener("touchmove", _onBodyTouchmove);
             timestamp = 0;
             if (!moving) {
                 return;

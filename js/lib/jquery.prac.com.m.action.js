@@ -166,7 +166,6 @@
         var stopped = 0;
         var swiping = false;
         content.bindDragMove(function (e, pos) {
-            e.preventDefault();
             swiping = true;
             self.css("transition", "none");
             position = pos;
@@ -175,6 +174,7 @@
                 position = pos;
                 return;
             }
+            e.preventDefault();
             var distance = pos.x - position.x + stopped;
             if (distance > 0) {
                 self.css("transform", "translateX(" + (distance > left.width() ? left.width() : distance) + "px)");
@@ -538,7 +538,6 @@
 
             var swiping;
             wrapper.bindDragMove(function (e, pos) {
-                e.preventDefault();
                 wrapper.css("transition", "none");
                 position = pos;
                 swiping = true;
@@ -547,10 +546,11 @@
                 if (!swiping) {
                     return;
                 }
-                if (Math.abs(pos.y - position.y) * 2 > Math.abs(pos.x - position.x)) {
+                if (Math.abs(pos.y - position.y) > Math.abs(pos.x - position.x)) {
                     position = pos;
                     return;
                 }
+                e.preventDefault();
                 var distance = pos.x - position.x;
                 if (Math.abs(distance) <= self.width()) {
                     if (distance < 0 && index == slides.length - 1) {
@@ -578,7 +578,7 @@
                 if (isNaN(distance)) {
                     return;
                 }
-                if ((Math.abs(speed.x) > 1 && Math.abs(distance) > 5) || Math.abs(distance) > self.width() / 2) {
+                if ((Math.abs(speed.x) > 0.4 && Math.abs(distance) > 5) || Math.abs(distance) > self.width() / 2) {
                     if (distance < 0) {
                         index++;
                     } else {
@@ -723,6 +723,12 @@
         });
 
         preview.on("click", function (e) {
+            if (!swipe) {
+                $(this).remove();
+                $("body").css("overflow", "");
+            }
+        });
+        preview.on("touchend", function (e) {
             if (!swipe) {
                 $(this).remove();
                 $("body").css("overflow", "");
