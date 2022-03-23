@@ -164,30 +164,32 @@
         var position;
         var offset = 20;
         var stopped = 0;
-        var inSwipeScope = false;
+        var swiping = false;
         content.bindDragMove(function (e, pos) {
-            inSwipeScope = true;
+            e.preventDefault();
+            swiping = true;
             self.css("transition", "none");
-            position = pos.x;
+            position = pos;
         }, function (e, pos, speed) {
-            if (!inSwipeScope) {
+            if (Math.abs(pos.y - position.y) * 2 > Math.abs(pos.x - position.x)) {
+                position = pos;
                 return;
             }
-            var distance = pos.x - position + stopped;
+            var distance = pos.x - position.x + stopped;
             if (distance > 0) {
                 self.css("transform", "translateX(" + (distance > left.width() ? left.width() : distance) + "px)");
             } else if (distance < 0) {
                 self.css("transform", "translateX(" + (distance < -right.width() ? -right.width() : distance) + "px)");
             }
         }, function (e, pos) {
-            if (!inSwipeScope) {
+            if (!swiping) {
                 return;
             }
             if (e.target.nodeName == "BUTTON") {
                 return;
             }
-            inSwipeScope = false;
-            var distance = pos.x - position;
+            swiping = false;
+            var distance = pos.x - position.x;
             // Moved distance over offset
             if (Math.abs(distance) > offset) {
                 // Moved to right
@@ -195,19 +197,23 @@
                     if (stopped < 0) { // hide right
                         if (distance > -stopped + offset) {
                             self.css("transform", "translateX(" + left.width() + "px)");
+                            self.css("transition", "all 0.2s");
                             stopped = left.width();
                         } else {
                             self.css("transform", "translateX(0)");
+                            self.css("transition", "all 0.2s");
                             stopped = 0;
                         }
                     } else if (stopped == 0) { // show left
                         self.css("transform", "translateX(" + left.width() + "px)");
+                        self.css("transition", "all 0.2s");
                         stopped = left.width();
                     }
                 } else if (distance < 0) { // Move to left
                     if (stopped > 0) { // hide left
                         if (distance < -stopped - offset) {
                             self.css("transform", "translateX(-" + right.width() + "px)");
+                            self.css("transition", "all 0.2s");
                             stopped = -right.width();
                         } else {
                             self.css("transform", "translateX(0)");
@@ -215,13 +221,14 @@
                         }
                     } else if (stopped == 0) { // show right
                         self.css("transform", "translateX(-" + right.width() + "px)");
+                        self.css("transition", "all 0.2s");
                         stopped = -right.width();
                     }
                 }
             } else { // Keep the position
                 self.css("transform", "translateX(" + stopped + "px)");
+                self.css("transition", "all 0.2s");
             }
-            self.css("transition", "all 0.2s");
         });
 
         self.find("button").on("click", function () {
@@ -531,15 +538,20 @@
 
             var swiping;
             wrapper.bindDragMove(function (e, pos) {
+                e.preventDefault();
                 wrapper.css("transition", "none");
-                position = pos.x;
+                position = pos;
                 swiping = true;
                 _pause();
             }, function (e, pos, speed) {
                 if (!swiping) {
                     return;
                 }
-                var distance = pos.x - position;
+                if (Math.abs(pos.y - position.y) * 2 > Math.abs(pos.x - position.x)) {
+                    position = pos;
+                    return;
+                }
+                var distance = pos.x - position.x;
                 if (Math.abs(distance) <= self.width()) {
                     if (distance < 0 && index == slides.length - 1) {
                         var first = slides.eq(0);
@@ -562,7 +574,7 @@
                 if (!swiping) {
                     return;
                 }
-                var distance = pos.x - position;
+                var distance = pos.x - position.x;
                 if (isNaN(distance)) {
                     return;
                 }
