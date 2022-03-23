@@ -638,11 +638,10 @@
         }
 
         btn.bindDragMove(function (e, pos) {
+            e.preventDefault();
         }, function (e, pos, speed) {
             _actionMove(pos.x);
         }, function (e, pos, speed) {
-        }, {
-            preventBody: true
         });
 
         // on resize

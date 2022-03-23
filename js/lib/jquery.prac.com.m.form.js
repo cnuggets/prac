@@ -202,6 +202,7 @@
             }
 
             wrapper.bindDragMove(function (e, pos) {
+                e.preventDefault();
                 scrolling = true;
                 beginY = pos.y;
             }, function (e, pos, speed) {
@@ -214,8 +215,6 @@
                     _onStopScroll();
                 }
                 scrolling = false;
-            }, {
-                preventBody: true
             });
 
             wrapper.bindMouseWheel(function (e, delta) {
@@ -1612,11 +1611,10 @@
         }
 
         btn.bindDragMove(function (e, pos) {
+            e.preventDefault();
         }, function (e, pos, speed) {
             _actionMove(pos.x);
         }, function (e, pos, speed) {
-        }, {
-            preventBody: true
         });
 
         // on resize
