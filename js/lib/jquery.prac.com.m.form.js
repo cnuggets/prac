@@ -1616,6 +1616,9 @@
             _actionMove(pos.x);
         }, function (e, pos, speed) {
         });
+        self.on("touchstart", function (e) {
+            e.preventDefault();
+        });
 
         // on resize
         $(window).on("resize", function () {
