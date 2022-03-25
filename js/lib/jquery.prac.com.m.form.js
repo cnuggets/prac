@@ -918,7 +918,7 @@
                     e.preventDefault();
                 } else {
                     if (options.submit.onSubmit) {
-                        options.submit.onSubmit();
+                        options.submit.onSubmit(_data());
                     }
                 }
             });
@@ -1084,6 +1084,63 @@
             } else {
                 callback(valid);
             }
+        }
+
+        function _data() {
+            var data = {};
+            $.each(self.find("input[name]"), function (i, item) {
+                var input = $(item);
+                var name = input.attr("name");
+                var type = input.prop("type");
+                var value = input.val();
+                if (input.attr("p-integer") != undefined || input.attr("p-decimal") != undefined) {
+                    if (!isNaN(value)) {
+                        value = Number(value);
+                    }
+                }
+
+                if (type == "radio" || type == "checkbox") {
+                    if (input.is(":checked")) {
+                        _set(name, value);
+                    }
+                } else {
+                    _set(name, value);
+                }
+            });
+
+            $.each(self.find("textarea[name]"), function (i, item) {
+                var textarea = $(item);
+                var name = textarea.attr("name");
+                var value = textarea.val();
+                _set(name, value);
+            });
+
+            $.each(self.find("select[name]"), function (i, item) {
+                var select = $(item);
+                var name = select.attr("name");
+                $.each(select.find("option:selected", function (i, option) {
+                    var value = $(option).attr("value");
+                    if (select.attr("p-integer") != undefined || select.attr("p-decimal") != undefined) {
+                        if (!isNaN(value)) {
+                            value = Number(value);
+                        }
+                    }
+                    _set(name, value);
+                }));
+            });
+
+            function _set(name, value) {
+                if (data[name]) {
+                    if (!$.isArray(data[name])) {
+                        data[name] = [data[name]];
+                    }
+                    data[name].push(value);
+                } else {
+                    data[name] = value;
+                }
+            }
+
+            return data;
         }
 
         function _loading(elem, async) {
