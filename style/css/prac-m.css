@@ -83,8 +83,18 @@ input:-webkit-autofill {
     display: flex;
 }
 
-.p-cell div.control div.input input {
+.p-cell div.control div.input input, .p-cell div.control div.input textarea {
     width: calc(100% - 1.5rem);
+}
+
+.p-cell div.control div.input textarea {
+    resize: none;
+    border: 1px solid #e9ecef;
+    border-radius: 0.25rem;
+}
+
+.p-cell div.control div.input textarea:focus {
+    outline: 0;
 }
 
 .p-cell div.control div.input input[type='text'],
@@ -109,7 +119,7 @@ input:-webkit-autofill {
     cursor: pointer;
 }
 
-.p-cell div.control input::placeholder {
+.p-cell div.control input::placeholder, .p-cell div.control textarea::placeholder {
     color: rgb(0, 0, 0, 0.2);
 }
 
@@ -151,6 +161,10 @@ input:-webkit-autofill {
 .p-cell div.control>div div.input div.content {
     display: flex;
     width: calc(100% - 16px);
+}
+
+.p-cell div.control>div div.input div.content.filled {
+    width: 100%;
 }
 
 .p-cell div.control>div div.input div.content>input {
