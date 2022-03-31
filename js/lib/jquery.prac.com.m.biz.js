@@ -170,6 +170,10 @@
             self.removeClass("media");
         }
 
+        self.find("input[p-message]").on("focus", function() {
+            messages.animate({ scrollTop: 9999 });
+        });
+
         self.find("input[p-message]").on("keyup", function (e) {
             e.stopPropagation();
             if (e.keyCode == 13) {
@@ -185,7 +189,7 @@
         function _onSend(input) {
             var msg = input.val();
             if (msg.length > 0) {
-                input.val("");
+                input.val("").focus();
                 if (options.onSend) {
                     options.onSend(msg);
                 }

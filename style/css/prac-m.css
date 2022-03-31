@@ -1933,9 +1933,16 @@ input:-webkit-autofill {
 }
 
 .p-chat .input {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     height: 3.25rem;
     background-color: rgb(248, 249, 250, 0.1);
     margin-bottom: 1rem;
+}
+
+.p-chat.media .input {
+    position: static;
 }
 
 .p-chat .input .text {

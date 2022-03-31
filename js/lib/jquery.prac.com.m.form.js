@@ -928,7 +928,6 @@
                 if (typeof date == "object") {
                     date = moment(date).format("YYYY-MM-DD");
                 }
-                console.log(date);
                 body.find("li[value='" + date + "']").trigger("click");
             }
         }
