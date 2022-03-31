@@ -156,16 +156,25 @@
             _convert(data);
             function _convert(data) {
                 records = [];
-                data.forEach(function (item) {
-                    if (typeof item == "string" || typeof item == "number") {
+                if (!$.isArray(data)) {
+                    for (var key in data) {
                         records.push({
-                            value: item,
-                            text: item
+                            value: key,
+                            text: data[key]
                         });
-                    } else {
-                        records.push(item);
                     }
-                });
+                } else {
+                    data.forEach(function (item) {
+                        if (typeof item == "string" || typeof item == "number") {
+                            records.push({
+                                value: item,
+                                text: item
+                            });
+                        } else {
+                            records.push(item);
+                        }
+                    });
+                }
             }
 
             // Render
@@ -778,6 +787,9 @@
         }
 
         self.append(calendar);
+        if (body.find("li.selected").length > 0) {
+            _scrollTo(body.find("li.selected").eq(0).closest(".month"));
+        }
 
         // Next month
         var nextMonth = body.find(".next-month");
@@ -880,6 +892,50 @@
                 }
             }
         });
+
+        function _scrollTo(elem) {
+            body.animate({
+                scrollTop: elem.position().top
+            }, 10);
+        }
+
+        function _selectDate(dates) {
+            if (!dates) {
+                return;
+            }
+            if (options.range) {
+                if (!$.isArray(dates) || dates.length < 2) {
+                    return;
+                }
+                // dates.sort();
+            } else {
+                if (!$.isArray(dates)) {
+                    dates = [dates];
+                }
+            }
+            body.find("li:not(.disabled)").removeClass();
+            dates.forEach(function (date) {
+                _select(date);
+            });
+
+            var first = dates[0]
+            if (typeof first == "object") {
+                first = moment(first).format("YYYY-MM-DD");
+            }
+            _scrollTo(body.find("li[value='" + first + "']").closest(".month"));
+
+            function _select(date) {
+                if (typeof date == "object") {
+                    date = moment(date).format("YYYY-MM-DD");
+                }
+                console.log(date);
+                body.find("li[value='" + date + "']").trigger("click");
+            }
+        }
+
+        return {
+            select: _selectDate
+        }
     }
 
     $.fn.form = function (options) {
@@ -1204,11 +1260,13 @@
             }
             $(radio).attr("value", value);
         });
-        radios.on("click", function () {
-            if (selected != Number($(this).attr("value"))) {
-                _select($(this));
-            }
-        });
+        if (!options.readonly) {
+            radios.on("click", function () {
+                if (selected != Number($(this).attr("value"))) {
+                    _select($(this));
+                }
+            });
+        }
 
         function _select(obj, first) {
             var current = Number(obj.attr("value"));
@@ -1271,6 +1329,7 @@
             },
             width: "6rem",
             accept: "*",
+            icon: "bi-cloud-upload-fill",
             onSuccess: function (result, textStatus, xhr) {
                 return result;
             },
@@ -1317,13 +1376,13 @@
 
         var blankTpl = `
             <div class="file" style="width:<%=width%>" blank>
-                <i class="bi bi-cloud-upload-fill"></i>
+                <i class="bi <%=icon%>"></i>
                 <input type="file" <% if (accept != "*") { %>accept="<%=accept%>"<% } %> />
             </div>
         `;
         var uploadingTpl = `
             <div class="file" style="width:<%=width%>" count>
-                <i class="bi bi-cloud-upload-fill"></i>
+                <i class="bi <%=icon%>"></i>
                 <div class="uploading">
                     <div class="spinner-border text-light"></div>
                     <span>0%</span>
@@ -1332,7 +1391,7 @@
         `;
         var failedTpl = `
             <div class="file" style="width:<%=width%>" count>
-                <i class="bi bi-cloud-upload-fill"></i>
+                <i class="bi <%=icon%>"></i>
                 <div class="failed">
                     <i class="bi bi-x-circle"></i>
                     <span><%=error%></span>
@@ -1368,7 +1427,8 @@
         function _blank() {
             var blank = $(_.template(blankTpl)({
                 width: options.width,
-                accept: options.accept
+                accept: options.accept,
+                icon: options.icon
             }));
             self.append(blank);
             var fileInput = blank.find("input[type='file']");
@@ -1462,7 +1522,8 @@
                     error: function (xhr, textStatus, errorThrown) {
                         options.onError(xhr, textStatus, errorThrown);
                         var error = $(_.template(failedTpl)({
-                            error: options.text.failed
+                            error: options.text.failed,
+                            icon: options.icon
                         }));
                         _onComplete(error);
                     }
@@ -1499,7 +1560,8 @@
 
             function _uploading() {
                 progressor = $(_.template(uploadingTpl)({
-                    width: options.width
+                    width: options.width,
+                    icon: options.icon
                 }));
                 blank.after(progressor);
                 blank.remove();
@@ -1540,8 +1602,14 @@
             return files;
         }
 
+        function _reset() {
+            self.find(".file").remove();
+            _blank();
+        }
+
         return {
-            files: _files
+            files: _files,
+            reset: _reset
         };
     }
 

@@ -229,4 +229,39 @@
             return v.toString(16);
         });
     }
+
+    $.queryString = {
+        parse: function(url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            var queryString = "";
+            var index = url.indexOf("?");
+            if (index >= 0) {
+                queryString = url.substring(index + 1);
+            } else {
+                if (url.indexOf("&") > 0) {
+                    queryString = url;
+                }
+            }
+
+            var obj = {};
+            var pairs = queryString.split("&");
+            for (var i = 0; i < pairs.length; i++) {
+                var parts = pairs[i].split("=");
+                obj[parts[0]] = decodeURIComponent(parts[1]);
+            }
+
+            return obj;
+        },
+        stringify: function(obj) {
+            var queryString = "";
+            for (var key in obj) {
+                if (queryString.length > 0) {
+                    queryString += "&";
+                }
+                queryString += key + "=" + obj[key];
+            }
+        }
+    };
 }));

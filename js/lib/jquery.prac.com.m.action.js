@@ -296,7 +296,8 @@
         function _button(type) {
             var btn = dialog.find("[" + type + "]");
             var func = options[type]["on" + type.substring(0, 1).toUpperCase() + type.substring(1)];
-            btn.on("click", function () {
+            btn.on("click", function (e) {
+                e.stopPropagation();
                 btn.blur();
                 if (func) {
                     if (options[type].async) {
@@ -316,6 +317,10 @@
                 }
             });
         }
+
+        dialog.on("click", function (e) {
+            e.stopPropagation();
+        });
 
         $("body").append(dialog);
     }

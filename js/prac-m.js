@@ -12,7 +12,8 @@ var require = {
         "common": "jquery.prac.common",
         "form": "jquery.prac.com.m.form",
         "action": "jquery.prac.com.m.action",
-        "nav": "jquery.prac.com.m.nav"
+        "nav": "jquery.prac.com.m.nav",
+        "biz": "jquery.prac.com.m.biz"
     },
     shim: {
     }

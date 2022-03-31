@@ -1689,3 +1689,362 @@ input:-webkit-autofill {
     justify-content: center;
     align-items: center;
 }
+
+.p-chat {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.p-chat .messages {
+    width: 100%;
+    height: calc(100% - 4.25rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.p-chat.media .messages {
+    height: calc(100% - 24.25rem);
+}
+
+.p-chat .messages ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.p-chat .messages ul li {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.p-chat .messages ul li.left>* {
+    float: left;
+}
+
+.p-chat .messages ul li.right>* {
+    float: right;
+}
+
+.p-chat .messages ul li .user {
+    display: flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+}
+
+.p-chat .messages ul li .user i {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.p-chat .messages ul li .user img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+}
+
+.p-chat .messages ul li .detail {
+    max-width: calc(100% - 6.5rem);
+    margin: 0 0.625rem;
+}
+
+.p-chat .messages ul li .detail .wrapper {
+    display: flex;
+}
+
+.p-chat .messages ul li.left .detail .wrapper {
+    display: flex;
+    justify-content: start;
+}
+
+.p-chat .messages ul li.right .detail .wrapper {
+    display: flex;
+    justify-content: end;
+}
+
+.p-chat .messages ul li .detail>.name {
+    height: 1.5rem;
+    color: rgb(0, 0, 0, 0.6);
+    font-size: 0.9rem;
+}
+
+.p-chat .messages ul li .detail>.file {
+    display: flex;
+    height: 2rem;
+    align-items: center;
+}
+
+.p-chat .messages ul li .detail>.file a {
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+    text-align: right;
+}
+
+.p-chat .messages ul li.left .detail>.file {
+    justify-content: start;
+}
+
+.p-chat .messages ul li.right .detail>.file {
+    justify-content: end;
+}
+
+.p-chat .messages ul li.right .detail>.name {
+    width: 100%;
+    text-align: right;
+}
+
+.p-chat .messages ul li .output {
+    background-color: #fff;
+    padding: 0.4rem 0.625rem;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+.p-chat .messages ul li.right .output {
+    background-color: rgb(255, 193, 7);
+}
+
+.p-chat .messages ul li .output>i {
+    position: absolute;
+}
+
+.p-chat .messages ul li.left .output>i {
+    color: #fff;
+    left: -0.5rem
+}
+
+.p-chat .messages ul li.right .output>i {
+    color: #fff;
+    right: -0.5rem;
+    transform: rotate(180deg);
+    color: rgb(255, 193, 7);
+}
+
+.p-chat .messages .sentAt {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    font-size: 0.8rem;
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .messages ul li .detail.media {
+    width: calc(100% - 6.5rem);
+}
+
+.p-chat .messages ul li .detail.media .output {
+    width: 100%;
+    background-color: #fff;
+    padding: 0.75rem;
+    cursor: pointer;
+}
+
+.p-chat .messages ul li .detail.media .output>i {
+    color: #fff;
+}
+
+.p-chat .messages ul li .detail.media .output .file {
+    display: flex;
+}
+
+.p-chat .messages ul li .detail.media .output .file .content {
+    width: calc(100% - 3rem);
+}
+
+.p-chat .messages ul li .detail.media .output .file .content .name {
+    display: flex;
+    max-height: 4rem;
+    flex-wrap: wrap;
+}
+
+.p-chat .messages ul li .detail.media .output .file .content .description {
+    display: flex;
+    height: 1.5rem;
+    align-items: flex-end;
+    font-size: 0.875rem;
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .messages ul li .detail.media .output .file {
+    text-decoration: none;
+    color: rgb(33, 37, 41);
+}
+
+.p-chat .messages ul li .detail.media .output .file i {
+    font-size: 2rem;
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-file-earmark-excel {
+    color: #198754;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-file-earmark-word {
+    color: #0d6efd;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-file-earmark-pdf {
+    color: #dc3545;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-file-earmark-ppt {
+    color: #dc3545;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-file-earmark-code {
+    color: #198754;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-camera-video {
+    color: #ffc107;
+}
+
+.p-chat .messages ul li .detail.media .output .file i.bi-optical-audio {
+    color: #ffc107;
+}
+
+.p-chat .messages ul li .detail.image {
+    width: 11rem;
+}
+
+.p-chat .messages ul li .detail.image .output {
+    padding: 0;
+}
+
+.p-chat .messages ul li .detail.image .output .image {
+    width: 100%;
+}
+
+.p-chat .messages ul li .detail.image .output .image img {
+    width: 100%;
+    max-height: 8rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.p-chat .input {
+    height: 3.25rem;
+    background-color: rgb(248, 249, 250, 0.1);
+    margin-bottom: 1rem;
+}
+
+.p-chat .input .text {
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgb(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgb(0, 0, 0, 0.05);
+}
+
+.p-chat .input .text input.message {
+    width: calc(100% - 8rem);
+    border: none;
+    height: 2.25rem;
+    margin: 0 1rem;
+    padding: 0 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.p-chat .input .text input.message:focus {
+    outline: 0;
+}
+
+.p-chat .input .text .op {
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.p-chat .input .op button {
+    width: 3.5rem;
+    height: 2.15rem;
+    margin-right: 0.5rem;
+}
+
+.p-chat .input .op a {
+    color: #495057;
+    font-size: 1.5rem;
+}
+
+.p-chat .input .medias {
+    display: none;
+    padding: 1rem;
+    height: 20rem;
+}
+
+.p-chat.media .input .medias {
+    display: block;
+}
+
+.p-chat .input .medias .p-slides {
+    height: 100%;
+}
+
+.p-chat .input .medias .p-slides .wrapper>div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.p-chat .input .medias .p-slides .wrapper>div table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1.5rem;
+}
+
+.p-chat .input .medias .p-slides .wrapper>div table .item {
+    margin: 0 auto;
+    width: 3.75rem;
+    height: 3.75rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p-chat .input .medias .p-slides .wrapper>div table .item.dummy {
+    background-color: rgb(248, 249, 250, 0.1);
+}
+
+.p-chat .input .medias .p-slides .wrapper>div .item>i {
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .input .medias .p-slides .indicator li {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-chat .input .medias .p-slides .indicator li.selected {
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .input .medias .p-slides .p-file-upload .file {
+    background-color: #fff;
+    margin: 0;
+    border-radius: 1rem;
+    width: 3.75rem!important;
+    height: 3.75rem;
+}
+
+.p-chat .input .medias .p-slides .p-file-upload .file>i {
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-chat .input .medias .p-slides .p-file-upload .file .uploaded {
+    border-radius: 1rem;
+}
