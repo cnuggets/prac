@@ -1098,4 +1098,52 @@
             }
         }
     }
+
+    $.fn.breadcrumb = function (data, options) {
+        if (!options) {
+            options = {};
+        }
+        var defaultCfg = {
+            history: true,
+            divider: ">"
+        };
+        options = $.extend(true, {}, defaultCfg, options);
+        var self = $(this);
+        var tpl = `
+            <nav style="--bs-breadcrumb-divider: '<%=cfg.divider%>';">
+                <ol class="breadcrumb">
+                    <% _.each(data, function (item) { %>
+                        <% if (!item.current) { %>
+                            <li class="breadcrumb-item">
+                                <a href="<%=item.uri%>" p-router><%=item.name%></a>
+                            </li>
+                        <% } else { %>
+                            <li class="breadcrumb-item active"><%=item.name%></li>
+                        <% } %>
+                    <% }); %>
+                </ol>
+            </nav>
+        `;
+
+        if (!data || data.length == 0) {
+            return;
+        }
+
+        if (options.history) {
+            data.forEach(function (item) {
+                var pairs = $.localStorage.all("back");
+                for (var key in pairs) {
+                    var value = JSON.parse(pairs[key]);
+                    if (value.name == item.name) {
+                        item.uri = value.uri;
+                    }
+                }
+            });
+        }
+
+        self.html(_.template(tpl)({
+            data: data,
+            cfg: options
+        }));
+    }
 }));

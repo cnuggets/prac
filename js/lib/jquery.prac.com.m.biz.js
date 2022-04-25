@@ -170,7 +170,7 @@
             self.removeClass("media");
         }
 
-        self.find("input[p-message]").on("focus", function() {
+        self.find("input[p-message]").on("focus", function () {
             messages.animate({ scrollTop: 9999 });
         });
 
