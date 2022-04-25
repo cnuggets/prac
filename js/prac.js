@@ -102,7 +102,7 @@ function Prac() {
                         module.render(ctx, routeArguments, function (args) {
                             module.init(args);
                             _component(ctx);
-                            _route(ctx);
+                            _route(ctx, module.name);
 
                             // after
                             _exec(
@@ -122,19 +122,54 @@ function Prac() {
                 });
 
                 _route($("body"));
-                function _route(ctx) {
+                function _route(ctx, name) {
+                    var back = $.localStorage.get($.uri(), "back")
+                    if (back) {
+                        back = JSON.parse(back);
+                        ctx.find("a[p-router='back']").attr("href", back.uri);
+                    }
+
                     ctx.find("a[p-router]").off("click");
                     ctx.find("a[p-router]").on("click", function (e) {
                         e.preventDefault();
-                        _doRoute($(this).attr("href"), $(this).attr("title"));
+                        if ($(this).attr("p-router") == "push") {
+                            _doRoute($(this).attr("href"), name, $(this).attr("title"));
+                        } else {
+                            _doRoute($(this).attr("href"), null, $(this).attr("title"));
+                        }
                     });
                 }
-                function _doRoute(url, param, title) {
+                function _doRoute(url, pushName, title) {
+                    if (pushName) {
+                        $.localStorage.put($.uri(url), JSON.stringify({
+                            uri: $.uri(),
+                            name: pushName
+                        }), "back");
+                    }
                     history.pushState({}, title ? title : "", url);
                     router.fire("statechange");
                 }
+                function _back(name) {
+                    if (name) {
+                        var pairs = $.localStorage.all("back");
+                        for (var key in pairs) {
+                            var value = JSON.parse(pairs[key]);
+                            if (value.name == name) {
+                                _doRoute(value.uri);
+                                break;
+                            }
+                        }
+                    } else {
+                        var back = $.localStorage.get($.uri(), "back")
+                        if (back) {
+                            back = JSON.parse(back);
+                            _doRoute(back.uri);
+                        }
+                    }
+                }
 
                 window.route = _doRoute;
+                window.back = _back;
             }
 
             function _exec(chains, obj, args, callback) {

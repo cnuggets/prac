@@ -231,7 +231,7 @@
     }
 
     $.queryString = {
-        parse: function(url) {
+        parse: function (url) {
             if (!url) {
                 url = window.location.href;
             }
@@ -254,7 +254,7 @@
 
             return obj;
         },
-        stringify: function(obj) {
+        stringify: function (obj) {
             var queryString = "";
             for (var key in obj) {
                 if (queryString.length > 0) {
@@ -262,6 +262,53 @@
                 }
                 queryString += key + "=" + obj[key];
             }
+        }
+    };
+
+    $.uri = function (url) {
+        var urlObj;
+        if (!url) {
+            url = decodeURIComponent(window.location.href);
+            urlObj = window.location;
+        } else {
+            url = decodeURIComponent(url);
+            try {
+                urlObj = new URL(url);
+            } catch (e) {
+                return url;
+            }
+        }
+        return url.split(urlObj.host)[1];
+    }
+
+    var uriKeyPrefix = "prac:";
+    function _key(key, namespace) {
+        if (namespace) {
+            return uriKeyPrefix + namespace + ":" + key;
+        } else {
+            return uriKeyPrefix + key;
+        }
+    }
+    $.localStorage = {
+        put: function (key, value, namespace) {
+            localStorage.setItem(_key(key, namespace), value);
+        },
+        get: function (key, namespace) {
+            return localStorage.getItem(_key(key, namespace));
+        },
+        all: function (namespace) {
+            var result = {};
+            var prefix = uriKeyPrefix;
+            if (namespace) {
+                prefix += namespace + ":";
+            }
+            for (i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                if (key.indexOf(prefix) == 0) {
+                    result[key] = localStorage.getItem(key);
+                }
+            }
+            return result;
         }
     };
 }));

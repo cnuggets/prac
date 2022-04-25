@@ -35,6 +35,7 @@
             },
             width: "8rem",
             accept: "*",
+            data: [],
             onSuccess: function (result, textStatus, xhr) {
                 return result;
             },
@@ -78,6 +79,28 @@
             "txt": "bi-file-earmark-text",
             "file": "bi-file-earmark"
         };
+
+        var extensions = {
+            ".jpg": "image",
+            ".jpeg": "image",
+            ".png": "image",
+            ".svg": "image",
+            ".gif": "image",
+            ".xls": "excel",
+            ".xlsx": "excel",
+            ".doc": "word",
+            ".docx": "word",
+            ".ppt": "ppt",
+            ".pptx": "ppt",
+            ".pdf": "pdf",
+            ".mp4": "video",
+            ".webm": "video",
+            ".mp3": "audio",
+            ".wma": "audio",
+            ".html": "html",
+            ".xml": "xml",
+            ".txt": "txt"
+        }
 
         var blankTpl = `
             <div class="file" style="width:<%=width%>" blank>
@@ -153,7 +176,57 @@
             </div>
         `;
 
-        _blank();
+        // init
+        if (options.data && options.data.length > 0) {
+            options.data.forEach(function (path) {
+                var ext = path.substring(path.lastIndexOf("."));
+                var type = extensions[ext];
+                var name = path.substring(path.lastIndexOf("/") + 1);
+                var uploaded;
+                if (type == "image") {
+                    uploaded = $(_.template(uploadedImageTpl)({
+                        width: options.width,
+                        path: path
+                    }));
+                } else {
+                    if (!type) {
+                        type = "file";
+                    }
+                    var icon = icons[type];
+                    var name = path.substring(path.lastIndexOf("/") + 1);
+                    uploaded = $(_.template(uploadedFileTpl)({
+                        width: options.width,
+                        icon: icon,
+                        name: name
+                    }));
+                    uploaded.on("click", function () {
+                        window.location.href = path;
+                    });
+                }
+                uploaded.data("file", {
+                    name: name,
+                    path: path
+                });
+                
+                uploaded.find(".remove").on("click", function (e) {
+                    e.stopPropagation();
+                    _remove($(this));
+                });
+
+                self.append(uploaded);
+                if (type == "image") {
+                    uploaded.find("div.uploaded").css("height", uploaded.width());
+                }
+            });
+
+            _preview();
+            if (options.limit <= 0 || options.data.length < options.limit) {
+                _blank();
+            }
+        } else {
+            _blank();
+        }
+
         function _blank() {
             var blank = $(_.template(blankTpl)({
                 width: options.width,
@@ -191,7 +264,7 @@
                 };
             }
 
-            function _validate(file, index) {                
+            function _validate(file, index) {
                 if (options.validation.size(file.size, index)) {
                     var type = _type(file);
                     if (options.validation.type(type, index)) {
@@ -264,17 +337,9 @@
                     _blank();
                 }
 
-                elem.find(".remove").on("click", function () {
-                    var file = $(this).closest(".file");
-                    var data = file.data("file");
-                    var index = file.index();
-                    file.remove();
-                    if (self.find(".file[blank]").length == 0) {
-                        _blank();
-                    }
-                    if (options.onRemove) {
-                        options.onRemove(data, index);
-                    }
+                elem.find(".remove").on("click", function (e) {
+                    e.stopPropagation();
+                    _remove($(this));
                 });
 
                 if (options.onComplete) {
@@ -298,27 +363,40 @@
             function _count() {
                 return self.find(".file[count]").length;
             }
+        }
 
-            function _preview() {
-                var images = self.find(".uploaded img");
-                images.off("click");
-                images.on("click", function () {
-                    var data = [];
-                    $.each(images, function (i, image) {
-                        $(image).attr("index", i);
-                        data.push({
-                            path: $(image).attr("src")
-                        });
-                    });
-                    var body = $(_.template(previewTpl)({
-                        id: "carousel-" + new Date().getTime(),
-                        images: data,
-                        selected: parseInt($(this).attr("index"))
-                    }));
-                    $.dialog("", body, {
-                        footer: false
+        function _preview() {
+            var images = self.find(".uploaded img");
+            images.off("click");
+            images.on("click", function () {
+                var data = [];
+                $.each(images, function (i, image) {
+                    $(image).attr("index", i);
+                    data.push({
+                        path: $(image).attr("src")
                     });
                 });
+                var body = $(_.template(previewTpl)({
+                    id: "carousel-" + new Date().getTime(),
+                    images: data,
+                    selected: parseInt($(this).attr("index"))
+                }));
+                $.dialog("", body, {
+                    footer: false
+                });
+            });
+        }
+
+        function _remove(elem) {
+            var file = elem.closest(".file");
+            var data = file.data("file");
+            var index = file.index();
+            file.remove();
+            if (self.find(".file[blank]").length == 0) {
+                _blank();
+            }
+            if (options.onRemove) {
+                options.onRemove(data, index);
             }
         }
 
