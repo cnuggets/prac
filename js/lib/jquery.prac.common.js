@@ -262,6 +262,7 @@
                 }
                 queryString += key + "=" + obj[key];
             }
+            return queryString;
         }
     };
 
