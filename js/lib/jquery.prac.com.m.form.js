@@ -987,7 +987,7 @@
 
         function _validate(form, callback) {
             var valid = true;
-            $.each(form.find("input[type='text'],input[type='password'],input[type='number'],textarea"), function (i, item) {
+            $.each(form.find("input[type='text'],input[type='hidden'],input[type='password'],input[type='number'],textarea"), function (i, item) {
                 // _clear($(item));
                 _input($(item));
                 $(item).on("change", function () {
