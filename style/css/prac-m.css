@@ -208,6 +208,16 @@ input:-webkit-autofill {
     width: auto;
 }
 
+.p-cell div.control>div div.input .multiline {
+    width: calc(100% - 1.5rem);
+    overflow-wrap: break-word;
+}
+
+.p-cell div.control>div div.input .multiline:empty:not(:focus):before{
+    color: rgb(0, 0, 0, 0.2);
+    content:attr(placeholder)
+}
+
 .p-form.validated .p-cell>div.control.is-invalid .invalid {
     display: block;
 }
@@ -2058,4 +2068,70 @@ input:-webkit-autofill {
 
 .p-chat .input .medias .p-slides .p-file-upload .file .uploaded {
     border-radius: 1rem;
+}
+
+.p-multiselect {
+    position: relative;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.p-multiselect>.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.p-multiselect>.toolbar * {
+    display: inline-block;
+    line-height: 2rem;
+    height: 2rem;
+}
+
+.p-multiselect>.toolbar a {
+    text-decoration: none;
+}
+
+.p-multiselect>.toolbar .title {
+    text-align: center;
+}
+
+.p-multiselect .wrapper {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    cursor: grab;
+    scrollbar-width: 0;
+}
+
+.p-multiselect .wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.p-multiselect .wrapper .items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.p-multiselect .wrapper .items li {
+    height: 2.75rem;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.p-multiselect .wrapper .items li i {
+    width: 15%;
+    text-align: right;
+    font-size: 1.25rem;
+}
+
+.p-multiselect .wrapper .items li .text {
+    width: 70%;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
