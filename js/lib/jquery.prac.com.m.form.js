@@ -1940,4 +1940,124 @@
         self.after(stepper);
         down.after(self);
     }
+
+    $.fn.multiselect = function (data, options) {
+        var self = $(this);
+        if (!options) {
+            options = {};
+        }
+        var defaultCfg = {
+            height: "260px",
+            title: "Please select",
+            toolbar: true,
+            class: "primary",
+            cancel: {
+                label: "Cancel",
+                class: "secondary"
+            },
+            confirm: {
+                label: "Confirm",
+                class: "primary"
+            }
+        };
+        options = $.extend(true, {}, defaultCfg, options);
+
+        var records;
+        _convert(data);
+        function _convert(data) {
+            records = [];
+            if (!$.isArray(data)) {
+                for (var key in data) {
+                    records.push({
+                        value: key,
+                        text: data[key]
+                    });
+                }
+            } else {
+                data.forEach(function (item) {
+                    if (typeof item == "string" || typeof item == "number") {
+                        records.push({
+                            value: item,
+                            text: item
+                        });
+                    } else {
+                        records.push(item);
+                    }
+                });
+            }
+        }
+
+        var tpl = `
+            <div class="p-multiselect">
+                <% if (cfg.toolbar) { %>
+                    <div class="toolbar">
+                        <a href="javascript:void(0)" class="text-secondary" cancel><%=cfg.cancel.label%></a>
+                        <label class="title"><%=cfg.title%></label>
+                        <a href="javascript:void(0)" class="text-primary" confirm><%=cfg.confirm.label%></a>
+                    </div>
+                <% } %>
+                <div class="wrapper" style="height: <%=cfg.height%>">
+                    <ul class="items">
+                        <%_.each(items, function(item) {%>
+                            <li class="item" value="<%=item.value%>">
+                                <i class="bi text-<%=cfg.class%><% if (item.selected) { %> bi-check-lg<% } %>"></i>
+                                <div class="text"><%=item.text%></div>
+                                <i></i>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        // Render
+        var selector = $(_.template(tpl)({
+            cfg: options,
+            items: records
+        }));
+        self.html("");
+        self.append(selector);
+
+        selector.find("li.item").on("click", function (e) {
+            e.stopPropagation();
+            var check = $(this).find("i.bi");
+            if (check.hasClass("bi-check-lg")) {
+                check.removeClass("bi-check-lg");
+            } else {
+                check.addClass("bi-check-lg");
+            }
+        });
+
+        var toolbar = selector.find(".toolbar");
+        toolbar.find("[cancel]").on("click", function (e) {
+            if (options.cancel.onCancel) {
+                options.cancel.onCancel();
+            }
+        });
+        toolbar.find("[confirm]").on("click", function (e) {
+            if (options.confirm.onConfirm) {
+                options.confirm.onConfirm(_selected());
+            }
+        });
+
+        function _select(value) {
+            var item = selector.find("li.item[value='" + value + "']");
+            if (!item.find("i.bi").hasClass("bi-check-lg")) {
+                item.find("i.bi").addClass("bi-check-lg");
+            }
+        }
+
+        function _selected() {
+            var values = [];
+            $.each(selector.find("li.item i.bi.bi-check-lg").closest("li"), function (i, item) {
+                values.push($(item).attr("value"));
+            });
+            return values;
+        }
+
+        return {
+            select: _select,
+            values: _selected
+        }
+    }
 }));
