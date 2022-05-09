@@ -2054,11 +2054,16 @@
             }
         });
 
-        function _select(value) {
-            var item = selector.find("li.item[value='" + value + "']");
-            if (!item.find("i.bi").hasClass("bi-check-lg")) {
-                item.find("i.bi").addClass("bi-check-lg");
+        function _select(values) {
+            if (!$.isArray(values)) {
+                values = [values];
             }
+            values.forEach(function (value) {
+                var item = selector.find("li.item[value='" + value + "']");
+                if (!item.find("i.bi").hasClass("bi-check-lg")) {
+                    item.find("i.bi").addClass("bi-check-lg");
+                }
+            });
         }
 
         function _selected() {

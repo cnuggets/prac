@@ -36,6 +36,7 @@
             width: "8rem",
             accept: "*",
             data: [],
+            preview: false,
             onSuccess: function (result, textStatus, xhr) {
                 return result;
             },
@@ -134,9 +135,11 @@
                 <div class="uploaded image">
                     <img src="<%=path%>" />
                 </div>
+                <% if (!preview) { %>
                 <div class="remove">
                     <i class="bi bi-x-circle-fill"></i>
                 </div>
+                <% } %>
             </div>
         `;
         var uploadedFileTpl = `
@@ -145,9 +148,11 @@
                     <i class="bi <%=icon%>"></i>
                     <span><%=name%></span>
                 </div>
+                <% if (!preview) { %>
                 <div class="remove">
                     <i class="bi bi-x-circle-fill"></i>
                 </div>
+                <% } %>
             </div>
         `;
 
@@ -186,7 +191,8 @@
                 if (type == "image") {
                     uploaded = $(_.template(uploadedImageTpl)({
                         width: options.width,
-                        path: path
+                        path: path,
+                        preview: options.preview
                     }));
                 } else {
                     if (!type) {
@@ -197,7 +203,8 @@
                     uploaded = $(_.template(uploadedFileTpl)({
                         width: options.width,
                         icon: icon,
-                        name: name
+                        name: name,
+                        preview: options.preview
                     }));
                     uploaded.on("click", function () {
                         window.location.href = path;
@@ -207,7 +214,7 @@
                     name: name,
                     path: path
                 });
-                
+
                 uploaded.find(".remove").on("click", function (e) {
                     e.stopPropagation();
                     _remove($(this));
@@ -220,11 +227,16 @@
             });
 
             _preview();
-            if (options.limit <= 0 || options.data.length < options.limit) {
-                _blank();
+
+            if (!options.preview) {
+                if (options.limit <= 0 || options.data.length < options.limit) {
+                    _blank();
+                }
             }
         } else {
-            _blank();
+            if (!options.preview) {
+                _blank();
+            }
         }
 
         function _blank() {
@@ -304,13 +316,15 @@
                         if (type.name == "image") {
                             uploaded = $(_.template(uploadedImageTpl)({
                                 width: options.width,
-                                path: file.path
+                                path: file.path,
+                                preview: options.preview
                             }));
                         } else {
                             uploaded = $(_.template(uploadedFileTpl)({
                                 width: options.width,
                                 icon: icons[type.name],
-                                name: file.name
+                                name: file.name,
+                                preview: options.preview
                             }));
                         }
                         uploaded.data("file", file);
