@@ -165,6 +165,7 @@
         var offset = 20;
         var stopped = 0;
         var swiping = false;
+        var swiped = false;
         content.bindDragMove(function (e, pos) {
             swiping = true;
             self.css("transition", "none");
@@ -180,6 +181,13 @@
                 self.css("transform", "translateX(" + (distance > left.width() ? left.width() : distance) + "px)");
             } else if (distance < 0) {
                 self.css("transform", "translateX(" + (distance < -right.width() ? -right.width() : distance) + "px)");
+            }
+
+            if (Math.abs(distance) > 0) {
+                swiped = true;
+                if (options.onSwipe) {
+                    options.onSwipe();
+                }
             }
         }, function (e, pos) {
             if (!swiping) {
@@ -229,9 +237,34 @@
                 self.css("transform", "translateX(" + stopped + "px)");
                 self.css("transition", "all 0.2s");
             }
+            setTimeout(function () {
+                if (Math.abs(distance) > 0) {
+                    swiped = false;
+                    if (options.onStopSwipe) {
+                        options.onStopSwipe();
+                    }
+                }
+            }, 200);
         });
 
-        self.find("button").on("click", function () {
+        self.on("click", function (e) {
+            e.stopPropagation();
+            if (!swiped) {
+                if (options.onClick) {
+                    options.onClick(e, $(e.currentTarget).closest(".p-swipe-cell"));
+                }
+            }
+        });
+        self.on("touchend", function (e) {
+            if (!swiped) {
+                if (options.onTouchEnd) {
+                    options.onTouchEnd(e, $(e.currentTarget).closest(".p-swipe-cell"));
+                }
+            }
+        });
+
+        self.find("button").on("click", function (e) {
+            e.stopPropagation();
             _reset();
         });
 
