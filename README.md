@@ -22,6 +22,9 @@ sudo npm install pracjs -g
 prac init
 # or mobile
 prac init -m
+
+# install dev dependencies
+npm install
 ```
 
 - Start a web server

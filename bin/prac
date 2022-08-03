@@ -38,6 +38,25 @@ args.forEach(function (arg, i) {
     }
 
     if (arg == "init") {
+        try {
+            var package = JSON.parse(fs.readFileSync(base + "package.json").toString());
+            if (!package.devDependencies) {
+                package.devDependencies = {};
+            }
+            if (!package.devDependencies["express"]) {
+                package.devDependencies["express"] = "^4.17.1";
+            }
+            if (!package.devDependencies["multer"]) {
+                package.devDependencies["multer"] = "^1.4.4";
+            }
+            if (!package.devDependencies["http-proxy"]) {
+                package.devDependencies["http-proxy"] = "^1.18.1";
+            }
+            fs.writeFileSync(base + "package.json", JSON.stringify(package, null, 4));
+        } catch (e) {
+            console.log("[warning] package.json is not found. Did you run 'npm init'?");
+        }
+
         if (i + 1 < args.length) {
             // mobile
             if (args[i + 1] == "-m") {
@@ -64,6 +83,8 @@ args.forEach(function (arg, i) {
                 });
                 fs.copySync(path + "app/nav", base + "app/nav");
                 fs.copySync(path + "app.js", base + "app.js");
+                fs.copySync(path + "config.js", base + "config.js");
+                fs.copySync(path + ".gitignore", base + ".gitignore");
                 console.log("Done.");
                 return;
             }
@@ -92,6 +113,8 @@ args.forEach(function (arg, i) {
             return true;
         });
         fs.copySync(path + "app.js", base + "app.js");
+        fs.copySync(path + "config.js", base + "config.js");
+        fs.copySync(path + ".gitignore", base + ".gitignore");
         console.log("Done.");
         return;
     }
