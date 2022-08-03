@@ -1,6 +1,8 @@
 var express = require("express");
 var fs = require("fs");
-var multer = require("multer")
+var multer = require("multer");
+var proxy = require("http-proxy").createProxyServer();
+var config = require("./config");
 
 exports = module.exports = {
     start: start
@@ -32,6 +34,14 @@ function start(port) {
             path: "/uploads/" + req.file.filename
         });
     });
+
+    for (var path in config.proxy) {
+        router.all(path, function (req, res) {
+            proxy.web(req, res, {
+                target: config.proxy[path]
+            });
+        });
+    }
 
     router.get("*", function (req, res) {
         var html = fs.readFileSync("./index.html");
