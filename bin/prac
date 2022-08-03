@@ -84,7 +84,7 @@ args.forEach(function (arg, i) {
                 fs.copySync(path + "app/nav", base + "app/nav");
                 fs.copySync(path + "app.js", base + "app.js");
                 fs.copySync(path + "config.js", base + "config.js");
-                fs.copySync(path + ".gitignore", base + ".gitignore");
+                fs.copySync(path + "gitignore", base + ".gitignore");
                 console.log("Done.");
                 return;
             }
@@ -114,7 +114,7 @@ args.forEach(function (arg, i) {
         });
         fs.copySync(path + "app.js", base + "app.js");
         fs.copySync(path + "config.js", base + "config.js");
-        fs.copySync(path + ".gitignore", base + ".gitignore");
+        fs.copySync(path + "gitignore", base + ".gitignore");
         console.log("Done.");
         return;
     }
