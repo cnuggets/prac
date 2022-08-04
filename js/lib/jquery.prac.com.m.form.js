@@ -1170,7 +1170,7 @@
                 _set(name, value);
             });
 
-            $.each(form.find("select[name]"), function (i, item) {
+            $.each(self.find("select[name]"), function (i, item) {
                 var select = $(item);
                 var name = select.attr("name");
                 $.each(select.find("option:selected"), function (i, option) {
