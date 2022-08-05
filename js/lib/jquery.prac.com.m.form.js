@@ -1173,7 +1173,7 @@
             $.each(self.find("select[name]"), function (i, item) {
                 var select = $(item);
                 var name = select.attr("name");
-                $.each(select.find("option:selected", function (i, option) {
+                $.each(select.find("option:selected"), function (i, option) {
                     var value = $(option).attr("value");
                     if (select.attr("p-integer") != undefined || select.attr("p-decimal") != undefined) {
                         if (!isNaN(value)) {
@@ -1181,7 +1181,7 @@
                         }
                     }
                     _set(name, value);
-                }));
+                });
             });
 
             function _set(name, value) {

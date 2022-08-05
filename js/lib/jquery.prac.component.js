@@ -138,7 +138,7 @@
     function _validation(form) {
         var valid = true;
         if (form.length > 0 && form.hasClass("needs-validation")) {
-            $.each(form.find("input[type='text'],input[type='password']"), function (i, item) {
+            $.each(form.find("input[type='text'],input[type='hidden'],input[type='password'],input[type='number'],textarea"), function (i, item) {
                 _clear($(item));
                 _input($(item));
                 $(item).on("change", function () {
@@ -222,6 +222,67 @@
         }
 
         return valid;
+    }
+
+    // Form data
+    function _data(form) {
+        var data = {};
+        if (!form || form.length == 0) {
+            return data;
+        }
+        $.each(form.find("input[name]"), function (i, item) {
+            var input = $(item);
+            var name = input.attr("name");
+            var type = input.prop("type");
+            var value = input.val();
+            if (input.attr("p-integer") != undefined || input.attr("p-decimal") != undefined) {
+                if (!isNaN(value)) {
+                    value = Number(value);
+                }
+            }
+
+            if (type == "radio" || type == "checkbox") {
+                if (input.is(":checked")) {
+                    _set(name, value);
+                }
+            } else {
+                _set(name, value);
+            }
+        });
+
+        $.each(form.find("textarea[name]"), function (i, item) {
+            var textarea = $(item);
+            var name = textarea.attr("name");
+            var value = textarea.val();
+            _set(name, value);
+        });
+
+        $.each(form.find("select[name]"), function (i, item) {
+            var select = $(item);
+            var name = select.attr("name");
+            $.each(select.find("option:selected"), function (i, option) {
+                var value = $(option).attr("value");
+                if (select.attr("p-integer") != undefined || select.attr("p-decimal") != undefined) {
+                    if (!isNaN(value)) {
+                        value = Number(value);
+                    }
+                }
+                _set(name, value);
+            });
+        });
+
+        function _set(name, value) {
+            if (data[name]) {
+                if (!$.isArray(data[name])) {
+                    data[name] = [data[name]];
+                }
+                data[name].push(value);
+            } else {
+                data[name] = value;
+            }
+        }
+
+        return data;
     }
 
     /* ------------------- Modal ------------------- */
@@ -350,9 +411,15 @@
                     waiting.show();
                     confirmBtn.hide();
                     if (options.confirm.onConfirm) {
-                        options.confirm.onConfirm(function () {
-                            _complete();
-                        }, self);
+                        if (modal.find("form").length > 0) {
+                            options.confirm.onConfirm(_data(modal.find("form")), function () {
+                                _complete();
+                            }, self);
+                        } else {
+                            options.confirm.onConfirm(function () {
+                                _complete();
+                            }, self);
+                        }
                     } else {
                         _complete();
                     }
@@ -496,7 +563,7 @@
                 waiting.show();
                 confirmBtn.hide();
                 if (options.confirm.onConfirm) {
-                    options.confirm.onConfirm(function () {
+                    options.confirm.onConfirm(_data(self), function () {
                         _complete();
                     }, self);
                 } else {
