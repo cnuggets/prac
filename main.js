@@ -11,9 +11,11 @@ prac.config({
         // Add your routers here
         // For example
         home: { path: "/", moduleId: "app/home/home" },
-        component: { path: "/component", moduleId: "app/component/component" }
+        component: { path: "/component", moduleId: "app/component/component" },
+        detail: { path: "/detail", moduleId: "app/detail/detail" }
     },
     interceptor: { // Add your interceptors here
+        init: function ($) { },
         page: {
             // Before page render
             before: [function (name, uri, args, $, next) {
@@ -26,7 +28,7 @@ prac.config({
                 next();
             }],
             // On error
-            error: [function(e, $) {
+            error: [function (e, $) {
             }]
         },
         request: {

@@ -48,6 +48,10 @@ function Prac() {
             _router($("[p-content]"));
             _component($("body"));
 
+            if (cfg.interceptor.init) {
+                cfg.interceptor.init($);
+            }
+
             function _setup() {
                 // ajax
                 $.ajaxSetup({

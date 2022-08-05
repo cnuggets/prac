@@ -14,6 +14,7 @@ prac.config({
         m: { path: "/component/m", moduleId: "app/component/m" },
     },
     interceptor: { // Add your interceptors here
+        init: function ($) { },
         page: {
             // Before page render
             before: [function (name, uri, args, $, next) {
