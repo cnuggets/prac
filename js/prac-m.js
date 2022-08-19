@@ -113,14 +113,15 @@ function Prac() {
                             );
 
                             loading.stop();
+                            loading = null;
                         });
                     }
                 }).on("statechange", function () {
                 }).init();
 
-                window.addEventListener("popstate", function (e) {
-                    router.fire("statechange");
-                });
+                // window.addEventListener("popstate", function (e) {
+                //     router.fire("statechange");
+                // });
 
                 _route($("body"));
                 function _route(ctx, name) {
