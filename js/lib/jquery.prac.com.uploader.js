@@ -184,9 +184,16 @@
         // init
         if (options.data && options.data.length > 0) {
             options.data.forEach(function (path) {
-                var ext = path.substring(path.lastIndexOf("."));
-                var type = extensions[ext];
-                var name = path.substring(path.lastIndexOf("/") + 1);
+                var type, name;
+                if (path.indexOf("data:image") == 0) {
+                    name = "";
+                    type = "image";
+                } else {
+                    var ext = path.substring(path.lastIndexOf("."));
+                    type = extensions[ext];
+                    name = path.substring(path.lastIndexOf("/") + 1);
+                }
+
                 var uploaded;
                 if (type == "image") {
                     uploaded = $(_.template(uploadedImageTpl)({
