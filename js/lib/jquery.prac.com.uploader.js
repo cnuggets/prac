@@ -294,7 +294,7 @@
             }
 
             function _beforeUpload(file) {
-                if (options.process) {
+                if (options.beforeUpload) {
                     return options.beforeUpload(file);
                 } else {
                     return file;
