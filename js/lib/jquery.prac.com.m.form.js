@@ -1529,6 +1529,7 @@
                 if (files.length > 0) {
                     var file = files[0];
                     var type = _validate(file, blank.index());
+                    file = _beforeUpload(file);
                     if (type) {
                         _upload(file, type);
                     } else {
@@ -1560,6 +1561,13 @@
                         return type;
                     }
                 }
+            }
+
+            function _beforeUpload(file) {
+                if (options.beforeUpload) {
+                    return options.beforeUpload(file);
+                }
+                return file;
             }
 
             function _upload(file, type) {
