@@ -1530,7 +1530,9 @@
                     var file = files[0];
                     var type = _validate(file, blank.index());
                     if (type) {
-                        _upload(file, type);
+                        _beforeUpload(file, function(processFile) {
+                            _upload(processFile, type)
+                        });
                     } else {
                         $(this).val(null);
                     }
@@ -1560,6 +1562,13 @@
                         return type;
                     }
                 }
+            }
+
+            function _beforeUpload(file, callback) {
+                if (options.beforeUpload) {
+                    return options.beforeUpload(file, callback);
+                }
+                return callback(file);
             }
 
             function _upload(file, type) {
