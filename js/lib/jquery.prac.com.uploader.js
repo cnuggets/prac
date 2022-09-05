@@ -261,6 +261,7 @@
                 if (files.length > 0) {
                     var file = files[0];
                     var type = _validate(file, blank.index());
+                    file = _beforeUpload(file);
                     if (type) {
                         _upload(file, type);
                     }
@@ -289,6 +290,14 @@
                     if (options.validation.type(type, index)) {
                         return type;
                     }
+                }
+            }
+
+            function _beforeUpload(file) {
+                if (options.process) {
+                    return options.beforeUpload(file);
+                } else {
+                    return file;
                 }
             }
 
