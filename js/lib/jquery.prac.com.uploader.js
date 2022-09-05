@@ -261,9 +261,10 @@
                 if (files.length > 0) {
                     var file = files[0];
                     var type = _validate(file, blank.index());
-                    file = _beforeUpload(file);
                     if (type) {
-                        _upload(file, type);
+                        _beforeUpload(file, function(processFile) {
+                            _upload(processFile, type);
+                        })
                     }
                 }
             });
@@ -293,11 +294,11 @@
                 }
             }
 
-            function _beforeUpload(file) {
+            function _beforeUpload(file, callback) {
                 if (options.beforeUpload) {
-                    return options.beforeUpload(file);
+                    return options.beforeUpload(file, callback);
                 } else {
-                    return file;
+                    return callback(file);
                 }
             }
 
