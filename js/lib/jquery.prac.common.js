@@ -246,10 +246,12 @@
             }
 
             var obj = {};
-            var pairs = queryString.split("&");
-            for (var i = 0; i < pairs.length; i++) {
-                var parts = pairs[i].split("=");
-                obj[parts[0]] = decodeURIComponent(parts[1]);
+            if (queryString.length > 0) {
+                var pairs = queryString.split("&");
+                for (var i = 0; i < pairs.length; i++) {
+                    var parts = pairs[i].split("=");
+                    obj[parts[0]] = decodeURIComponent(parts[1]);
+                }
             }
 
             return obj;
