@@ -34,6 +34,11 @@ function start(port) {
             path: "/uploads/" + req.file.filename
         });
     });
+    router.post("/uploads", upload.array("file"), function (req, res) {
+        res.send({
+            count: req.files.length
+        });
+    });
 
     for (var path in config.proxy) {
         router.all(path, function (req, res) {
