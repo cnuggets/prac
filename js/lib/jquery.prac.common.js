@@ -314,4 +314,26 @@
             return result;
         }
     };
+
+    $.primitive = function (data) {
+        _recruse(data);
+        function _recruse(obj) {
+            for (var key in obj) {
+                if (!isNaN(obj[key])) {
+                    obj[key] = Number(obj[key]);
+                } else if (typeof obj[key] == "object") {
+                    _recruse(obj[key]);
+                } else if (typeof obj[key] == "array") {
+                    obj[key].forEach(function(value, i) {
+                        if (!isNaN(value)) {
+                            obj[key][i] = Number(value);
+                        } else if (typeof (value == "object")) {
+                            _recruse(value);
+                        }
+                    });
+                }
+            }
+        }
+        return data;
+    }
 }));

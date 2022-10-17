@@ -54,6 +54,13 @@ function Prac() {
             function _setup() {
                 // ajax
                 $.ajaxSetup({
+                    beforeSend: function (xhr) {
+                        _exec(
+                            cfg.interceptor && cfg.interceptor.request ? cfg.interceptor.request.beforeSend : [],
+                            $,
+                            [xhr, $]
+                        );
+                    },
                     complete: function (xhr, status) {
                         _exec(
                             cfg.interceptor && cfg.interceptor.request ? cfg.interceptor.request.complete : [],

@@ -32,6 +32,10 @@ prac.config({
             }]
         },
         request: {
+            // On request before send
+            beforeSend: [function (xhr, $, next) {
+                next();
+            }],
             // On request complete
             complete: [function (xhr, status, $, next) {
                 next();

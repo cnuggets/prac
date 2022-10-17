@@ -272,7 +272,7 @@
         });
 
         function _set(name, value) {
-            if (data[name]) {
+            if (data[name] != undefined) {
                 if (!$.isArray(data[name])) {
                     data[name] = [data[name]];
                 }
@@ -516,7 +516,8 @@
             }
             var defaultCfg = {
                 footer: {
-                    fixed: false
+                    fixed: false,
+                    align: "left"
                 },
                 confirm: {
                     class: "primary",
@@ -534,17 +535,61 @@
             options = $.extend(true, {}, defaultCfg, options);
 
             var tpl = `
-                <div form-footer <% if (footer.fixed) { %>class="fixed-bottom border-top bg-white opacity-90 w-100 py-3 px-4"<% } %>>
-                    <% if (!cancel.disabled) { %>
-                    <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
-                    <% } %>
-                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                    </button>
+                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
+                    <div class="row">
+                        <% if (footer.element) { %>
+                            <% if (footer.align == "right") { %>
+                                <div class="col-md-6" element>
+                                </div>
+                                <div class="col-md-6" style="display: flex;justify-content: right;align-items: center;padding-right: 5rem">
+                                    <% if (!cancel.disabled) { %>
+                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                    <% } %>
+                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                    </button>
+                                </div>
+                            <% } else { %>
+                                <div class="col-md-6">
+                                    <% if (!cancel.disabled) { %>
+                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                    <% } %>
+                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                    </button>
+                                </div>
+                                <div class="col-md-6" element>
+                                </div>
+                            <% } %>
+                        <% } else { %>
+                            <div class="col-md-12">
+                                <% if (!cancel.disabled) { %>
+                                    <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                <% } %>
+                                <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                    <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                </button>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
             `;
             var footer = $(_.template(tpl)(options));
+
+            if ($(".side-menu").length > 0 && options.footer.fixed) {
+                if ($(".side-menu").hasClass("fold")) {
+                    footer.css("margin-left", "2rem");
+                } else {
+                    footer.css("margin-left", "20rem");
+                }
+            }
+
+            if (options.footer.element) {
+                footer.find("[element]").append(options.footer.element);
+            }
 
             var cancelBtn = footer.find("button[cancel]");
             cancelBtn.on("click", function () {
@@ -749,6 +794,10 @@
         if (!opt) {
             opt = {};
         }
+        var defaultCfg = {
+            search: false,
+        };
+        opt = $.extend(true, {}, defaultCfg, opt);
 
         var tpl = `
             <div class="multiselect">
@@ -894,30 +943,58 @@
             var input = multi.find(".search input");
             var waiting = select.find(".search .spinner-border");
             if (opt.search.async) {
+                if (opt.search.keyword) {
+                    input.val(opt.search.keyword);
+                }
+                if (opt.search.autoTrigger) {
+                    _search(input.val());
+                }
                 var timeout;
                 input.on("keyup", function (e) {
                     var keyword = $(this).val();
                     clearTimeout(timeout);
                     timeout = setTimeout(function () {
-                        waiting.show();
-                        opt.search.async(keyword, function (data) {
-                            var tpl = `
-                                <%_.each(options, function(option) {%>
-                                    <li>
-                                        <span class="checked"><i class="bi"></i></span>
-                                        <span value="<%=option.value%>"><%=option.text%></span>
-                                    </li>
-                                <% }); %>
-                            `;
-                            select.find("ul").html(_.template(tpl)({
-                                options: data
-                            }));
-                            _highlight(keyword);
-                            waiting.hide();
-                            _bindOnSelect();
-                        });
+                        _search(keyword);
                     }, 600);
                 });
+
+                function _search(keyword) {
+                    waiting.show();
+                    opt.search.async(keyword, function (data) {
+                        var tpl = `
+                            <%_.each(options, function(option) {%>
+                                <li>
+                                    <span class="checked"><i class="bi"></i></span>
+                                    <span value="<%=option.value%>"><%=option.text%></span>
+                                </li>
+                            <% }); %>
+                        `;
+                        select.find("ul").html(_.template(tpl)({
+                            options: data
+                        }));
+                        _highlight(keyword);
+                        self.find("option").remove();
+                        self.append($("<option value=''></option>"));
+                        data.forEach(function (item) {
+                            var option = $("<option></option>");
+                            option.attr("value", item.value);
+                            option.text(item.text);
+                            self.append(option);
+                        });
+                        waiting.hide();
+
+                        $.each(selected.find("span.item"), function (i, value) {
+                            var selectedValue = $(value).find("label").attr("value");
+                            self.find("option[value='" + selectedValue + "']").prop("selected", true);
+                            select.find("ul li span[value='" + selectedValue + "']").siblings("span.checked").find("i").addClass("bi-check-lg");
+                        });
+
+                        _bindOnSelect();
+                        if (opt.search.autoSelect && input.val().length == 0) {
+                            select.find("ul.options li:first-child").trigger("click");
+                        }
+                    });
+                }
             } else {
                 input.on("keyup", function (e) {
                     var keyword = $(this).val();
@@ -1093,8 +1170,14 @@
             var menu = $(this).closest("[p-menu]");
             if (menu.hasClass("fold")) {
                 menu.removeClass("fold");
+                if ($("[form-footer]").hasClass("fixed-bottom")) {
+                    $("[form-footer]").css("margin-left", "20rem").css("transition", "margin-left .2s ease-in");
+                }
             } else {
                 menu.addClass("fold");
+                if ($("[form-footer]").hasClass("fixed-bottom")) {
+                    $("[form-footer]").css("margin-left", "2rem").css("transition", "margin-left .2s ease-in");
+                }
             }
             setTimeout(function () {
                 $(window).trigger("p-resize");
