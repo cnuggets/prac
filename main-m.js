@@ -16,6 +16,10 @@ prac.config({
     interceptor: { // Add your interceptors here
         init: function ($) { },
         page: {
+            // on enter page
+            enter: [function (name, uri, args, $, next) {
+                next();
+            }],
             // Before page render
             before: [function (name, uri, args, $, next) {
                 next();
@@ -24,6 +28,10 @@ prac.config({
             }],
             // After page render
             after: [function (name, uri, args, $, next) {
+                next();
+            }],
+            // on leave page
+            leave: [function (name, $, next) {
                 next();
             }],
             // On error

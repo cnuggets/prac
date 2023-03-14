@@ -443,8 +443,13 @@
                 obj.find("button[confirm]").show();
             }
 
+            function _close() {
+                obj.modal("toggle");
+            }
+
             return {
-                reset: _reset
+                reset: _reset,
+                close: _close
             }
         }
 
@@ -535,7 +540,7 @@
             options = $.extend(true, {}, defaultCfg, options);
 
             var tpl = `
-                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
+                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>"<% if (footer.fixed) { %> style="height: 5rem"<% } %>>
                     <div class="row">
                         <% if (footer.element) { %>
                             <% if (footer.align == "right") { %>
@@ -579,11 +584,14 @@
             `;
             var footer = $(_.template(tpl)(options));
 
-            if ($(".side-menu").length > 0 && options.footer.fixed) {
-                if ($(".side-menu").hasClass("fold")) {
-                    footer.css("margin-left", "2rem");
-                } else {
-                    footer.css("margin-left", "20rem");
+            if (options.footer.fixed) {
+                self.css("margin-bottom", "5rem");
+                if ($(".side-menu").length > 0) {
+                    if ($(".side-menu").hasClass("fold")) {
+                        footer.css("margin-left", "2rem");
+                    } else {
+                        footer.css("margin-left", "20rem");
+                    }
                 }
             }
 
@@ -801,7 +809,7 @@
 
         var tpl = `
             <div class="multiselect">
-                <div class="selected">
+                <div class="selected<% if (disabled) { %> disabled<% } %>">
                     <% if (opt.single) { %>
                         <% if (selecteds.length > 0) { %>
                         <label class="single" value="<%=selecteds[0].value%>"><%=selecteds[0].text%></label>
@@ -847,7 +855,7 @@
         var single = !self.attr("multiple");
         var selecteds = [];
         var options = [];
-        $.each($(this).find("option"), function (i, item) {
+        $.each(self.find("option"), function (i, item) {
             var option = {
                 value: $(item).attr("value"),
                 text: $(item).text()
@@ -861,6 +869,7 @@
 
         opt.single = single;
         var multi = $(_.template(tpl)({
+            disabled: self.attr("disabled"),
             selecteds: selecteds,
             options: options,
             opt: opt
@@ -876,6 +885,9 @@
         });
 
         selected.on("click", function (e) {
+            if ($(this).hasClass("disabled")) {
+                return;
+            }
             e.stopPropagation();
             select.is(":hidden") ? select.show() : select.hide();
         });
@@ -921,6 +933,9 @@
                             text: option.text()
                         }));
                         newSelected.find("i").on("click", function (e) {
+                            if (selected.hasClass("disabled")) {
+                                return;
+                            }
                             e.stopPropagation();
                             _deselect($(this).closest("span"));
                         });
@@ -983,6 +998,10 @@
                         });
                         waiting.hide();
 
+                        var selectedValue = selected.find("label").attr("value");
+                        self.find("option[value='" + selectedValue + "']").prop("selected", true);
+                        select.find("ul li span[value='" + selectedValue + "']").siblings("span.checked").find("i").addClass("bi-check-lg");
+
                         $.each(selected.find("span.item"), function (i, value) {
                             var selectedValue = $(value).find("label").attr("value");
                             self.find("option[value='" + selectedValue + "']").prop("selected", true);
@@ -1021,8 +1040,24 @@
             }
         }
 
+        function _disable() {
+            select.hide();
+            selected.addClass("disabled");
+            self.attr("disabled", true);
+        }
+
+        function _enable() {
+            selected.removeClass("disabled");
+            self.removeAttr("disabled");
+        }
+
         self.after(multi);
         self.hide();
+
+        return {
+            disable: _disable,
+            enable: _enable
+        }
     };
 
     /* ------------------- Stepper ------------------- */

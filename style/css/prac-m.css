@@ -1571,7 +1571,7 @@ input:-webkit-autofill {
     display: block;
 }
 
-.p-share {
+.p-sharing {
     background-color: #f8f9fa;
     display: flex;
     width: 100%;
@@ -1581,17 +1581,17 @@ input:-webkit-autofill {
     border-radius: 16px 16px 0 0;
 }
 
-.p-share>* {
+.p-sharing>* {
     width: 100%;
 }
 
-.p-share .body {
+.p-sharing .body {
     background-color: #fff;
     border-radius: 16px 16px 0 0;
     padding: 1rem 0;
 }
 
-.p-share .body .header {
+.p-sharing .body .header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1599,7 +1599,7 @@ input:-webkit-autofill {
     color: rgb(33, 37, 41, 0.8)
 }
 
-.p-share .body .list {
+.p-sharing .body .list {
     margin-top: 1rem;
     display: flex;
     flex-wrap: nowrap;
@@ -1609,11 +1609,11 @@ input:-webkit-autofill {
     scrollbar-width: 0;
 }
 
-.p-share .body .list::-webkit-scrollbar {
+.p-sharing .body .list::-webkit-scrollbar {
     display: none;
 }
 
-.p-share .body .list .item {
+.p-sharing .body .list .item {
     width: 7rem;
     display: flex;
     flex-direction: column;
@@ -1622,7 +1622,7 @@ input:-webkit-autofill {
     cursor: pointer;
 }
 
-.p-share .body .list .item .icon {
+.p-sharing .body .list .item .icon {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 1.75rem;
@@ -1631,17 +1631,17 @@ input:-webkit-autofill {
     align-items: center;
 }
 
-.p-share .body .list .item .icon i {
+.p-sharing .body .list .item .icon i {
     font-size: 3rem;
 }
 
-.p-share .body .list .item span {
+.p-sharing .body .list .item span {
     margin-top: 0.5rem;
     color: rgb(33, 37, 41, 0.5);
     font-size: 0.875rem;
 }
 
-.p-share>.footer {
+.p-sharing>.footer {
     background-color: #fff;
     align-self: flex-end;
     display: flex;

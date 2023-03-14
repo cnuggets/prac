@@ -100,7 +100,7 @@
             _refresh();
             function _build(ctx, data) {
                 data.forEach(function (item) {
-                    var type = item.children && item.children.length > 0 ? "folder" : "node";
+                    var type = item.children ? "folder" : "node";
                     var node = _new(item, type);
                     var li = $("<li></li>");
                     li.append(node);

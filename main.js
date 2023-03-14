@@ -12,11 +12,15 @@ prac.config({
         // For example
         home: { path: "/", moduleId: "app/home/home" },
         component: { path: "/component", moduleId: "app/component/component" },
-        detail: { path: "/detail", moduleId: "app/detail/detail" }
+        detail: { path: "/detail/:p", moduleId: "app/detail/detail" }
     },
     interceptor: { // Add your interceptors here
         init: function ($) { },
         page: {
+            // on enter page
+            enter: [function (name, uri, args, $, next) {
+                next();
+            }],
             // Before page render
             before: [function (name, uri, args, $, next) {
                 next();
@@ -27,9 +31,13 @@ prac.config({
             after: [function (name, uri, args, $, next) {
                 next();
             }],
+            // on leave page
+            leave: [function (name, $, next) {
+                next();
+            }],
             // On error
             error: [function (e, $) {
-            }]
+            }],
         },
         request: {
             // On request before send
