@@ -16,6 +16,10 @@
         if (!options) {
             options = {};
         }
+        var defaultCfg = {
+            icon: "bi-cloud-upload-fill"
+        };
+        options = $.extend(true, {}, defaultCfg, options);
 
         var types = {
             "application/vnd.ms-excel": "excel",
@@ -550,13 +554,13 @@
 
             var blankTpl = `
                 <div class="file" style="width:<%=width%>" blank>
-                    <i class="bi bi-cloud-upload-fill"></i>
+                    <i class="bi <%=icon%>"></i>
                     <input type="file" <% if (accept != "*") { %>accept="<%=accept%>"<% } %> />
                 </div>
             `;
             var uploadingTpl = `
                 <div class="file" style="width:<%=width%>" count>
-                    <i class="bi bi-cloud-upload-fill"></i>
+                    <i class="bi <%=icon%>"></i>
                     <div class="uploading">
                         <div class="spinner-border text-light"></div>
                         <span>0%</span>
@@ -565,7 +569,7 @@
             `;
             var failedTpl = `
                 <div class="file" style="width:<%=width%>" count>
-                    <i class="bi bi-cloud-upload-fill"></i>
+                    <i class="bi <%=icon%>"></i>
                     <div class="failed">
                         <i class="bi bi-x-circle"></i>
                         <span><%=error%></span>
@@ -694,7 +698,8 @@
             function _blank() {
                 var blank = $(_.template(blankTpl)({
                     width: options.width,
-                    accept: options.accept
+                    accept: options.accept,
+                    icon: options.icon
                 }));
                 self.append(blank);
                 var fileInput = blank.find("input[type='file']");
@@ -782,7 +787,8 @@
                         error: function (xhr, textStatus, errorThrown) {
                             options.onError(xhr, textStatus, errorThrown);
                             var error = $(_.template(failedTpl)({
-                                error: options.text.failed
+                                error: options.text.failed,
+                                icon: options.icon
                             }));
                             _onComplete(error);
                         }
@@ -811,7 +817,8 @@
 
                 function _uploading() {
                     progressor = $(_.template(uploadingTpl)({
-                        width: options.width
+                        width: options.width,
+                        icon: options.icon
                     }));
                     blank.after(progressor);
                     blank.remove();

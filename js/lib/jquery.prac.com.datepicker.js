@@ -54,7 +54,7 @@
         options = $.extend(true, {}, defaultCfg, options);
 
         var tpl = `
-            <div class="datepicker" style="position: absolute;">
+            <div class="datepicker" style="position: absolute;" id="<%=id%>">
                 <div class="header">
                     <div class="year-month">
                         <div class="prev">
@@ -93,15 +93,19 @@
         self.attr("readonly", true);
         self.css("background-color", "#fff");
 
-        var shown;
         var dp;
         self.on("click", function () {
-            if (!shown) {
+            if ($(this).next(".datepicker[id]").length == 0) {
                 dp = _datepicker();
             }
+            $.each($(".datepicker[id]"), function (i, value) {
+                if ($(value).attr("id") != dp.id()) {
+                    $(value).remove();
+                }
+            });
         });
         $("body").on("click", function () {
-            if (shown) {
+            if (dp) {
                 dp.close();
             }
         });
@@ -110,7 +114,6 @@
         });
 
         function _datepicker() {
-            shown = true;
             // current
             var current = new Date();
             var paging = current;
@@ -128,7 +131,9 @@
             }
 
             // Init
+            var id = "dp" + new Date().getTime();
             var datepicker = $(_.template(tpl)({
+                id: id,
                 cfg: options,
                 days: days
             }));
@@ -272,9 +277,10 @@
             clear.on("click", function () {
                 self.val("");
                 values = [];
-                datepicker.find("ul li.selected").removeClass();
-                datepicker.find("ul li.selected").removeAttr("style");
+                datepicker.find("ul li").removeClass();
+                datepicker.find("ul li").removeAttr("style");
                 options.btns.clear.onClear();
+                _close();
             });
             confirm.on("click", function () {
                 var valFmt;
@@ -676,11 +682,13 @@
             }
 
             function _close() {
-                shown = false;
                 datepicker.remove();
             }
 
             return {
+                id: function () {
+                    return id;
+                },
                 close: function () {
                     _close();
                 }

@@ -56,14 +56,14 @@ function Prac() {
                 $.ajaxSetup({
                     beforeSend: function (xhr) {
                         _exec(
-                            cfg.interceptor && cfg.interceptor.request ? cfg.interceptor.request.beforeSend : [],
+                            cfg.interceptor && cfg.interceptor.request && cfg.interceptor.request.beforeSend ? cfg.interceptor.request.beforeSend : [],
                             $,
                             [xhr, $]
                         );
                     },
                     complete: function (xhr, status) {
                         _exec(
-                            cfg.interceptor && cfg.interceptor.request ? cfg.interceptor.request.complete : [],
+                            cfg.interceptor && cfg.interceptor.request && cfg.interceptor.request.complete ? cfg.interceptor.request.complete : [],
                             $,
                             [xhr, status, $]
                         );
@@ -80,7 +80,7 @@ function Prac() {
                         } catch (e) {
                             console.error(e);
                             _exec(
-                                cfg.interceptor && cfg.interceptor.page ? cfg.interceptor.page.error : [],
+                                cfg.interceptor && cfg.interceptor.page && cfg.interceptor.page.error ? cfg.interceptor.page.error : [],
                                 _,
                                 [e, $]
                             );
@@ -89,14 +89,38 @@ function Prac() {
                 }
             }
 
+            var lastModule;
             function _router(ctx) {
                 var loading;
                 router.registerRoutes(cfg.routes).on("routeload", function (module, routeArguments) {
+                    if (lastModule) {
+                        // leave
+                        _exec(
+                            cfg.interceptor && cfg.interceptor.page && cfg.interceptor.page.leave ? cfg.interceptor.page.leave : [],
+                            lastModule,
+                            [lastModule.name, $]
+                        );
+                        if (lastModule.leave) {
+                            lastModule.leave();
+                        }
+                    }
+                    lastModule = module;
+
+                    // enter
+                    _exec(
+                        cfg.interceptor && cfg.interceptor.page && cfg.interceptor.page.enter ? cfg.interceptor.page.enter : [],
+                        module,
+                        [module.name, location.pathname, routeArguments, $]
+                    );
+                    if (module.enter) {
+                        module.enter(routeArguments);
+                    }
+
                     loading = $.pageLoading();
 
                     // before
                     _exec(
-                        cfg.interceptor && cfg.interceptor.page ? cfg.interceptor.page.before : [],
+                        cfg.interceptor && cfg.interceptor.page && cfg.interceptor.page.before ? cfg.interceptor.page.before : [],
                         module,
                         [module.name, location.pathname, routeArguments, $],
                         function () {
@@ -114,7 +138,7 @@ function Prac() {
 
                             // after
                             _exec(
-                                cfg.interceptor && cfg.interceptor.page ? cfg.interceptor.page.after : [],
+                                cfg.interceptor && cfg.interceptor.page && cfg.interceptor.page.after ? cfg.interceptor.page.after : [],
                                 module,
                                 [module.name, location.pathname, args, $]
                             );
@@ -132,19 +156,33 @@ function Prac() {
 
                 _route($("body"));
                 function _route(ctx, name) {
-                    var back = $.localStorage.get($.uri(), "back");
+                    var back = $.localStorage.get($.uri(), "back")
                     if (back) {
                         back = JSON.parse(back);
                         ctx.find("a[p-router='back']").attr("href", back.uri);
                     }
 
+                    ctx.find("a[p-router]").attr("module-name", name)
                     ctx.find("a[p-router]").off("click");
                     ctx.find("a[p-router]").on("click", function (e) {
+                        var self = $(this);
                         e.preventDefault();
-                        if ($(this).attr("p-router") == "push") {
-                            _doRoute($(this).attr("href"), name, $(this).attr("title"));
+                        if (lastModule && lastModule.beforeLeave) {
+                            lastModule.beforeLeave(function (ok) {
+                                if (ok) {
+                                    _do();
+                                }
+                            });
                         } else {
-                            _doRoute($(this).attr("href"), null, $(this).attr("title"));
+                            _do();
+                        }
+
+                        function _do() {
+                            if (self.attr("p-router") == "push") {
+                                _doRoute(self.attr("href"), self.attr("module-name"),self.attr("title"));
+                            } else {
+                                _doRoute(self.attr("href"), null, self.attr("title"));
+                            }
                         }
                     });
                 }
