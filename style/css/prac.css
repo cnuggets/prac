@@ -1127,3 +1127,130 @@ body {
     position: relative;
     left: -0.25rem;
 }
+
+.crontab .op {
+    display: flex;
+}
+
+.crontab .op .expression .input {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    height: 2.375rem;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+.crontab .op .expression .input.is-invalid {
+    border-color: #dc3545;
+}
+
+.crontab .op .expression .input-sm {
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    height: calc(1.5em + 0.5rem + 2px);
+}
+
+.crontab .op .expression .input-lg {
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+    height: calc(1.5em + 1rem + 2px);
+}
+
+.crontab .op .expression .input input {
+    border: none;
+    background-color: #fff;
+    outline-color: rgba(0, 0, 0, 0);
+    margin-bottom: 0.5rem;
+    color: #212529;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 90%;
+    width: 20%;
+}
+
+.crontab .op .expression .input input:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.crontab .op .copy {
+    margin-left: 1rem;
+    padding-top: 0.5rem;
+}
+
+.crontab .op .part {
+    display: flex;
+    padding: 0 0.5rem;
+}
+
+.crontab .op .part label {
+    font-size: 0.875rem;
+    text-align: center;
+    width: 20%;
+}
+
+.crontab .next-run {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    display: flex;
+}
+
+.crontab .next-run label {
+    margin-right: 0.5rem;
+}
+
+.crontab .next-run .list .next {
+    display: flex;
+    align-items: center;
+}
+
+.crontab .next-run .list .next .more {
+    margin-left: 1rem;
+    display: none;
+}
+
+.crontab .next-run .list .then {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+.tooltip-inner {
+    max-width: 100rem;
+}
+
+.crontab-tip {
+    width: 17rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+}
+
+.crontab-tip li {
+    display: flex;
+    align-items: center;
+}
+
+.crontab-tip li .value {
+    text-align: right;
+    width: 30%;
+}
+
+.crontab-tip li .desc {
+    text-align: left;
+    width: 70%;
+    margin-left: 2rem;
+}
+
+.form-control.is-invalid ~ .crontab .expression .input {
+    border-color: #dc3545;
+}
+
+.form-control.is-valid ~ .crontab .expression .input {
+    border-color: #198754;
+}
