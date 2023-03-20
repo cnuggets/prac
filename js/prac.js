@@ -9,11 +9,13 @@ var require = {
         "router": "router-0.8.0",
         "moment": "moment",
         "async": "async",
+        "clipboard": "clipboard",
         "common": "jquery.prac.common",
         "component": "jquery.prac.component",
         "datepicker": "jquery.prac.com.datepicker",
         "uploader": "jquery.prac.com.uploader",
-        "tree": "jquery.prac.com.tree"
+        "tree": "jquery.prac.com.tree",
+        "crontab": "jquery.prac.com.crontab"
     },
     shim: {
     }
