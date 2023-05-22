@@ -1254,3 +1254,46 @@ body {
 .form-control.is-valid ~ .crontab .expression .input {
     border-color: #198754;
 }
+
+.autocomplete {
+    position: relative;
+}
+
+.autocomplete .result {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    background-color: #fff;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 0.25rem;
+    text-align: left;
+    width: 100%;
+    max-width: 90%;
+    margin-top: 0.125rem;
+}
+
+.autocomplete .result ul.options {
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 15rem;
+    padding: 0;
+    margin: 0;
+}
+
+.autocomplete .result ul.options li {
+    line-height: 2.2rem;
+    padding: 0 0.75rem;
+    cursor: pointer;
+}
+
+.autocomplete .result ul.options li:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.autocomplete .result ul.options li {
+    overflow: hidden;
+}

@@ -15,9 +15,11 @@ var require = {
         "datepicker": "jquery.prac.com.datepicker",
         "uploader": "jquery.prac.com.uploader",
         "tree": "jquery.prac.com.tree",
-        "crontab": "jquery.prac.com.crontab"
+        "crontab": "jquery.prac.com.crontab",
+        "autocomplete": "jquery.prac.com.autocomplete"
     },
     shim: {
+        "bootstrap": ["jquery"]
     }
 };
 

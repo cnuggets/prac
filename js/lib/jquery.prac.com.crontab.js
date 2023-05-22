@@ -11,6 +11,362 @@
     }
 }(function ($, _, b, moment, Clipboard) {
 
+    function Crontab() {
+        function _fromToExpr(values) {
+            return "(" + values + "\\-" + values + ")";
+        }
+        function _stepExpr(values) {
+            if (values.indexOf("([0-") == 0) {
+                values = "([1-" + values.split("([0-")[1];
+            }
+            return "(" + "\\*/" + values + ")";
+        }
+        function _listExpr(values) {
+            return "(" + values + "((\\," + values + ")" + ")+)";
+        }
+        var exprTpl = `^(<%=values%>|<%=any%>|<%=fromTo%>|<%=step%>|<%=list%>)$`;
+        var exprAlternativeTpl = `^(<%=values%>|<%=any%>|<%=fromTo%>|<%=list%>)$`;
+
+        var partNames = ["minute", "hour", "day-of-month", "month", "day-of-week"];
+
+        var validations = {
+            "minute": {
+                allowedValues: {
+                    begin: 0,
+                    end: 59,
+                    text: "0-59",
+                    valuesExpr: "([0-9]|[1-5][0-9])",
+                    expr: ""
+                },
+            },
+            "hour": {
+                allowedValues: {
+                    begin: 0,
+                    end: 23,
+                    text: "0-23",
+                    valuesExpr: "([0-9]|1[0-9]|[2][0-3])",
+                    expr: ""
+                }
+            },
+            "day-of-month": {
+                allowedValues: {
+                    begin: 1,
+                    end: 31,
+                    text: "1-31",
+                    valuesExpr: "([1-9]|[1-2][0-9]|[3][0-1])",
+                    expr: ""
+                }
+            },
+            "month": {
+                allowedValues: {
+                    begin: 1,
+                    end: 12,
+                    text: "1-12",
+                    valuesExpr: "([1-9]|1[0-2])",
+                    expr: ""
+                },
+                allowedValuesAlternative: {
+                    begin: "Jan",
+                    end: "Dec",
+                    text: "JAN-DEC",
+                    valuesExpr: "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)",
+                    expr: ""
+                }
+            },
+            "day-of-week": {
+                allowedValues: {
+                    begin: 0,
+                    end: 6,
+                    text: "0-6",
+                    valuesExpr: "([0-6])",
+                    expr: ""
+                },
+                allowedValuesAlternative: {
+                    begin: "Sun",
+                    end: "Sat",
+                    text: "SUN-SAT",
+                    valuesExpr: "(Sun|Mon|Tue|Wed|Thu|Fri|Sta)",
+                    expr: ""
+                }
+            }
+        };
+
+        var a2v = {
+            "jan": 1,
+            "feb": 2,
+            "mar": 3,
+            "apr": 4,
+            "may": 5,
+            "jun": 6,
+            "jul": 7,
+            "aug": 8,
+            "sep": 9,
+            "oct": 10,
+            "nov": 11,
+            "dec": 12,
+            "sun": 0,
+            "mon": 1,
+            "tue": 2,
+            "wed": 3,
+            "thu": 4,
+            "fri": 5,
+            "sta": 6
+        };
+
+        var any = "(\\*)";
+
+        function _expr(av, tpl) {
+            if (av) {
+                var valuesExpr = av.valuesExpr;
+                av.expr = _.template(tpl)({
+                    values: valuesExpr,
+                    any: any,
+                    fromTo: _fromToExpr(valuesExpr),
+                    step: _stepExpr(valuesExpr),
+                    list: _listExpr(valuesExpr)
+                });
+            }
+        }
+
+        for (var key in validations) {
+            var part = validations[key];
+            _expr(part["allowedValues"], exprTpl);
+            _expr(part["allowedValuesAlternative"], exprAlternativeTpl);
+        }
+
+        function _validate(cronExpr) {
+            var parts = cronExpr.replace(new RegExp("\\s+", "gm"), " ").split(" ");
+            if (parts.length != 5) {
+                return false;
+            }
+            var valid = true;
+            parts.forEach(function (part, i) {
+                valid = valid && _validatePart(part, partNames[i]);
+            });
+            return valid;
+        }
+
+        function _validatePart(input, name) {
+            var expr = validations[name]["allowedValues"].expr;
+            if (validations[name]["allowedValuesAlternative"]) {
+                expr += "|" + validations[name]["allowedValuesAlternative"].expr;
+            }
+            var regexp = new RegExp(expr, "i");
+            return input.match(regexp);
+        }
+
+        function _nextRun(cronExpr, count) {
+            if (!_validate(cronExpr)) {
+                return [];
+            }
+
+            // candidate values for calculating next run
+            function _values(input, begin, end, wd) {
+                var count = end - begin + 1;
+                var values = [];
+                if (input == "*") {
+                    if (!wd) {
+                        for (var i = 0; i < count; i++) {
+                            values.push(begin + i);
+                        }
+                    }
+                } else if (input.indexOf("-") > 0) {
+                    var parts = input.split("-");
+                    var from = isNaN(parts[0]) ? a2v[parts[0].toLowerCase()] : parseInt(parts[0]);
+                    var to = isNaN(parts[1]) ? a2v[parts[1].toLowerCase()] : parseInt(parts[1]);
+                    if (wd) {
+                        while (values.length < count + end + 1) {
+                            for (var i = from; i <= to; i++) {
+                                values.push(i);
+                            }
+                        }
+                    } else {
+                        for (var i = from; i <= to; i++) {
+                            values.push(i);
+                        }
+                    }
+                } else if (input.indexOf(",") > 0) {
+                    if (wd) {
+                        while (values.length < count + end + 1) {
+                            input.split(",").forEach(function (iValue) {
+                                var value = isNaN(iValue) ? a2v[iValue.toLowerCase()] : parseInt(iValue);
+                                values.push(value);
+                            });
+                        }
+                    } else {
+                        input.split(",").forEach(function (iValue) {
+                            var value = isNaN(iValue) ? a2v[iValue.toLowerCase()] : parseInt(iValue);
+                            values.push(value);
+                        });
+                    }
+                } else if (input.indexOf("*/") == 0) {
+                    var step = parseInt(input.split("/")[1]);
+                    var v = begin + step;
+                    if (v > end) {
+                        v = begin;
+                    }
+                    for (var i = 0; i < count + end + 1; i++) {
+                        if (v > end) {
+                            v = begin;
+                        }
+                        values.push(v);
+                        v += step;
+                    }
+                } else {
+                    var value = isNaN(input) ? a2v[input.toLowerCase()] : parseInt(input);
+                    if (wd) {
+                        while (values.length < count + end + 1) {
+                            values.push(value);
+                        }
+                    } else {
+                        values.push(value);
+                    }
+                }
+                return values;
+            }
+
+            var now = new Date();
+            var cronValues = {
+                "minute": [],
+                "hour": [],
+                "day-of-month": [],
+                "month": [],
+                "day-of-week": [],
+                "year": []
+            };
+
+            var values = cronExpr.split(" ");
+            var date = values[2];
+            var day = values[4];
+            var month = values[3];
+            var dayOnly = day != "*" && date == "*";
+            var allMonth = month == "*";
+
+            // candidate values
+            partNames.forEach(function (name, i) {
+                var input = values[i];
+                var scope = validations[name]["allowedValues"];
+                cronValues[name] = _values(input, scope.begin, scope.end, name == "day-of-week");
+            });
+            var year = now.getFullYear();
+            for (var i = 0; i <= count; i++) {
+                cronValues["year"].push(year + i);
+            }
+
+            var nexts1 = {};
+            var nexts2 = {};
+            var enough1;
+            var enough2;
+            cronValues["year"].forEach(function (year) {
+                if (enough1 && enough2) {
+                    return
+                }
+                cronValues["month"].forEach(function (month) {
+                    if (enough1 && enough2) {
+                        return
+                    }
+                    var start = new Date(now.getTime());
+                    start.setFullYear(year);
+                    start.setMonth(month - 1);
+
+                    // after now, start from 1st day of month
+                    if (month - 1 > now.getMonth() || year > now.getFullYear()) {
+                        start.setDate(1);
+                    }
+                    // last Saturday (last day of last week), just for safe
+                    start.setDate(start.getDate() - (start.getDay() - 6 + 7));
+
+                    // day of week
+                    cronValues["day-of-week"].forEach(function (day) {
+                        var wDate = new Date(start.getTime());
+                        var currentDay = wDate.getDay();
+
+                        // get the distance between today and next week 'day'
+                        var distance = (day + 7 - currentDay) % 7;
+                        if (distance == 0) {
+                            distance = 7;
+                        }
+
+                        // to next week 'day'
+                        wDate.setDate(wDate.getDate() + distance);
+
+                        cronValues["hour"].forEach(function (hour) {
+                            if (enough1) {
+                                return
+                            }
+                            cronValues["minute"].forEach(function (minute) {
+                                var currentDate = new Date(wDate.getTime());
+                                currentDate.setHours(hour);
+                                currentDate.setMinutes(minute);
+                                currentDate.setSeconds(0);
+                                if (currentDate.getTime() > now.getTime() && (allMonth || currentDate.getMonth() == month - 1)) {
+                                    nexts1[moment(currentDate).format("YYYY-MM-DD HH:mm:ss")] = "";
+                                }
+                                if (Object.keys(nexts1).length >= count) {
+                                    enough1 = true;
+                                    return;
+                                }
+                            });
+                        });
+
+                        start = new Date(wDate.getTime());
+                    });
+
+                    if (!dayOnly) {
+                        // date
+                        cronValues["day-of-month"].forEach(function (date) {
+                            if (enough2) {
+                                return
+                            }
+                            cronValues["hour"].forEach(function (hour) {
+                                if (enough2) {
+                                    return
+                                }
+                                cronValues["minute"].forEach(function (minute) {
+                                    var currentDate = new Date(now.getTime());
+                                    currentDate.setFullYear(year);
+                                    currentDate.setMonth(month - 1);
+                                    currentDate.setDate(date);
+                                    currentDate.setHours(hour);
+                                    currentDate.setMinutes(minute);
+                                    currentDate.setSeconds(0);
+                                    if (currentDate.getTime() > now.getTime()) {
+                                        nexts2[moment(currentDate).format("YYYY-MM-DD HH:mm:ss")] = "";
+                                    }
+                                    if (Object.keys(nexts2).length >= count) {
+                                        enough2 = true
+                                        return;
+                                    }
+                                });
+                            });
+                        });
+                    } else {
+                        enough2 = true;
+                    }
+                });
+            });
+
+            for (var date in nexts2) {
+                nexts1[date] = "";
+            }
+            var datetimes = Object.keys(nexts1);
+            datetimes.sort(function (d1, d2) {
+                return new Date(d1).getTime() - new Date(d2).getTime();
+            });
+
+            return datetimes.splice(0, count);
+        }
+
+        return {
+            validate: _validate,
+            validatePart: _validatePart,
+            nextRun: _nextRun,
+            validations: validations
+        }
+    }
+
+    $.Crontab = Crontab;
+
     $.fn.crontab = function (options) {
         var self = $(this);
         if (!options) {
@@ -140,118 +496,7 @@
             </ul>
         `;
 
-        // regexp
-        function _fromToExpr(values) {
-            return "(" + values + "\\-" + values + ")";
-        }
-        function _stepExpr(values) {
-            if (values.indexOf("([0-") == 0) {
-                values = "([1-" + values.split("([0-")[1];
-            }
-            return "(" + "\\*/" + values + ")";
-        }
-        function _listExpr(values) {
-            return "(" + values + "((\\," + values + ")" + ")+)";
-        }
-        var exprTpl = `^(<%=values%>|<%=any%>|<%=fromTo%>|<%=step%>|<%=list%>)$`;
-        var exprAlternativeTpl = `^(<%=values%>|<%=any%>|<%=fromTo%>|<%=list%>)$`;
-
-        var validations = {
-            "minute": {
-                allowedValues: {
-                    begin: 0,
-                    end: 59,
-                    text: "0-59",
-                    valuesExpr: "([0-9]|[1-5][0-9])",
-                    expr: ""
-                },
-            },
-            "hour": {
-                allowedValues: {
-                    begin: 0,
-                    end: 23,
-                    text: "0-23",
-                    valuesExpr: "([0-9]|1[0-9]|[2][0-3])",
-                    expr: ""
-                }
-            },
-            "day-of-month": {
-                allowedValues: {
-                    begin: 1,
-                    end: 31,
-                    text: "1-31",
-                    valuesExpr: "([1-9]|[1-2][0-9]|[3][0-1])",
-                    expr: ""
-                }
-            },
-            "month": {
-                allowedValues: {
-                    begin: 1,
-                    end: 12,
-                    text: "1-12",
-                    valuesExpr: "([1-9]|1[0-2])",
-                    expr: ""
-                },
-                allowedValuesAlternative: {
-                    begin: "Jan",
-                    end: "Dec",
-                    text: "JAN-DEC",
-                    valuesExpr: "(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)",
-                    expr: ""
-                }
-            },
-            "day-of-week": {
-                allowedValues: {
-                    begin: 0,
-                    end: 6,
-                    text: "0-6",
-                    valuesExpr: "([0-6])",
-                    expr: ""
-                },
-                allowedValuesAlternative: {
-                    begin: "Sun",
-                    end: "Sat",
-                    text: "SUN-SAT",
-                    valuesExpr: "(Sun|Mon|Tue|Wed|Thu|Fri|Sta)",
-                    expr: ""
-                }
-            }
-        };
-
-        var a2v = {
-            "jan": 1,
-            "feb": 2,
-            "mar": 3,
-            "apr": 4,
-            "may": 5,
-            "jun": 6,
-            "jul": 7,
-            "aug": 8,
-            "sep": 9,
-            "oct": 10,
-            "nov": 11,
-            "dec": 12,
-            "sun": 0,
-            "mon": 1,
-            "tue": 2,
-            "wed": 3,
-            "thu": 4,
-            "fri": 5,
-            "sta": 6
-        }
-
-        function _expr(av, tpl) {
-            if (av) {
-                var valuesExpr = av.valuesExpr;
-                av.expr = _.template(tpl)({
-                    values: valuesExpr,
-                    any: any,
-                    fromTo: _fromToExpr(valuesExpr),
-                    step: _stepExpr(valuesExpr),
-                    list: _listExpr(valuesExpr)
-                });
-            }
-        }
+        var crontab = new Crontab();
 
         var size = "";
         if (self.hasClass("form-control-sm")) {
@@ -286,218 +531,12 @@
         new Clipboard("[copy-to-clipboard]", {
             container: cron.get(0),
             text: function (trigger) {
-                console.log($(trigger).closest(".crontab").prev("input").val());
                 return $(trigger).closest(".crontab").prev("input").val();
             }
         });
 
-        function _nextRun(count) {
-            var cronExpr = self.val();
-            if (cronExpr.length > 0) {
-                var now = new Date();
-                var cronValues = {
-                    "minute": [],
-                    "hour": [],
-                    "day-of-month": [],
-                    "month": [],
-                    "day-of-week": [],
-                    "year": []
-                };
-                var date = cron.find("input[name='day-of-month']").val();
-                var day = cron.find("input[name='day-of-week']").val();
-                var month = cron.find("input[name='month']").val();
-                var dayOnly = day != "*" && date == "*";
-                var allMonth = month == "*";
-
-                // candidate values
-                $.each(cron.find("input"), function (i, value) {
-                    var name = $(value).attr("name");
-                    var input = $(value).val();
-                    var scope = validations[name]["allowedValues"];
-                    cronValues[name] = _values(input, scope.begin, scope.end, name == "day-of-week");
-                });
-                var year = now.getFullYear();
-                for (var i = 0; i <= count; i++) {
-                    cronValues["year"].push(year + i);
-                }
-
-                var nexts1 = {};
-                var nexts2 = {};
-                var enough1;
-                var enough2;
-                cronValues["year"].forEach(function (year) {
-                    if (enough1 && enough2) {
-                        return
-                    }
-                    cronValues["month"].forEach(function (month) {
-                        if (enough1 && enough2) {
-                            return
-                        }
-                        var start = new Date(now.getTime());
-                        start.setFullYear(year);
-                        start.setMonth(month - 1);
-
-                        // after now, start from 1st day of month
-                        if (month - 1 > now.getMonth() || year > now.getFullYear()) {
-                            start.setDate(1);
-                        }
-                        // last Saturday (last day of last week), just for safe
-                        start.setDate(start.getDate() - (start.getDay() - 6 + 7));
-
-                        // day of week
-                        cronValues["day-of-week"].forEach(function (day) {
-                            var wDate = new Date(start.getTime());
-                            var currentDay = wDate.getDay();
-
-                            // get the distance between today and next week 'day'
-                            var distance = (day + 7 - currentDay) % 7;
-                            if (distance == 0) {
-                                distance = 7;
-                            }
-
-                            // to next week 'day'
-                            wDate.setDate(wDate.getDate() + distance);
-
-                            cronValues["hour"].forEach(function (hour) {
-                                if (enough1) {
-                                    return
-                                }
-                                cronValues["minute"].forEach(function (minute) {
-                                    var currentDate = new Date(wDate.getTime());
-                                    currentDate.setHours(hour);
-                                    currentDate.setMinutes(minute);
-                                    currentDate.setSeconds(0);
-                                    if (currentDate.getTime() > now.getTime() && (allMonth || currentDate.getMonth() == month - 1)) {
-                                        nexts1[moment(currentDate).format("YYYY-MM-DD HH:mm:ss")] = "";
-                                    }
-                                    if (Object.keys(nexts1).length >= count) {
-                                        enough1 = true;
-                                        return;
-                                    }
-                                });
-                            });
-
-                            start = new Date(wDate.getTime());
-                        });
-
-                        if (!dayOnly) {
-                            // date
-                            cronValues["day-of-month"].forEach(function (date) {
-                                if (enough2) {
-                                    return
-                                }
-                                cronValues["hour"].forEach(function (hour) {
-                                    if (enough2) {
-                                        return
-                                    }
-                                    cronValues["minute"].forEach(function (minute) {
-                                        var currentDate = new Date(now.getTime());
-                                        currentDate.setFullYear(year);
-                                        currentDate.setMonth(month - 1);
-                                        currentDate.setDate(date);
-                                        currentDate.setHours(hour);
-                                        currentDate.setMinutes(minute);
-                                        currentDate.setSeconds(0);
-                                        if (currentDate.getTime() > now.getTime()) {
-                                            nexts2[moment(currentDate).format("YYYY-MM-DD HH:mm:ss")] = "";
-                                        }
-                                        if (Object.keys(nexts2).length >= count) {
-                                            enough2 = true
-                                            return;
-                                        }
-                                    });
-                                });
-                            });
-                        } else {
-                            enough2 = true;
-                        }
-                    });
-                });
-
-                for (var date in nexts2) {
-                    nexts1[date] = "";
-                }
-                var datetimes = Object.keys(nexts1);
-                datetimes.sort(function (d1, d2) {
-                    return new Date(d1).getTime() - new Date(d2).getTime();
-                });
-
-                return datetimes;
-            }
-
-            // candidate values for calculating next run
-            function _values(input, begin, end, wd) {
-                var count = end - begin + 1;
-                var values = [];
-                if (input == "*") {
-                    if (!wd) {
-                        for (var i = 0; i < count; i++) {
-                            values.push(begin + i);
-                        }
-                    }
-                } else if (input.indexOf("-") > 0) {
-                    var parts = input.split("-");
-                    var from = isNaN(parts[0]) ? a2v[parts[0].toLowerCase()] : parseInt(parts[0]);
-                    var to = isNaN(parts[1]) ? a2v[parts[1].toLowerCase()] : parseInt(parts[1]);
-                    if (wd) {
-                        while (values.length < count + end + 1) {
-                            for (var i = from; i <= to; i++) {
-                                values.push(i);
-                            }
-                        }
-                    } else {
-                        for (var i = from; i <= to; i++) {
-                            values.push(i);
-                        }
-                    }
-                } else if (input.indexOf(",") > 0) {
-                    if (wd) {
-                        while (values.length < count + end + 1) {
-                            input.split(",").forEach(function (iValue) {
-                                var value = isNaN(iValue) ? a2v[iValue.toLowerCase()] : parseInt(iValue);
-                                values.push(value);
-                            });
-                        }
-                    } else {
-                        input.split(",").forEach(function (iValue) {
-                            var value = isNaN(iValue) ? a2v[iValue.toLowerCase()] : parseInt(iValue);
-                            values.push(value);
-                        });
-                    }
-                } else if (input.indexOf("*/") == 0) {
-                    var step = parseInt(input.split("/")[1]);
-                    var v = begin + step;
-                    if (v > end) {
-                        v = begin;
-                    }
-                    for (var i = 0; i < count + end + 1; i++) {
-                        if (v > end) {
-                            v = begin;
-                        }
-                        values.push(v);
-                        v += step;
-                    }
-                } else {
-                    var value = isNaN(input) ? a2v[input.toLowerCase()] : parseInt(input);
-                    if (wd) {
-                        while (values.length < count + end + 1) {
-                            values.push(value);
-                        }
-                    } else {
-                        values.push(value);
-                    }
-                }
-                return values;
-            }
-
-            return [];
-        }
-
-        var any = "(\\*)"
-        for (var key in validations) {
-            var part = validations[key];
-            _expr(part["allowedValues"], exprTpl);
-            _expr(part["allowedValuesAlternative"], exprAlternativeTpl);
+        for (var key in crontab.validations) {
+            var part = crontab.validations[key];
 
             // tooltip
             var input = cron.find("input[name='" + key + "']");
@@ -530,16 +569,8 @@
             function _validate(obj) {
                 var name = obj.attr("name");
                 var value = obj.val();
-
-                var expr = validations[name]["allowedValues"].expr;
-                if (validations[name]["allowedValuesAlternative"]) {
-                    expr += "|" + validations[name]["allowedValuesAlternative"].expr;
-                }
-                var regexp = new RegExp(expr, "i");
-
                 var partLabel = cron.find(".part label[name='" + name + "']");
-
-                if (value.match(regexp)) {
+                if (crontab.validatePart(value, name)) {
                     partLabel.removeClass("text-danger").addClass("text-success");
 
                     if (value.indexOf(",") > 0) {
@@ -595,7 +626,7 @@
 
             input.on("keydown", function (event) {
                 var name = $(this).attr("name");
-                if (validations[name]["allowedValuesAlternative"]) {
+                if (crontab.validations[name]["allowedValuesAlternative"]) {
                     if (!_validCode(scopes.concat([[65, 90]]), codes, event.keyCode)) {
                         event.preventDefault();
                     }
@@ -608,8 +639,8 @@
 
             input.on("change", function () {
                 if (_validate($(this))) {
-                    if (!options.nextRun.disabled) {
-                        var datetimes = _nextRun(options.nextRun.max);
+                    if (!options.nextRun.disabled && crontab.validate(self.val())) {
+                        var datetimes = crontab.nextRun(self.val(), options.nextRun.max);
                         then.html("");
                         more.show();
                         datetimes.forEach(function (datetime, i) {

@@ -464,10 +464,19 @@
 
         // Confirm
         $.fn.confirm = function (title, message, options) {
-            return _modal($(this), title, message, options);
+            return _confirm($(this), title, message, options);
         }
         $.confirm = function (title, message, options) {
-            return _modal(null, title, message, options);
+            return _confirm(null, title, message, options);
+        }
+        function _confirm(ctx, title, message, options) {
+            if (!options) {
+                options = {};
+            }
+            options = $.extend(true, {}, options, {
+                close: false
+            });
+            return _modal(ctx, title, message, options);
         }
 
         // Info
@@ -540,7 +549,7 @@
             options = $.extend(true, {}, defaultCfg, options);
 
             var tpl = `
-                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>"<% if (footer.fixed) { %> style="height: 5rem"<% } %>>
+                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
                     <div class="row">
                         <% if (footer.element) { %>
                             <% if (footer.align == "right") { %>
@@ -1051,12 +1060,17 @@
             self.removeAttr("disabled");
         }
 
+        function _select(value) {
+            select.find("ul li span[value='" + value + "']").parent().trigger("click");
+        }
+
         self.after(multi);
         self.hide();
 
         return {
             disable: _disable,
-            enable: _enable
+            enable: _enable,
+            select: _select
         }
     };
 
@@ -1103,6 +1117,26 @@
 
         var down = stepper.find("button:first-child");
         var up = stepper.find("button:last-child");
+
+        if (self.val() != undefined && self.val().length > 0) {
+            var value = Number(self.val());
+            if (options.min != undefined) {
+                if (value <= Number(options.min)) {
+                    self.val(options.min);
+                    down.attr("disabled", true);
+                } else {
+                    down.removeAttr("disabled");
+                }
+            }
+            if (options.max != undefined) {
+                if (value >= Number(options.max)) {
+                    self.val(options.max);
+                    up.attr("disabled", true);
+                } else {
+                    up.removeAttr("disabled");
+                }
+            }
+        }
 
         down.on("click", function () {
             var value = Number(self.val());

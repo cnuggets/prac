@@ -240,7 +240,7 @@
             if (index >= 0) {
                 queryString = url.substring(index + 1);
             } else {
-                if (url.indexOf("&") > 0) {
+                if (url.indexOf("&") > 0 || url.indexOf("=") > 0) {
                     queryString = url;
                 }
             }
@@ -250,7 +250,14 @@
                 var pairs = queryString.split("&");
                 for (var i = 0; i < pairs.length; i++) {
                     var parts = pairs[i].split("=");
-                    obj[parts[0]] = decodeURIComponent(parts[1]);
+                    if (obj[parts[0]]) {
+                        if (!$.isArray(obj[parts[0]])) {
+                            obj[parts[0]] = [obj[parts[0]]];
+                        }
+                        obj[parts[0]].push(parts.length == 2 ? decodeURIComponent(parts[1]) : "");
+                    } else {
+                        obj[parts[0]] = parts.length == 2 ? decodeURIComponent(parts[1]) : "";
+                    }
                 }
             }
 
@@ -259,10 +266,16 @@
         stringify: function (obj) {
             var queryString = "";
             for (var key in obj) {
-                if (queryString.length > 0) {
-                    queryString += "&";
+                var value = obj[key];
+                if (!$.isArray(value)) {
+                    value = [value];
                 }
-                queryString += key + "=" + obj[key];
+                value.forEach(function(v) {
+                    if (queryString.length > 0) {
+                        queryString += "&";
+                    }
+                    queryString += key + "=" + v;
+                });
             }
             return queryString;
         }
@@ -324,7 +337,7 @@
                 } else if (typeof obj[key] == "object") {
                     _recruse(obj[key]);
                 } else if (typeof obj[key] == "array") {
-                    obj[key].forEach(function(value, i) {
+                    obj[key].forEach(function (value, i) {
                         if (!isNaN(value)) {
                             obj[key][i] = Number(value);
                         } else if (typeof (value == "object")) {
