@@ -17,30 +17,73 @@
             options = {};
         }
         var today = new Date();
+        var lang = {
+            en: {
+                btns: {
+                    back: {
+                        label: "Back"
+                    },
+                    clear: {
+                        label: "Clear"
+                    },
+                    confirm: {
+                        label: "Confirm"
+                    }
+                },
+                week: {
+                    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+                },
+                month: {
+                    months: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+                    format: "MM",
+                },
+                year: {
+                    format: "YYYY"
+                }
+            },
+            zh: {
+                btns: {
+                    back: {
+                        label: "返回"
+                    },
+                    clear: {
+                        label: "清空"
+                    },
+                    confirm: {
+                        label: "确认"
+                    }
+                },
+                week: {
+                    days: ["日", "一", "二", "三", "四", "五", "六"]
+                },
+                month: {
+                    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                    format: "MM月"
+                },
+                year: {
+                    format: "YYYY年"
+                }
+            }
+        }
+
         var defaultCfg = {
+            lang: "en",
             type: "date", // date, month, year
             class: "danger",
             range: false,
             multiple: false,
             btns: {
-                back: {
-                    label: "Back"
-                },
                 clear: {
-                    label: "Clear",
                     onClear: function () { }
                 },
                 confirm: {
-                    label: "Confirm",
                     onConfirm: function () { }
                 },
             },
             week: {
-                days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 firstDay: 0 // 0: Sun, 1: Mon
             },
             month: {
-                months: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
                 format: "MM",
             },
             year: {
@@ -51,7 +94,8 @@
                 new Date(today.getFullYear() + 50, 11, 31)
             ]
         };
-        options = $.extend(true, {}, defaultCfg, options);
+        var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+        options = $.extend(true, {}, defaultCfg, langOpt, options);
 
         var tpl = `
             <div class="datepicker" style="position: absolute;" id="<%=id%>">

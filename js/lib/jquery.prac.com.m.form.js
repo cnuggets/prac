@@ -15,21 +15,40 @@
         if (!options) {
             options = {};
         }
+        var lang = {
+            en: {
+                title: "Please select",
+                cancel: {
+                    label: "Cancel"
+                },
+                confirm: {
+                    label: "Confirm"
+                }
+            },
+            zh: {
+                title: "请选择",
+                cancel: {
+                    label: "取消"
+                },
+                confirm: {
+                    label: "确认"
+                }
+            }
+        }
         var defaultCfg = {
+            lang: "en",
             columns: 1,
             height: "260px",
-            title: "Please select",
             toolbar: true,
             cancel: {
-                label: "Cancel",
                 class: "secondary"
             },
             confirm: {
-                label: "Confirm",
                 class: "primary"
             }
         };
-        options = $.extend(true, {}, defaultCfg, options);
+        var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+        options = $.extend(true, {}, defaultCfg, langOpt, options);
         if (options.columns == 1) { // single column
             return new Picker(self, datas, options);
         } else { // multiple column
@@ -671,17 +690,35 @@
             options = {};
         }
         var today = new Date();
+        var lang = {
+            en: {
+                title: "Date Select",
+                confirm: {
+                    label: "Confirm",
+                },
+                week: {
+                    days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                }
+            },
+            zh: {
+                title: "日期选择",
+                confirm: {
+                    label: "确认",
+                },
+                week: {
+                    days: ["日", "一", "二", "三", "四", "五", "六"],
+                }
+            },
+        };
         var defaultCfg = {
-            title: "Date Select",
+            lang: "en",
             class: "primary",
             range: false,
             multiple: false,
             confirm: {
-                label: "Confirm",
                 onConfirm: function () { }
             },
             week: {
-                days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
                 firstDay: 0 // 0: Sun, 1: Mon
             },
             month: {
@@ -692,7 +729,8 @@
                 new Date(today.getFullYear(), today.getMonth() + 7, 0)
             ]
         };
-        options = $.extend(true, {}, defaultCfg, options);
+        var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+        options = $.extend(true, {}, defaultCfg, langOpt, options);
         var tpl = `
             <div class="p-calendar">
                 <div class="header">

@@ -97,7 +97,38 @@
         }
 
         function _dragDropUploader(self, options) {
+            var lang = {
+                en: {
+                    or: "or",
+                    title: "Drag and Drop files to upload",
+                    browse: {
+                        label: "Browse files"
+                    },
+                    confirm: {
+                        title: "File already exists, do you want to replace the existing files?",
+                        label: {
+                            cancel: "Cancel",
+                            confirm: "Replace files"
+                        }
+                    }
+                },
+                zh: {
+                    or: "或者",
+                    title: "拖拽文件到这里上传",
+                    browse: {
+                        label: "选择文件"
+                    },
+                    confirm: {
+                        title: "文件已经存在，确认要覆盖存在的文件吗?",
+                        label: {
+                            cancel: "取消",
+                            confirm: "确认"
+                        }
+                    }
+                }
+            };
             var defaultCfg = {
+                lang: "en",
                 url: "/upload",
                 fieldName: "files",
                 validation: {
@@ -107,17 +138,6 @@
                 },
                 limit: 0,
                 allowDownload: false,
-                title: "Drag and Drop files to upload",
-                browse: {
-                    label: "Browse files"
-                },
-                confirm: {
-                    title: "File already exists, do you want to replace the existing files?",
-                    label: {
-                        cancel: "Cancel",
-                        confirm: "Replace files"
-                    }
-                },
                 beforeUpload: function(formData) {
 
                 },
@@ -134,7 +154,8 @@
                     console.log("delete file", filename, "path is", path, "type is", type);
                 }
             };
-            options = $.extend(true, {}, defaultCfg, options);
+            var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+            options = $.extend(true, {}, defaultCfg, langOpt, options);
             if (!self.hasClass("dd-uploader")) {
                 self.addClass("dd-uploader");
             }
@@ -168,7 +189,7 @@
                         <i class="bi bi-cloud-upload"></i>
                         <label><%=title%></label>
                     </div>
-                    <div class="selection">or</div>
+                    <div class="selection"><%=or%></div>
                     <div class="browse">
                         <button type="button" class="btn btn-secondary"><%=browse.label%></button>
                         <input type="file" name="<%=fieldName%>" />
