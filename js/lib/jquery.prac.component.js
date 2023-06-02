@@ -27,14 +27,14 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="page-item<% if (skip == 0) { %> disabled<% } %>">
-                            <a aria-label="Previous" class="page-link" href="<%=url%>/<%=skip - limit%>/<%=limit%>" p-router>
+                            <a aria-label="Previous" class="page-link" href="<%=url%>/<%=skip - limit%>/<%=limit%><%=queryString%>" p-router>
                                 <span class="page-icon prev" aria-hidden=true>&laquo;</span>
                             </a>
                         </li>
                         <%  _.each(pageNos, function(pageNo, i) { %>
                             <% if (pageNo != -1) { %>
                                 <li class="page-item<% if (skip == pageNo * limit) { %> active<% } %>" number>
-                                    <a class="page-link" href="<%=url%>/<%=limit * pageNo%>/<%=limit%>" p-router><%=pageNo + 1%></a>
+                                    <a class="page-link" href="<%=url%>/<%=limit * pageNo%>/<%=limit%><%=queryString%>" p-router><%=pageNo + 1%></a>
                                 </li>
                             <% } else { %>
                                 <li class="page-item disabled" ellipsis>
@@ -45,7 +45,7 @@
                             <% } %>
                         <% }); %>
                         <li class="page-item<% if (skip == limit * (pages - 1) || pages == 0) { %> disabled<% } %>">
-                            <a aria-label="Next" class="page-link" href="<%=url%>/<%=skip + limit%>/<%=limit%>" p-router>
+                            <a aria-label="Next" class="page-link" href="<%=url%>/<%=skip + limit%>/<%=limit%><%=queryString%>" p-router>
                                 <span class="page-icon next" aria-hidden=true>&raquo;</span>
                             </a>
                         </li>
@@ -120,17 +120,24 @@
             }
         }
 
+        var queryString = "";
+        if (url.indexOf("?") > 0) {
+            var parts = url.split("?");
+            url = parts[0];
+            queryString = "?" + parts[1];
+        }
         self.html(_.template(tpl)({
             skip: parseInt(skip),
             limit: parseInt(limit),
             total: parseInt(total),
             url: url,
+            queryString: queryString,
             pages: count,
             pageNos: pageNos,
             options: options,
         }));
         self.find("select[name='pageSize']").on("change", function () {
-            route(url + "/0/" + $(this).find("option:selected").val());
+            route(url + "/0/" + $(this).find("option:selected").val() + queryString);
         });
     }
 
@@ -549,13 +556,16 @@
             options = $.extend(true, {}, defaultCfg, options);
 
             var tpl = `
+                <% 
+                    var padding = footer.fixed ? "5rem" : "1rem";
+                %>
                 <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
                     <div class="row">
                         <% if (footer.element) { %>
                             <% if (footer.align == "right") { %>
                                 <div class="col-md-6" element>
                                 </div>
-                                <div class="col-md-6" style="display: flex;justify-content: right;align-items: center;padding-right: 5rem">
+                                <div class="col-md-6" style="display: flex;justify-content: right;align-items: center;padding-right: <%=padding%>">
                                     <% if (!cancel.disabled) { %>
                                         <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
                                     <% } %>
@@ -565,7 +575,7 @@
                                     </button>
                                 </div>
                             <% } else { %>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="padding-left: <%=padding%>">
                                     <% if (!cancel.disabled) { %>
                                         <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
                                     <% } %>
@@ -578,7 +588,11 @@
                                 </div>
                             <% } %>
                         <% } else { %>
-                            <div class="col-md-12">
+                            <% if (footer.align == "right") { %>
+                                <div class="col-md-12" style="display: flex;justify-content: right;align-items: center;padding-right: <%=padding%>">
+                            <% } else { %>
+                                <div class="col-md-12" style="padding-left: <%=padding%>">
+                            <% } %>
                                 <% if (!cancel.disabled) { %>
                                     <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
                                 <% } %>
