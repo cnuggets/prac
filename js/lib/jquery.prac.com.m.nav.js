@@ -399,14 +399,14 @@
                 <nav>
                     <ul class="pagination">
                         <li class="page-item<% if (skip == 0) { %> disabled<% } %>">
-                            <a aria-label="Previous" class="page-link" href="<%=url%>/<%=skip - limit%>/<%=limit%>" p-router>
+                            <a aria-label="Previous" class="page-link" href="<%=url%>/<%=skip - limit%>/<%=limit%><%=queryString%>" p-router>
                                 <span class="page-icon prev" aria-hidden=true>&laquo;</span>
                             </a>
                         </li>
                         <%  _.each(pageNos, function(pageNo, i) { %>
                             <% if (pageNo != -1) { %>
                                 <li class="page-item<% if (skip == pageNo * limit) { %> active<% } %>" number>
-                                    <a class="page-link" href="<%=url%>/<%=limit * pageNo%>/<%=limit%>" p-router><%=pageNo + 1%></a>
+                                    <a class="page-link" href="<%=url%>/<%=limit * pageNo%>/<%=limit%><%=queryString%>" p-router><%=pageNo + 1%></a>
                                 </li>
                             <% } else { %>
                                 <li class="page-item disabled" ellipsis>
@@ -417,7 +417,7 @@
                             <% } %>
                         <% }); %>
                         <li class="page-item<% if (skip == limit * (pages - 1) || pages == 0) { %> disabled<% } %>">
-                            <a aria-label="Next" class="page-link" href="<%=url%>/<%=skip + limit%>/<%=limit%>" p-router>
+                            <a aria-label="Next" class="page-link" href="<%=url%>/<%=skip + limit%>/<%=limit%><%=queryString%>" p-router>
                                 <span class="page-icon next" aria-hidden=true>&raquo;</span>
                             </a>
                         </li>
@@ -492,17 +492,24 @@
             }
         }
 
+        var queryString = "";
+        if (url.indexOf("?") > 0) {
+            var parts = url.split("?");
+            url = parts[0];
+            queryString = "?" + parts[1];
+        }
         self.html(_.template(tpl)({
             skip: parseInt(skip),
             limit: parseInt(limit),
             total: parseInt(total),
             url: url,
+            queryString: queryString,
             pages: count,
             pageNos: pageNos,
             options: options,
         }));
         self.find("select[name='pageSize']").on("change", function () {
-            route(url + "/0/" + $(this).find("option:selected").val());
+            route(url + "/0/" + $(this).find("option:selected").val() + queryString);
         });
     }
 }));
