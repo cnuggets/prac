@@ -431,11 +431,11 @@
                 <div class="op">
                     <div class="expression">
                         <div class="input<% if (size) { %> input-<%=size%><% } %>">
-                            <input type="text" name="minute">
-                            <input type="text" name="hour">
-                            <input type="text" name="day-of-month">
-                            <input type="text" name="month">
-                            <input type="text" name="day-of-week">
+                            <input type="text" name="minute" autocomplete="off">
+                            <input type="text" name="hour" autocomplete="off">
+                            <input type="text" name="day-of-month" autocomplete="off">
+                            <input type="text" name="month" autocomplete="off">
+                            <input type="text" name="day-of-week" autocomplete="off">
                         </div>
                         <div class="part">
                             <label name="minute"><%=labels.part.min%></label>

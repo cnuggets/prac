@@ -72,7 +72,7 @@
                             <% if (footer.align == "right") { %>
                                 <div class="col-md-6" element>
                                 </div>
-                                <div class="col-md-6" style="display: flex;justify-content: right;align-items: center;padding-right: <%=padding%>">
+                                <div class="col-md-6" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
                                     <% if (!cancel.disabled) { %>
                                         <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
                                     <% } %>
@@ -96,7 +96,7 @@
                             <% } %>
                         <% } else { %>
                             <% if (footer.align == "right") { %>
-                                <div class="col-md-12" style="display: flex;justify-content: right;align-items: center;padding-right: <%=padding%>">
+                                <div class="col-md-12" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
                             <% } else { %>
                                 <div class="col-md-12" style="padding-left: <%=padding%>">
                             <% } %>
