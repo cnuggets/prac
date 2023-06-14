@@ -67,7 +67,10 @@
             return data;
         }
 
+        var selected = 0;
         function _render(data, hidden) {
+            $(".autocomplete .result").hide();
+
             result.find(".options").html(_.template(optionTpl)({
                 data: data
             }));
@@ -78,11 +81,45 @@
                 result.hide();
             });
 
+            selected = 0;
             if (data.length > 0 && !hidden) {
                 result.show();
             } else {
                 result.hide();
             }
+        }
+
+        function _move(step) {
+            if (result.is(":hidden")) {
+                return;
+            }
+
+            var items = result.find(".options li");
+            var total = items.length;
+
+            selected += step;
+            selected = selected % total;
+            if (selected < 0) {
+                selected += total;
+            }
+
+            var index = selected - 1;
+            if (index < 0) {
+                index += total;
+            }
+            items.removeClass("selected");
+            
+            var target = items.eq(index);
+            target.addClass("selected");
+            var offset = result.find(".options").offset().top;
+            result.find(".options").scrollTop(target.offset().top - offset);
+        }
+
+        function _confirm() {
+            if (result.is(":hidden")) {
+                return;
+            }
+            result.find(".options li.selected").trigger("click");
         }
 
         // data
@@ -125,15 +162,23 @@
                 _completeAsync(self.val());
             });
 
-            self.on("keyup", function () {
-                clearTimeout(timer);
-                if (self.val().length == 0) {
-                    result.hide();
-                    return;
+            self.on("keyup", function (e) {
+                if (e.keyCode == 13) {
+                    _confirm();
+                } else if (e.keyCode == 38) {
+                    _move(-1);
+                } else if (e.keyCode == 40) {
+                    _move(1);
+                } else {
+                    clearTimeout(timer);
+                    if (self.val().length == 0) {
+                        result.hide();
+                        return;
+                    }
+                    timer = setTimeout(function () {
+                        _completeAsync(self.val());
+                    }, 300);
                 }
-                timer = setTimeout(function () {
-                    _completeAsync(self.val());
-                }, 300);
             });
 
             function _completeAsync(keyword) {
@@ -147,11 +192,19 @@
                 _complete();
             });
 
-            self.on("keyup", function () {
-                clearTimeout(timer);
-                timer = setTimeout(function () {
-                    _complete();
-                }, 50);
+            self.on("keyup", function (e) {
+                if (e.keyCode == 13) {
+                    _confirm();
+                } else if (e.keyCode == 38) {
+                    _move(-1);
+                } else if (e.keyCode == 40) {
+                    _move(1);
+                } else {
+                    clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        _complete();
+                    }, 50);
+                }
             });
 
             function _complete() {
