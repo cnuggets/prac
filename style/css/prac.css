@@ -1174,6 +1174,7 @@ body {
 .crontab .op .expression .input input:focus {
     border: none;
     box-shadow: none;
+    outline: none;
 }
 
 .crontab .op .copy {
