@@ -16,7 +16,36 @@
         if (!options) {
             options = {};
         }
+
+        var lang = {
+            en: {
+                menu: {
+                    newNode: "New Node",
+                    newFolder: "New Folder",
+                    newChildNode: "New Child Node",
+                    newChildFolder: "New Child Folder",
+                    moveUp: "Move Up",
+                    moveDown: "Move Down",
+                    edit: "Edit",
+                    remove: "Delete"
+                }
+            },
+            zh: {
+                menu: {
+                    newNode: "新建节点",
+                    newFolder: "新建文件夹",
+                    newChildNode: "新建子节点",
+                    newChildFolder: "新建子文件夹",
+                    moveUp: "上移",
+                    moveDown: "下移",
+                    edit: "编辑",
+                    remove: "删除"
+                }
+            }
+        };
+
         var defaultCfg = {
+            lang: "en",
             icon: {
                 node: "bi-file-earmark",
                 folder: "bi-folder-fill"
@@ -24,7 +53,8 @@
             checkable: false,
             editable: true
         };
-        options = $.extend(true, {}, defaultCfg, options);
+        var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+        options = $.extend(true, {}, defaultCfg, langOpt, options);
 
         var nodeTpl = `
             <div class="node" node-id="<%=data.id ? data.id : ""%>">
@@ -324,35 +354,35 @@
             var nodeMenuTpl = `
                 <div class="tree-menu">
                     <ul>
-                        <li new-node>New Node</li>
-                        <li new-folder>New Folder</li>
+                        <li new-node><%=newNode%></li>
+                        <li new-folder><%=newFolder%></li>
                         <hr/>
-                        <li move-up>Move Up</li>
-                        <li move-down>Move Down</li>
+                        <li move-up><%=moveUp%></li>
+                        <li move-down><%=moveDown%></li>
                         <hr/>
-                        <li edit>Edit</li>
-                        <li delete>Delete</li>
+                        <li edit><%=edit%></li>
+                        <li delete><%=remove%></li>
                     </ul>
                 </div>
             `;
             var folderMenuTpl = `
                 <div class="tree-menu">
                     <ul>
-                        <li new-node>New Node</li>
-                        <li new-folder>New Folder</li>
-                        <li new-child-node>New Child Node</li>
-                        <li new-child-folder>New Child Folder</li>
+                        <li new-node><%=newNode%></li>
+                        <li new-folder><%=newFolder%></li>
+                        <li new-child-node><%=newChildNode%></li>
+                        <li new-child-folder><%=newChildFolder%></li>
                         <hr/>
-                        <li move-up>Move Up</li>
-                        <li move-down>Move Down</li>
+                        <li move-up><%=moveUp%></li>
+                        <li move-down><%=moveDown%></li>
                         <hr/>
-                        <li edit>Edit</li>
-                        <li delete>Delete</li>
+                        <li edit><%=edit%></li>
+                        <li delete><%=remove%></li>
                     </ul>
                 </div>
             `;
             var tpl = _type(node) == "node" ? nodeMenuTpl : folderMenuTpl;
-            menu = $(tpl);
+            menu = $(_.template(tpl)(options.menu));
 
             $("body").append(menu);
             menu.css("left", e.pageX);
