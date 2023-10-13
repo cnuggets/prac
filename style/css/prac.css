@@ -1280,7 +1280,7 @@ body {
     list-style: none;
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 20rem;
+    max-height: 22rem;
     padding: 0;
     margin: 0;
 }
@@ -1301,4 +1301,168 @@ body {
 
 .autocomplete .result ul.options li.selected {
     background-color: rgb(0, 0, 0, 0.1);
+}
+
+.autocomplete .result ul.options li span {
+    float: left;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.autocomplete .result ul.options li i {
+    font-size: 1rem;
+    display: inline-block;
+    width: 1rem;
+    margin-right: 0.25rem;
+}
+
+.p-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2.35rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0 0.25rem 0 0;
+}
+
+.p-search .condition .selected {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem 0 0.75rem;
+}
+
+.p-search .condition .selected:after {
+    position: absolute;    
+    top: 0.5rem;    
+    height: calc(100% - 1rem);    
+    right: 0;    
+    content:'';    
+    width: 0;    
+    border-right: 1px solid #ced4da;
+}
+
+.p-search .condition {
+    height: 100%;
+    width: 30%;
+    position: relative;
+}
+
+.p-search .condition .options {
+    position: absolute;
+    top: 2.25rem;
+    list-style: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 25rem;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 0.25rem;
+    text-align: left;
+    width: 100%;
+    max-width: 80%;
+    margin-top: 0.125rem;
+    display: none;
+}
+
+.p-search .condition .options li {
+    overflow: hidden;
+    line-height: 2.2rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+.p-search .condition .options li:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-search .condition .options li span i {
+    font-size: 1rem;
+    display: inline-block;
+    width: 1rem;
+}
+
+.p-search .op {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 0.75rem;
+}
+
+.p-search .condition~.op {
+    width: 70%;
+}
+
+.p-search .op .clear-btn {
+    width: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    visibility: hidden;
+}
+
+.p-search .op .clear-btn i {
+    color: rgb(0, 0, 0, 0.5);
+}
+
+.p-search .op .clear-btn:after {
+    position: absolute;    
+    top: 0.5rem;    
+    height: calc(100% - 1rem);    
+    right: 0;    
+    content:'';    
+    width: 0;    
+    border-right: 1px solid #ced4da;
+}
+
+.p-search .op .input {
+    position: relative;
+    height: 100%;
+    width: calc(100% - 1.75rem);
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.p-search .op .input .autocomplete {
+    width: calc(100% - 2rem);
+}
+
+.p-search .op .input input {
+    border: none;
+    height: 100%;
+    width: calc(100% - 2rem);
+    color: #212529;
+    padding: 0;
+}
+
+.p-search .op .input input:focus {
+    border: none;
+    outline: none;
+}
+
+.p-search .op .search-btn {
+    height: 100%;
+    width: 2rem;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.p-search .op .search-btn i {
+    color: rgb(0, 0, 0, 0.75);
 }

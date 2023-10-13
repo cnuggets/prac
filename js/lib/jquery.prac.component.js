@@ -1379,4 +1379,192 @@
             cfg: options
         }));
     }
+
+    $.fn.search = function (options) {
+        if (!options) {
+            options = {};
+        }
+
+        var lang = {
+            en: {
+                text: {
+                    "input": "input "
+                }
+            },
+            zh: {
+                text: {
+                    "input": "输入"
+                }
+            }
+        };
+
+        var defaultCfg = {
+            onChange: function (option) { },
+            onClear: function () { },
+            onSearch: function (keyword, option) { }
+        };
+
+        var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
+        options = $.extend(true, {}, defaultCfg, langOpt, options);
+
+        var self = $(this);
+        self.removeAttr("class");
+
+        var tpl = `
+            <div class="p-search">
+                <% if (cfg.opts && cfg.opts.length > 0) { %>
+                <div class="condition">
+                    <div class="selected">
+                        <label value="<%=cfg.selectedValue%>"><%=cfg.selectedText%></label>
+                        <i class="bi bi-chevron-down"></i>
+                    </div>
+                    <ul class="options">
+                        <%_.each(cfg.opts, function(opt) {%>
+                        <li>
+                            <span class="checked"><i class="bi<% if (opt.value == cfg.selectedValue) { %> bi-check-lg<% } %>"></i></span>
+                            <span value="<%=opt.value%>"><%=opt.text%></span>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <% } %>
+                <div class="op">
+                    <div class="input">
+                        <div class="clear-btn"><i class="bi bi-x-lg"></i></div>
+                    </div>
+                    <div class="search-btn"><i class="bi bi-search"></i></div>
+                </div>
+            </div>
+        `;
+
+        var opts = options.options;
+        var selectedValue;
+        var selectedText;
+        if (opts && opts.length > 0) {
+            var data = [];
+            opts.forEach(function (item) {
+                if (typeof item != "object") {
+                    if (item == options.selected) {
+                        selectedValue = item;
+                        selectedText = item;
+                    }
+                    data.push({
+                        value: item,
+                        text: item
+                    });
+                } else {
+                    if (item.value == options.selected) {
+                        selectedValue = item.value;
+                        selectedText = item.text;
+                    }
+                    data.push(item);
+                }
+            });
+            opts = data;
+
+            if (selectedValue == undefined) {
+                selectedValue = opts[0].value;
+                selectedText = opts[0].text;
+            }
+
+            self.attr("placeholder", options.text.input + selectedText);
+        }
+
+        var search = $(_.template(tpl)({
+            cfg: {
+                opts: opts,
+                selectedValue: selectedValue,
+                selectedText: selectedText
+            }
+        }));
+        self.after(search);
+        search.find(".input").prepend(self);
+        if (self.val().length > 0) {
+            search.find(".clear-btn").css("visibility", "visible");
+        }
+
+        self.on("click", function() {
+            search.find(".condition .options").hide();
+        });
+
+        $("body").on("click", function () {
+            search.find(".condition .options").hide();
+        });
+
+        search.find(".condition .selected").on("click", function (e) {
+            e.stopPropagation();
+            var opts = search.find(".condition .options");
+            if (opts.is(":hidden")) {
+                opts.show();
+            } else {
+                opts.hide();
+            }
+            search.find(".datepicker").remove();
+            search.find(".autocomplete .result").hide();
+        });
+
+        search.find(".condition .options li").on("click", function (e) {
+            e.stopPropagation();
+
+            var checked = $(this).find("span.checked");
+            var item = checked.next();
+
+            search.find(".condition .options li span.checked i").removeClass("bi-check-lg");
+            checked.find("i").addClass("bi-check-lg");
+
+            var selected = $(this).closest(".condition").find(".selected label");
+            selected.attr("value", item.attr("value"));
+            selected.text(item.text());
+
+            self.attr("placeholder", options.text.input + item.text());
+
+            search.find(".condition .options").hide();
+
+            options.onChange({
+                value: item.attr("value"),
+                text: item.text()
+            });
+        });
+
+        search.find(".clear-btn").on("click", function () {
+            options.onClear();
+            self.val("").change();
+        });
+
+        self.on("change", function () {
+            _clear();
+        });
+        self.on("keyup", function (e) {
+            _clear();
+            if (e.keyCode == 13) {
+                _onSearch();
+            }
+        });
+
+        function _clear() {
+            if (self.val().length > 0) {
+                search.find(".clear-btn").css("visibility", "visible");
+            } else {
+                search.find(".clear-btn").css("visibility", "hidden");
+            }
+        }
+
+        function _onSearch() {
+            var keyword = self.val();
+            var option;
+            if (opts && opts.length > 0) {
+                var selected = search.find(".selected label")
+                option = {
+                    value: selected.attr("value"),
+                    text: selected.text()
+                };
+            }
+            self.blur();
+            options.onSearch(keyword, option);
+        }
+
+        search.find(".search-btn").on("click", function () {
+            _onSearch();
+        });
+    }
 }));

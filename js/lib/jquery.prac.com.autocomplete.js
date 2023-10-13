@@ -17,12 +17,13 @@
         }
         var defaultCfg = {
             limit: 0,
-            data: []
+            data: [],
+            onChange: function (value) { }
         };
         options = $.extend(true, {}, defaultCfg, options);
 
         var self = $(this);
-        var invalidFeedback = self.next();
+        var invalidFeedback = self.next(".invalid-feedback");
 
         var tpl = `
             <div class="autocomplete">
@@ -67,7 +68,7 @@
             return data;
         }
 
-        var selected = 0;
+        var selected;
         function _render(data, hidden) {
             $(".autocomplete .result").hide();
 
@@ -79,9 +80,10 @@
                 var value = $(this).attr("value");
                 self.val(value).change();
                 result.hide();
+                options.onChange(value);
             });
 
-            selected = 0;
+            selected = undefined;
             if (data.length > 0 && !hidden) {
                 result.show();
             } else {
@@ -97,6 +99,14 @@
             var items = result.find(".options li");
             var total = items.length;
 
+            if (selected == undefined) {
+                if (step > 0) {
+                    selected = 0;
+                } else {
+                    selected = 1;
+                }
+            }
+
             selected += step;
             selected = selected % total;
             if (selected < 0) {
@@ -108,18 +118,19 @@
                 index += total;
             }
             items.removeClass("selected");
-            
+
             var target = items.eq(index);
             target.addClass("selected");
-            var offset = result.find(".options").offset().top;
-            result.find(".options").scrollTop(target.offset().top - offset);
+            result.find(".options").scrollTop(index * target.height());
         }
 
         function _confirm() {
-            if (result.is(":hidden")) {
-                return;
-            }
-            result.find(".options li.selected").trigger("click");
+            var selected = result.find(".options li.selected");
+            if (selected.length > 0) {
+                result.find(".options li.selected").trigger("click");
+            } else {
+                options.onChange(self.val());
+            } 
         }
 
         // data
@@ -155,6 +166,7 @@
         var _setData;
         if (options.async) { // async
             self.on("focus", function () {
+                selected = 0;
                 if (self.val().length == 0) {
                     result.hide();
                     return;
@@ -189,6 +201,7 @@
             }
         } else { // static
             self.on("focus", function () {
+                selected = 0;
                 _complete();
             });
 
