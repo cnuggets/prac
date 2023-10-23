@@ -182,6 +182,11 @@
                 days: days
             }));
             self.after(datepicker);
+            if (options.position) {
+                for (var key in options.position) {
+                    datepicker.css(key, options.position[key]);
+                }
+            }
             datepicker.on("click", function (e) {
                 e.stopPropagation();
             });
