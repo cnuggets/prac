@@ -1466,3 +1466,63 @@ body {
 .p-search .op .search-btn i {
     color: rgb(0, 0, 0, 0.75);
 }
+
+
+.p-text-ellipsis {
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.p-text-ellipsis-ml {
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+.p-popover {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    z-index: 8;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 0.35rem;
+    padding: 0.5rem;
+}
+
+.p-arrow {
+    position: absolute;
+    z-index: 8;
+    color: #fff;
+}
+
+.p-progress {
+    transform: translateY(50%);
+}
+
+.p-progress .btn {
+    width: fit-content;
+    block-size: fit-content;
+    padding: 0 4px;
+    height: 1.5rem;
+    background-color: #198754;
+    border-radius: 4px;
+    color:#fff;
+    user-select: none;
+    position: relative;
+    top: -1rem;
+    transition: left 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.p-progress .progress-bar {
+    transition: none;
+    transition: width 0.2s ease-in-out;
+}
