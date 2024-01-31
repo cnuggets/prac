@@ -557,7 +557,7 @@
 
             var tpl = `
                 <% 
-                    var padding = footer.fixed ? "5rem" : "1rem";
+                    var padding = footer.fixed ? "5rem" : "revert-layer";
                 %>
                 <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
                     <div class="row">
@@ -1479,7 +1479,7 @@
         }));
         self.after(search);
         search.find(".input").prepend(self);
-        if (self.val().length > 0) {
+        if (self.length > 0 && self.val().length > 0) {
             search.find(".clear-btn").css("visibility", "visible");
         }
 
