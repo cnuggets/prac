@@ -52,6 +52,24 @@ args.forEach(function (arg, i) {
             if (!package.devDependencies["http-proxy"]) {
                 package.devDependencies["http-proxy"] = "^1.18.1";
             }
+            if (!package.devDependencies["grunt"]) {
+                package.devDependencies["grunt"] = "1.0.4";
+            }
+            if (!package.devDependencies["grunt-contrib-clean"]) {
+                package.devDependencies["grunt-contrib-clean"] = "2.0.0";
+            }
+            if (!package.devDependencies["grunt-contrib-copy"]) {
+                package.devDependencies["grunt-contrib-copy"] = "1.0.0";
+            }
+            if (!package.devDependencies["grunt-contrib-rename"]) {
+                package.devDependencies["grunt-contrib-rename"] = "0.2.0";
+            }
+            if (!package.devDependencies["grunt-contrib-uglify"]) {
+                package.devDependencies["grunt-contrib-uglify"] = "4.0.1";
+            }
+            if (!package.devDependencies["grunt-spritefiles"]) {
+                package.devDependencies["grunt-spritefiles"] = "0.0.4";
+            }
             fs.writeFileSync(base + "package.json", JSON.stringify(package, null, 4));
         } catch (e) {
             console.log("[warning] package.json is not found. Did you run 'npm init'?");
@@ -115,6 +133,7 @@ args.forEach(function (arg, i) {
         fs.copySync(path + "app.js", base + "app.js");
         fs.copySync(path + "config.js", base + "config.js");
         fs.copySync(path + "gitignore", base + ".gitignore");
+        fs.copySync(path + "dist/Gruntfile.js", base + "Gruntfile.js");
         console.log("Done.");
         return;
     }
