@@ -438,6 +438,12 @@
                     }
                 });
 
+                modal.find("input").on("keyup", function(e) {
+                    if (e.keyCode == 13) {
+                        confirmBtn.trigger("click");
+                    }
+                });
+
                 modal.on("hidden.bs.modal", function () {
                     modal.remove();
                 });
@@ -649,6 +655,12 @@
                 function _complete() {
                     waiting.hide();
                     confirmBtn.show();
+                }
+            });
+
+            self.find("input").on("keyup", function(e) {
+                if (e.keyCode == 13) {
+                    confirmBtn.trigger("click");
                 }
             });
 
