@@ -137,8 +137,9 @@
                     }
                 },
                 limit: 0,
+                accept: "*",
                 allowDownload: false,
-                beforeUpload: function(formData) {
+                beforeUpload: function (formData) {
 
                 },
                 onSuccess: function (result, textStatus, xhr) {
@@ -192,7 +193,7 @@
                     <div class="selection"><%=or%></div>
                     <div class="browse">
                         <button type="button" class="btn btn-secondary"><%=browse.label%></button>
-                        <input type="file" name="<%=fieldName%>" />
+                        <input type="file" name="<%=fieldName%>" <% if (accept != "*") { %>accept="<%=accept%>"<% } %> multiple />
                     </div>
                 </div>
             `;
@@ -206,7 +207,7 @@
                     </div>
                     <div class="select-file">
                         <button type="button" class="btn btn-secondary btn-sm"><%=browse.label%></button>
-                        <input type="file" name="<%=fieldName%>" />
+                        <input type="file" name="<%=fieldName%>" <% if (accept != "*") { %>accept="<%=accept%>"<% } %> multiple />
                     </div>
                 </div>
                 <hr/>
@@ -271,9 +272,10 @@
             uploader.find("input[type='file']").on("change", function (e) {
                 var files = e.originalEvent.target.files;
                 if (files.length > 0) {
-                    var file = files[0];
                     _first();
-                    _singleFile(file);
+                }
+                for (var i = 0; i < files.length; i++) {
+                    _singleFile(files[i]);
                 }
             });
             self.append(uploader);
@@ -316,6 +318,9 @@
                     function _do() {
                         if (item.isFile) {
                             item.file(function (file) {
+                                if (!_accept(file)) {
+                                    return;
+                                }
                                 _singleFile(file);
                             });
                         } else if (item.isDirectory) {
@@ -327,6 +332,25 @@
                 }
             });
 
+            function _accept(file) {
+                if (!options.accept || options.accept == "*") {
+                    return true;
+                }
+
+                var originalType = file.type;
+                if (originalType == options.accept) {
+                    return true;
+                }
+
+                var pattern = originalType.split("/")[0] + "/*"
+                var type = types[pattern];
+                if (type && pattern == options.accept) {
+                    return true;
+                }
+
+                return false;
+            }
+
             function _first() {
                 if (self.find(".init").is(":visible")) {
                     self.find(".init").hide();
@@ -335,9 +359,8 @@
                     list.show();
                     list.find("input[type='file']").on("change", function (e) {
                         var files = e.originalEvent.target.files;
-                        if (files.length > 0) {
-                            var file = files[0];
-                            _singleFile(file);
+                        for (var i = 0; i < files.length; i++) {
+                            _singleFile(files[i]);
                         }
                     });
                     list.find(".path").on("click", function () {
@@ -350,7 +373,9 @@
             function _singleFile(file) {
                 _addFile({
                     name: file.name,
-                    type: _type(file).name
+                    type: _type(file).name,
+                    path: file.name,
+                    size: file.size,
                 }, [{
                     obj: file,
                     path: file.name
@@ -381,7 +406,7 @@
                     path: tree.path ? tree.path : tree.name,
                     type: tree.type,
                     icon: icons[tree.type],
-                    parent: "",
+                    parent: "/",
                     allowDownload: options.allowDownload
                 }));
                 self.find(".list").append(item);
@@ -435,7 +460,6 @@
             function _bindDelete(item) {
                 item.find(".op [delete]").on("click", function () {
                     var self = $(this);
-                    options.onDelete(self.attr("name"), self.attr("path"), self.attr("type"));
                     var children = pathMap[self.attr("parent")];
                     var index = -1;
                     if (children) {
@@ -449,9 +473,16 @@
                         children.splice(index, 1);
                     }
                     if (self.attr("type") == "directory") {
+                        var path = self.attr("path");
                         delete pathMap[self.attr("path")];
+                        for (var key in pathMap) {
+                            if (key.indexOf(path) == 0) {
+                                delete pathMap[key];
+                            }
+                        }
                     }
                     self.closest(".file").remove();
+                    options.onDelete(self.attr("name"), self.attr("path"), self.attr("type"));
                 });
             }
 
@@ -467,9 +498,15 @@
                     var child = {
                         name: item.name,
                     };
-                    parent.push(child);
+
                     if (item.isFile) {
                         item.file(function (file) {
+                            if (!_accept(file)) {
+                                callback();
+                                return;
+                            }
+
+                            parent.push(child);
                             files.push({
                                 obj: file,
                                 path: path + file.name
@@ -480,6 +517,7 @@
                             callback();
                         });
                     } else if (item.isDirectory) {
+                        parent.push(child);
                         child.type = "directory";
                         child.path = path + item.name;
                         child.children = [];
@@ -516,6 +554,7 @@
                                 var path = $(this).attr("path");
                                 _switchDir(path);
                                 $(this).nextAll("div.path").remove();
+                                
                             });
 
                             self.find(".list[root]").hide();
@@ -533,6 +572,23 @@
                         }
                     }
                 }
+            }
+
+            function _total() {
+                var total = 0;
+                for (var path in pathMap) {
+                    var children = pathMap[path];
+                    children.forEach(function(child) {
+                        if (child.type != "directory") {
+                            total ++;
+                        }
+                    });
+                }
+                return total;
+            }
+
+            return {
+                total: _total
             }
         }
 

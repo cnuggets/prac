@@ -438,7 +438,7 @@
                     }
                 });
 
-                modal.find("input").on("keyup", function(e) {
+                modal.find("input").on("keyup", function (e) {
                     if (e.keyCode == 13) {
                         confirmBtn.trigger("click");
                     }
@@ -561,111 +561,128 @@
             };
             options = $.extend(true, {}, defaultCfg, options);
 
-            var tpl = `
-                <% 
-                    var padding = footer.fixed ? "5rem" : "revert-layer";
-                %>
-                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
-                    <div class="row">
-                        <% if (footer.element) { %>
-                            <% if (footer.align == "right") { %>
-                                <div class="col-md-6" element>
-                                </div>
-                                <div class="col-md-6" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
-                                    <% if (!cancel.disabled) { %>
-                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
-                                    <% } %>
-                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                    </button>
-                                </div>
-                            <% } else { %>
-                                <div class="col-md-6" style="padding-left: <%=padding%>">
-                                    <% if (!cancel.disabled) { %>
-                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
-                                    <% } %>
-                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                    </button>
-                                </div>
-                                <div class="col-md-6" element>
-                                </div>
-                            <% } %>
-                        <% } else { %>
-                            <% if (footer.align == "right") { %>
-                                <div class="col-md-12" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
-                            <% } else { %>
-                                <div class="col-md-12" style="padding-left: <%=padding%>">
-                            <% } %>
-                                <% if (!cancel.disabled) { %>
-                                    <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+            var confirmBtn;
+            var cancelBtn;
+            if (options.confirm.btn && (options.cancel.btn || options.cancel.disabled)) { // customized buttons
+                confirmBtn = options.confirm.btn;
+                confirmBtn.on("click", function () {
+                    if (!_validation(self)) {
+                        return;
+                    }
+                    if (options.confirm.onConfirm) {
+                        options.confirm.onConfirm(_data(self));
+                    }
+                });
+            } else { // create buttons in footer
+                var tpl = `
+                    <% 
+                        var padding = footer.fixed ? "5rem" : "revert-layer";
+                    %>
+                    <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
+                        <div class="row">
+                            <% if (footer.element) { %>
+                                <% if (footer.align == "right") { %>
+                                    <div class="col-md-6" element>
+                                    </div>
+                                    <div class="col-md-6" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
+                                        <% if (!cancel.disabled) { %>
+                                            <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                        <% } %>
+                                        <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                        <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                            <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                        </button>
+                                    </div>
+                                <% } else { %>
+                                    <div class="col-md-6" style="padding-left: <%=padding%>">
+                                        <% if (!cancel.disabled) { %>
+                                            <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                        <% } %>
+                                        <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                        <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                            <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6" element>
+                                    </div>
                                 <% } %>
-                                <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                    <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                </button>
-                            </div>
-                        <% } %>
+                            <% } else { %>
+                                <% if (footer.align == "right") { %>
+                                    <div class="col-md-12" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
+                                <% } else { %>
+                                    <div class="col-md-12" style="padding-left: <%=padding%>">
+                                <% } %>
+                                    <% if (!cancel.disabled) { %>
+                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                    <% } %>
+                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                    </button>
+                                </div>
+                            <% } %>
+                        </div>
                     </div>
-                </div>
-            `;
-            var footer = $(_.template(tpl)(options));
+                `;
+                var footer = $(_.template(tpl)(options));
 
-            if (options.footer.fixed) {
-                self.css("margin-bottom", "5rem");
-                if ($(".side-menu").length > 0) {
-                    if ($(".side-menu").hasClass("fold")) {
-                        footer.css("margin-left", "2rem");
-                    } else {
-                        footer.css("margin-left", "20rem");
+                if (options.footer.fixed) {
+                    self.css("margin-bottom", "5rem");
+                    if ($(".side-menu").length > 0) {
+                        if ($(".side-menu").hasClass("fold")) {
+                            footer.css("margin-left", "2rem");
+                        } else {
+                            footer.css("margin-left", "20rem");
+                        }
                     }
                 }
-            }
 
-            if (options.footer.element) {
-                footer.find("[element]").append(options.footer.element);
-            }
-
-            var cancelBtn = footer.find("button[cancel]");
-            cancelBtn.on("click", function () {
-                if (options.cancel.onCancel) {
-                    options.cancel.onCancel();
-                }
-            });
-
-            var confirmBtn = footer.find("button[confirm]");
-            var waiting = footer.find("button[waiting]");
-            confirmBtn.on("click", function () {
-                if (!_validation(self)) {
-                    return;
+                if (options.footer.element) {
+                    footer.find("[element]").append(options.footer.element);
                 }
 
-                waiting.show();
-                confirmBtn.hide();
-                if (options.confirm.onConfirm) {
-                    options.confirm.onConfirm(_data(self), function () {
+                cancelBtn = footer.find("button[cancel]");
+
+                confirmBtn = footer.find("button[confirm]");
+                var waiting = footer.find("button[waiting]");
+                confirmBtn.on("click", function () {
+                    if (!_validation(self)) {
+                        return;
+                    }
+
+                    waiting.show();
+                    confirmBtn.hide();
+                    if (options.confirm.onConfirm) {
+                        options.confirm.onConfirm(_data(self), function () {
+                            _complete();
+                        }, self);
+                    } else {
                         _complete();
-                    }, self);
-                } else {
-                    _complete();
-                }
+                    }
 
-                function _complete() {
-                    waiting.hide();
-                    confirmBtn.show();
-                }
-            });
+                    function _complete() {
+                        waiting.hide();
+                        confirmBtn.show();
+                    }
+                });
 
-            self.find("input").on("keyup", function(e) {
+                self.find("[form-footer]").remove();
+                self.append(footer);
+            }
+
+            if (cancelBtn) {
+                cancelBtn.on("click", function () {
+                    if (options.cancel.onCancel) {
+                        options.cancel.onCancel();
+                    }
+                });
+            }
+
+            self.find("input").on("keyup", function (e) {
                 if (e.keyCode == 13) {
                     confirmBtn.trigger("click");
                 }
             });
-
-            self.find("[form-footer]").remove();
-            self.append(footer);
         }
     }());
 
@@ -1495,7 +1512,7 @@
             search.find(".clear-btn").css("visibility", "visible");
         }
 
-        self.on("click", function() {
+        self.on("click", function () {
             search.find(".condition .options").hide();
         });
 
@@ -1799,6 +1816,9 @@
             max: 100,
             default: 0,
             step: 1,
+            btn: {
+                disabled: false
+            },
             formatter: function (value) {
                 return value;
             },
@@ -1811,7 +1831,9 @@
                 <div class="progress" style="height: <%=height%>px">
                     <div class="progress-bar<%_.each(classes, function(c) {%> <%=c%><% }); %>" role="progressbar"></div>
                 </div>
+                <% if (!btn.disabled) { %>
                 <div class="btn<%_.each(classes, function(c) { %><% if (c.indexOf("bg-") == 0) { %> <%=c%><% } %><% }); %>"></div>
+                <% } %>
             </div>
         `;
 
