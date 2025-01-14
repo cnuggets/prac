@@ -62,56 +62,56 @@
                 </select>
                 <% } %>
             </div>            
-        `)({skip:parseInt(e),limit:parseInt(t),total:parseInt(i),url:n,queryString:f,pages:o,pageNos:c,options:a})),s.find("select[name='pageSize']").on("change",function(){route(n+"/0/"+m(this).find("option:selected").val()+f)})},m.fn.dialog=function(e,t,i){return a(m(this),e,t,i)},m.dialog=function(e,t,i){return a(null,e,t,i)},m.fn.confirm=function(e,t,i){return n(m(this),e,t,i)},m.confirm=function(e,t,i){return n(null,e,t,i)},m.fn.info=function(e,t){return i(m(this),e,t)},m.info=function(e,t){return i(null,e,t)},m.fn.alert=function(e,t){return s(m(this),e,t)},m.alert=function(e,t){return s(null,e,t)},m.fn.form=function(t){var i=m(this);t=t||{};t=m.extend(!0,{},{footer:{fixed:!1,align:"left"},confirm:{class:"primary",label:"Submit",waiting:"Waiting",onConfirm:null},cancel:{class:"secondary",label:"Cancel",onCancel:null,disabled:!1}},t);var e=m(v.template(`
-                <% 
-                    var padding = footer.fixed ? "5rem" : "revert-layer";
-                %>
-                <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
-                    <div class="row">
-                        <% if (footer.element) { %>
-                            <% if (footer.align == "right") { %>
-                                <div class="col-md-6" element>
-                                </div>
-                                <div class="col-md-6" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
-                                    <% if (!cancel.disabled) { %>
-                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
-                                    <% } %>
-                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                    </button>
-                                </div>
-                            <% } else { %>
-                                <div class="col-md-6" style="padding-left: <%=padding%>">
-                                    <% if (!cancel.disabled) { %>
-                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
-                                    <% } %>
-                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                    </button>
-                                </div>
-                                <div class="col-md-6" element>
-                                </div>
-                            <% } %>
-                        <% } else { %>
-                            <% if (footer.align == "right") { %>
-                                <div class="col-md-12" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
-                            <% } else { %>
-                                <div class="col-md-12" style="padding-left: <%=padding%>">
-                            <% } %>
-                                <% if (!cancel.disabled) { %>
-                                    <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+        `)({skip:parseInt(e),limit:parseInt(t),total:parseInt(i),url:n,queryString:f,pages:o,pageNos:c,options:a})),s.find("select[name='pageSize']").on("change",function(){route(n+"/0/"+m(this).find("option:selected").val()+f)})},m.fn.dialog=function(e,t,i){return a(m(this),e,t,i)},m.dialog=function(e,t,i){return a(null,e,t,i)},m.fn.confirm=function(e,t,i){return n(m(this),e,t,i)},m.confirm=function(e,t,i){return n(null,e,t,i)},m.fn.info=function(e,t){return i(m(this),e,t)},m.info=function(e,t){return i(null,e,t)},m.fn.alert=function(e,t){return s(m(this),e,t)},m.alert=function(e,t){return s(null,e,t)},m.fn.form=function(t){var i=m(this);t=t||{};var e,n,a,s;(t=m.extend(!0,{},{footer:{fixed:!1,align:"left"},confirm:{class:"primary",label:"Submit",waiting:"Waiting",onConfirm:null},cancel:{class:"secondary",label:"Cancel",onCancel:null,disabled:!1}},t)).confirm.btn&&(t.cancel.btn||t.cancel.disabled)?(a=t.confirm.btn).on("click",function(){r(i)&&t.confirm.onConfirm&&t.confirm.onConfirm(d(i))}):(e=m(v.template(`
+                    <% 
+                        var padding = footer.fixed ? "5rem" : "revert-layer";
+                    %>
+                    <div form-footer class="mt-2<% if (footer.fixed) { %> fixed-bottom border-top bg-white opacity-90 py-3<% } %>">
+                        <div class="row">
+                            <% if (footer.element) { %>
+                                <% if (footer.align == "right") { %>
+                                    <div class="col-md-6" element>
+                                    </div>
+                                    <div class="col-md-6" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
+                                        <% if (!cancel.disabled) { %>
+                                            <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                        <% } %>
+                                        <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                        <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                            <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                        </button>
+                                    </div>
+                                <% } else { %>
+                                    <div class="col-md-6" style="padding-left: <%=padding%>">
+                                        <% if (!cancel.disabled) { %>
+                                            <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                        <% } %>
+                                        <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                        <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                            <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6" element>
+                                    </div>
                                 <% } %>
-                                <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
-                                <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
-                                    <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
-                                </button>
-                            </div>
-                        <% } %>
+                            <% } else { %>
+                                <% if (footer.align == "right") { %>
+                                    <div class="col-md-12" style="display: flex;justify-content: right;-webkit-justify-content: flex-end;align-items: center;padding-right: <%=padding%>">
+                                <% } else { %>
+                                    <div class="col-md-12" style="padding-left: <%=padding%>">
+                                <% } %>
+                                    <% if (!cancel.disabled) { %>
+                                        <button type="button" class="btn btn-<%=cancel.class%> mx-3" cancel><%=cancel.label%></button>
+                                    <% } %>
+                                    <button type="button" class="btn btn-<%=confirm.class%>" confirm><%=confirm.label%></button>
+                                    <button class="btn btn-<%=confirm.class%>" disabled type="button" waiting style="display:none">
+                                        <span class="spinner-border spinner-border-sm"></span> <%=confirm.waiting%>...
+                                    </button>
+                                </div>
+                            <% } %>
+                        </div>
                     </div>
-                </div>
-            `)(t));t.footer.fixed&&(i.css("margin-bottom","5rem"),0<m(".side-menu").length&&(m(".side-menu").hasClass("fold")?e.css("margin-left","2rem"):e.css("margin-left","20rem"))),t.footer.element&&e.find("[element]").append(t.footer.element),e.find("button[cancel]").on("click",function(){t.cancel.onCancel&&t.cancel.onCancel()});var n=e.find("button[confirm]"),a=e.find("button[waiting]");n.on("click",function(){function e(){a.hide(),n.show()}r(i)&&(a.show(),n.hide(),t.confirm.onConfirm?t.confirm.onConfirm(d(i),function(){e()},i):e())}),i.find("input").on("keyup",function(e){13==e.keyCode&&n.trigger("click")}),i.find("[form-footer]").remove(),i.append(e)},m.fn.slider=function(s){s=s||{};var n,a,o=(s=m.extend(!0,{},{height:3,classes:[],min:0,max:100,default:0,step:1,onChange:function(e){}},s)).default,e=m(this),t=e.attr("disabled"),l=m(v.template(`
+                `)(t)),t.footer.fixed&&(i.css("margin-bottom","5rem"),0<m(".side-menu").length&&(m(".side-menu").hasClass("fold")?e.css("margin-left","2rem"):e.css("margin-left","20rem"))),t.footer.element&&e.find("[element]").append(t.footer.element),n=e.find("button[cancel]"),a=e.find("button[confirm]"),s=e.find("button[waiting]"),a.on("click",function(){function e(){s.hide(),a.show()}r(i)&&(s.show(),a.hide(),t.confirm.onConfirm?t.confirm.onConfirm(d(i),function(){e()},i):e())}),i.find("[form-footer]").remove(),i.append(e)),n&&n.on("click",function(){t.cancel.onCancel&&t.cancel.onCancel()}),i.find("input").on("keyup",function(e){13==e.keyCode&&a.trigger("click")})},m.fn.slider=function(s){s=s||{};var n,a,o=(s=m.extend(!0,{},{height:3,classes:[],min:0,max:100,default:0,step:1,onChange:function(e){}},s)).default,e=m(this),t=e.attr("disabled"),l=m(v.template(`
             <div class="slider">
                 <div class="progress" style="height: <%=height%>px">
                     <div class="progress-bar<%_.each(classes, function(c) {%> <%=c%><% }); %>" role="progressbar"></div>
@@ -168,14 +168,14 @@
                                 <label value="<%=value%>"><%=text%></label>
                                 <i class="bi bi-x-lg"></i>
                             </span>
-                        `)({value:e,text:n.text()}))).find("i").on("click",function(e){d.hasClass("disabled")||(e.stopPropagation(),u(m(this).closest("span")))}),i.addClass("bi-check-lg"),d.append(n),a.find("option[value='"+e+"']").prop("selected",!0).change())})}function u(e){var t=e.find("label").attr("value");f.find("li span[value='"+t+"']").siblings("span").find("i").removeClass("bi-check-lg"),e.remove(),a.find("option[value='"+t+"']").prop("selected",!1).change()}function h(t){c.show(),i.search.async(t,function(e){f.find("ul").html(v.template(`
+                        `)({value:e,text:n.text()}))).find("i").on("click",function(e){d.hasClass("disabled")||(e.stopPropagation(),u(m(this).closest("span")))}),i.addClass("bi-check-lg"),d.append(n),a.find("option[value='"+e+"']").prop("selected",!0).change())})}function u(e){var t=e.find("label").attr("value");f.find("li span[value='"+t+"']").siblings("span").find("i").removeClass("bi-check-lg"),e.remove(),a.find("option[value='"+t+"']").prop("selected",!1).change()}function b(t){c.show(),i.search.async(t,function(e){f.find("ul").html(v.template(`
                             <%_.each(options, function(option) {%>
                                 <li>
                                     <span class="checked"><i class="bi"></i></span>
                                     <span value="<%=option.value%>"><%=option.text%></span>
                                 </li>
                             <% }); %>
-                        `)({options:e})),b(t),a.find("option").remove(),a.append(m("<option value=''></option>")),e.forEach(function(e){var t=m("<option></option>");t.attr("value",e.value),t.text(e.text),a.append(t)}),c.hide();e=d.find("label").attr("value");a.find("option[value='"+e+"']").prop("selected",!0),f.find("ul li span[value='"+e+"']").siblings("span.checked").find("i").addClass("bi-check-lg"),m.each(d.find("span.item"),function(e,t){t=m(t).find("label").attr("value");a.find("option[value='"+t+"']").prop("selected",!0),f.find("ul li span[value='"+t+"']").siblings("span.checked").find("i").addClass("bi-check-lg")}),p(),i.search.autoSelect&&0==l.val().length&&f.find("ul.options li:first-child").trigger("click")})}function b(s,o){var e=f.find("ul.options li span:last-child");m.each(e,function(e,t){var i=m(t).text(),n=new RegExp(s,"i"),a=i.match(n);a?(a=i.substring(a.index,a.index+s.length),m(t).html(i.replace(n,"<b>"+a+"</b>")),m(t).closest("li").show()):o&&m(t).closest("li").hide()})}return m.each(d.find("span i"),function(e,t){m(t).on("click",function(e){e.stopPropagation(),u(m(this).closest("span"))})}),d.on("click",function(e){m(this).hasClass("disabled")||(e.stopPropagation(),f.is(":hidden")?f.show():f.hide())}),f.on("click",function(e){e.stopPropagation()}),m("body").on("click",function(){f.hide()}),p(),i.search&&(l=e.find(".search input"),c=f.find(".search .spinner-border"),i.search.async?(i.search.keyword&&l.val(i.search.keyword),i.search.autoTrigger&&h(l.val()),l.on("keyup",function(e){var t=m(this).val();clearTimeout(r),r=setTimeout(function(){h(t)},600)})):l.on("keyup",function(e){b(m(this).val(),!0)})),a.after(e),a.hide(),{disable:function(){f.hide(),d.addClass("disabled"),a.attr("disabled",!0)},enable:function(){d.removeClass("disabled"),a.removeAttr("disabled")},select:function(e){f.find("ul li span[value='"+e+"']").parent().trigger("click")}}},m.fn.stepper=function(t){var i=m(this);t=t||{};t=m.extend(!0,{},{class:"primary",default:0,step:1,decimal:0},t);var e=m(v.template(`
+                        `)({options:e})),h(t),a.find("option").remove(),a.append(m("<option value=''></option>")),e.forEach(function(e){var t=m("<option></option>");t.attr("value",e.value),t.text(e.text),a.append(t)}),c.hide();e=d.find("label").attr("value");a.find("option[value='"+e+"']").prop("selected",!0),f.find("ul li span[value='"+e+"']").siblings("span.checked").find("i").addClass("bi-check-lg"),m.each(d.find("span.item"),function(e,t){t=m(t).find("label").attr("value");a.find("option[value='"+t+"']").prop("selected",!0),f.find("ul li span[value='"+t+"']").siblings("span.checked").find("i").addClass("bi-check-lg")}),p(),i.search.autoSelect&&0==l.val().length&&f.find("ul.options li:first-child").trigger("click")})}function h(s,o){var e=f.find("ul.options li span:last-child");m.each(e,function(e,t){var i=m(t).text(),n=new RegExp(s,"i"),a=i.match(n);a?(a=i.substring(a.index,a.index+s.length),m(t).html(i.replace(n,"<b>"+a+"</b>")),m(t).closest("li").show()):o&&m(t).closest("li").hide()})}return m.each(d.find("span i"),function(e,t){m(t).on("click",function(e){e.stopPropagation(),u(m(this).closest("span"))})}),d.on("click",function(e){m(this).hasClass("disabled")||(e.stopPropagation(),f.is(":hidden")?f.show():f.hide())}),f.on("click",function(e){e.stopPropagation()}),m("body").on("click",function(){f.hide()}),p(),i.search&&(l=e.find(".search input"),c=f.find(".search .spinner-border"),i.search.async?(i.search.keyword&&l.val(i.search.keyword),i.search.autoTrigger&&b(l.val()),l.on("keyup",function(e){var t=m(this).val();clearTimeout(r),r=setTimeout(function(){b(t)},600)})):l.on("keyup",function(e){h(m(this).val(),!0)})),a.after(e),a.hide(),{disable:function(){f.hide(),d.addClass("disabled"),a.attr("disabled",!0)},enable:function(){d.removeClass("disabled"),a.removeAttr("disabled")},select:function(e){f.find("ul li span[value='"+e+"']").parent().trigger("click")}}},m.fn.stepper=function(t){var i=m(this);t=t||{};t=m.extend(!0,{},{class:"primary",default:0,step:1,decimal:0},t);var e=m(v.template(`
             <div class="input-group">
                 <button class="btn btn-<%=options.class%>" type="button"><i class="bi bi-dash"></i></button>
                 <button class="btn btn-<%=options.class%>" type="button"><i class="bi bi-plus-lg"></i></button>
@@ -231,12 +231,14 @@
                     <div class="p-content"></div>
                     <i class="bi p-arrow"></i>
                 </div>
-            `)()),t.after(n),"object"==typeof i?n.find(".p-content").append(i):n.find(".p-content").html(i));var n,a=(n=t.next(".p-popover")).find(".p-arrow");function s(){"top"==e.position?(a.addClass("bi-caret-down-fill"),n.css("top",t.position().top-n.outerHeight()-7),a.css("top",n.outerHeight()-10)):"bottom"==e.position?(a.addClass("bi-caret-up-fill"),n.css("top",t.position().top+t.outerHeight()+7),a.css("top",-14)):"left"==e.position?(a.addClass("bi-caret-right-fill"),n.css("left",t.position().left-n.outerWidth()-7),a.css("right",-9)):"right"==e.position&&(a.addClass("bi-caret-left-fill"),n.css("left",t.position().left+t.outerWidth()+7),a.css("left",-9)),"begin"==e.location?"top"==e.position||"bottom"==e.position?(a.css("left",.3*t.outerWidth()),n.css("left",t.position().left)):(a.css("top",.3*t.outerHeight()),n.css("top",t.position().top)):"end"==e.location?"top"==e.position||"bottom"==e.position?(a.css("right",.3*t.outerWidth()),n.css("left",t.position().left-(n.outerWidth()-t.outerWidth()))):(a.css("bottom",.3*t.outerHeight()),n.css("top",t.position().top-(n.outerHeight()-t.outerHeight()))):"middle"==e.location&&("top"==e.position||"bottom"==e.position?(a.css("left",.5*n.outerWidth()-a.outerWidth()/2),n.css("left",t.position().left+t.outerWidth()/2-n.outerWidth()/2)):(a.css("top",.5*n.outerHeight()-a.outerHeight()/2),n.css("top",t.position().top+t.outerHeight()/2-n.outerHeight()/2)))}return m("body").on("click",function(){m(".p-popover").hide()}),t.on("click",function(e){e.stopPropagation(),a.is(":hidden")?(m(".p-popover").hide(),n.show(),s()):n.hide()}),n.on("click",function(e){e.stopPropagation()}),m(window).on("resize",function(){s()}),{close:function(){n.hide()}}},m.fn.progress=function(s){s=s||{};var o=(s=m.extend(!0,{},{height:5,classes:["bg-primary"],min:0,max:100,default:0,step:1,formatter:function(e){return e},onChange:function(e){}},s)).default,e=m(this),l=m(v.template(`
+            `)()),t.after(n),"object"==typeof i?n.find(".p-content").append(i):n.find(".p-content").html(i));var n,a=(n=t.next(".p-popover")).find(".p-arrow");function s(){"top"==e.position?(a.addClass("bi-caret-down-fill"),n.css("top",t.position().top-n.outerHeight()-7),a.css("top",n.outerHeight()-10)):"bottom"==e.position?(a.addClass("bi-caret-up-fill"),n.css("top",t.position().top+t.outerHeight()+7),a.css("top",-14)):"left"==e.position?(a.addClass("bi-caret-right-fill"),n.css("left",t.position().left-n.outerWidth()-7),a.css("right",-9)):"right"==e.position&&(a.addClass("bi-caret-left-fill"),n.css("left",t.position().left+t.outerWidth()+7),a.css("left",-9)),"begin"==e.location?"top"==e.position||"bottom"==e.position?(a.css("left",.3*t.outerWidth()),n.css("left",t.position().left)):(a.css("top",.3*t.outerHeight()),n.css("top",t.position().top)):"end"==e.location?"top"==e.position||"bottom"==e.position?(a.css("right",.3*t.outerWidth()),n.css("left",t.position().left-(n.outerWidth()-t.outerWidth()))):(a.css("bottom",.3*t.outerHeight()),n.css("top",t.position().top-(n.outerHeight()-t.outerHeight()))):"middle"==e.location&&("top"==e.position||"bottom"==e.position?(a.css("left",.5*n.outerWidth()-a.outerWidth()/2),n.css("left",t.position().left+t.outerWidth()/2-n.outerWidth()/2)):(a.css("top",.5*n.outerHeight()-a.outerHeight()/2),n.css("top",t.position().top+t.outerHeight()/2-n.outerHeight()/2)))}return m("body").on("click",function(){m(".p-popover").hide()}),t.on("click",function(e){e.stopPropagation(),a.is(":hidden")?(m(".p-popover").hide(),n.show(),s()):n.hide()}),n.on("click",function(e){e.stopPropagation()}),m(window).on("resize",function(){s()}),{close:function(){n.hide()}}},m.fn.progress=function(s){s=s||{};var o=(s=m.extend(!0,{},{height:5,classes:["bg-primary"],min:0,max:100,default:0,step:1,btn:{disabled:!1},formatter:function(e){return e},onChange:function(e){}},s)).default,e=m(this),l=m(v.template(`
             <div class="p-progress">
                 <div class="progress" style="height: <%=height%>px">
                     <div class="progress-bar<%_.each(classes, function(c) {%> <%=c%><% }); %>" role="progressbar"></div>
                 </div>
+                <% if (!btn.disabled) { %>
                 <div class="btn<%_.each(classes, function(c) { %><% if (c.indexOf("bg-") == 0) { %> <%=c%><% } %><% }); %>"></div>
+                <% } %>
             </div>
         `)(s)),c=l.find(".progress-bar"),r=l.find(".btn");function t(e){(e=e>s.max?s.max:e)<s.min&&(e=s.min),o!=e&&(o=e,s.onChange(o)),r.text(s.formatter(o));var t,i,n=(t=e,i=r.outerWidth()/2,i=(s.max-s.min)/l.width()*i,a(t-i)),e=a(e);function a(e){return(e-s.min)/(s.max-s.min)*100}r.css("left",n+"%"),c.css("width",e+"%")}return e.append(l),s.height>r.outerHeight()&&(s.height=r.outerHeight(),l.find(".progress").css("height",r.outerHeight())),l.css("transform","translateY("+(r.outerHeight()/2+1)+"px)"),r.css("top",-(r.outerHeight()/2+s.height/2)+"px"),t(s.default),m(window).on("resize",function(){t(o)}),{setValue:function(e){t(e)},getValue:function(){return o}}}});
 //# sourceMappingURL=jquery.prac.component.js.map
