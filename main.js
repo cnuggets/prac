@@ -10,9 +10,7 @@ prac.config({
     routes: {
         // Add your routers here
         // For example
-        home: { path: "/", moduleId: "app/home/home" },
-        component: { path: "/component", moduleId: "app/component/component" },
-        detail: { path: "/detail/:p", moduleId: "app/detail/detail" }
+        home: { path: "/", moduleId: "app/home/home" }
     },
     interceptor: { // Add your interceptors here
         init: function ($) { },
