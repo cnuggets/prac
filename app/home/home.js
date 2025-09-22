@@ -5,7 +5,7 @@ define(["text!app/home/home-tpl.html", "underscore", "jquery", "component"], fun
     }
 
     return {
-        name: "home",
+        name: "Home",
         init: function () {
             _init();
         },

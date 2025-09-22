@@ -1,0 +1,547 @@
+<nav style="--bs-breadcrumb-divider: '>';">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/" p-router="back">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Component</li>
+    </ol>
+</nav>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <form class="g-3 needs-validation" novalidate onsubmit="return false;" id="form-me">
+            <div editor></div>
+        </form>
+        <button class="btn btn-primary" type="button" md>markdown</button>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <form class="g-3 needs-validation" novalidate onsubmit="return false;" id="form-cond">
+            <div cond></div>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <form class="g-3 needs-validation" novalidate onsubmit="return false;" id="form-ms">
+            <select class="form-select" name="is" required="" multiple placeholder="please select">
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five</option>
+                <option value="6">Six</option>
+                <option value="7">Seven</option>
+                <option value="8">Eight</option>
+                <option value="9">Nine</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-6" el>
+        The ellipsis is also called a suspension point, points of ellipsis, periods of ellipsis, or (colloquially)
+        "dot-dot-dot".Depending on their context and placement in a sentence, ellipses can indicate an unfinished
+        thought, a leading statement, a slight pause, an echoing voice, or a nervous or awkward silence. Aposiopesis is
+        the use of an ellipsis to trail off into silence—for example: "But I thought he was..." When placed at the end
+        of a sentence, an ellipsis may be used to suggest melancholy or longing.
+        The most common forms of an ellipsis include a row of three periods or full points ... or a precomposed
+        triple-dot glyph, the horizontal ellipsis …. Style guides often have their own rules governing the use of
+        ellipses. For example, The Chicago Manual of Style (Chicago style) recommends that an ellipsis be formed by
+        typing three periods, each with a space on both sides . . . , while the Associated Press Stylebook (AP style)
+        puts the dots together, but retains a space before and after the group, thus: ... .Whether an ellipsis at the
+        end of a sentence needs a fourth dot to finish the sentence is a matter of debate; Chicago advises it,as does
+        the Publication Manual of the American Psychological Association (APA style),while some other style guides do
+        not; the Merriam-Webster Dictionary and related works treat this style as optional, saying that it "may" be
+        used.
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-5">
+        <button class="btn btn-primary" type="button" pop
+            title="hidden are absolutely necessary as the first one">Popover</button>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-8">
+        <div id="progress"></div>
+    </div>
+</div>
+
+<form class="row g-3 needs-validation mt-4" novalidate onsubmit="return false;" id="test">
+    <div class="col-md-6">
+        <input type="text" name="keyword" class="form-control" placeholder="输入名称" autocomplete="off" />
+        <div class="invalid-feedback">
+            请输入查询条件
+        </div>
+    </div>
+</form>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="dd-uploader">
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-3">
+        <form class="row g-3 needs-validation" novalidate onsubmit="return false;" id="ac">
+            <input type="text" class="form-control" name="ac" required>
+            <div class="invalid-feedback">Please input ac</div>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-3">
+        <input type="text" class="form-control" name="ac1" required>
+    </div>
+</div>
+
+<div class="row">
+    <form class="col-6 g-3 needs-validation" novalidate onsubmit="return false;" id="form2">
+        <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">定时</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="cron" value="1 23 * 1,6 5" required>
+                <div class="invalid-feedback">
+                    请输入正确的crontab表达式
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-3">
+        <input type="text" class="form-control form-control-lg">
+        <div class="crontab">
+            <div class="op">
+                <div class="expression">
+                    <div class="input input-lg">
+                        <input type="text" value="59" minute>
+                        <input type="text" value="23" hour>
+                        <input type="text" value="2" day-of-month>
+                        <input type="text" value="*" month>
+                        <input type="text" value="*" day-of-week>
+                    </div>
+                    <div class="part">
+                        <label>分</label>
+                        <label>小时</label>
+                        <label>天(月)</label>
+                        <label>月</label>
+                        <label>天(周)</label>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" class="copy">
+                    <i class="bi bi-stickies"></i>
+                </a>
+            </div>
+            <div class="next-run">
+                <label>下次执行时间:</label>
+                <div>2024-03-01 23:59:59</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/detail/valuea?test=456" p-router="push">Detail</a>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="uploader"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div tree></div>
+        <a class="btn btn-primary" href="javascript:void(0)" id="tree-data">Tree Data</a>
+        <!-- <div class="tree">
+            <ul>
+                <li>
+                    <div class="node">
+                        <div class="item">
+                            <div class="content">
+                                <i class="bi bi-file-earmark file"></i>
+                                <span class="text">My heartAudio(mp3).mp3</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">Audio(mp3)</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">100K</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">2022/1/23</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="node unfold">
+                        <i class="bi bi-caret-right-fill"></i>
+                        <div class="item">
+                            <div class="content">
+                                <i class="bi bi-folder-fill text-warning folder"></i>
+                                <span class="text">Videos</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">Folder1111</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">100K</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">2022/1/23</span>
+                            </div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="node">
+                                <div class="item">
+                                    <div class="content">
+                                        <i class="bi bi-file-earmark"></i>
+                                        <span class="text">Video1.mp4</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">Video(mp4)</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">100K</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">2022/1/23</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="node">
+                                <div class="item">
+                                    <div class="content">
+                                        <i class="bi bi-file-earmark"></i>
+                                        <span class="text">Video2.mp4</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">Video(mp4)</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">100K</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">2022/1/23</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="node">
+                                <i class="bi bi-caret-right-fill"></i>
+                                <div class="item">
+                                    <div class="content">
+                                        <i class="bi bi-folder-fill text-warning folder"></i>
+                                        <span class="text">Videos</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">Video(mp4)</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">100K</span>
+                                    </div>
+                                    <div class="description">
+                                        <span class="text">2022/1/23</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="node">
+                                        <div class="item">
+                                            <div class="content">
+                                                <i class="bi bi-file-earmark"></i>
+                                                <span class="text">Video1.mp4</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">Video(mp4)</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">100K</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">2022/1/23</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="node">
+                                        <div class="item">
+                                            <div class="content">
+                                                <i class="bi bi-file-earmark"></i>
+                                                <span class="text">Video2.mp4</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">Video(mp4)</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">100K</span>
+                                            </div>
+                                            <div class="description">
+                                                <span class="text">2022/1/23</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="node">
+                        <div class="item">
+                            <div class="content">
+                                <i class="bi bi-file-earmark file"></i>
+                                <span class="text">My heartAudio(mp3).mp3</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">Audio(mp3)</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">100K</span>
+                            </div>
+                            <div class="description">
+                                <span class="text">2022/1/23</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mt-5">
+        <form class="row g-3 needs-validation" novalidate onsubmit="return false;" id="form">
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">省</label>
+                <select class="form-select" name="province" required id="province">
+                </select>
+                <div class="invalid-feedback">Please select province</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">市</label>
+                <select class="form-select" name="city" required id="city">
+                </select>
+                <div class="invalid-feedback">Please select city</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">区</label>
+                <select class="form-select" name="district" required id="district">
+                </select>
+                <div class="invalid-feedback">Please select district</div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    not good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Last name</label>
+                <input type="text" class="form-control" id="validationCustom02" required>
+                <div class="invalid-feedback">
+                    not good!
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="validationCustomUsername" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                    <input type="text" class="form-control" id="validationCustomUsername"
+                        aria-describedby="inputGroupPrepend" required>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">City</label>
+                <input type="text" class="form-control" id="validationCustom03" required>
+                <div class="invalid-feedback">
+                    Please provide a valid city.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom05" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="validationCustom05" pattern="^[0-9]+$">
+                <div class="invalid-feedback">
+                    Please provide a valid zip.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Test</label>
+                <select class="form-select" aria-label="Default select example" required>
+                    <option value="">Please select</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select.
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="validationCustom03" class="form-label">Multi Select</label>
+                <select class="form-select" name="multi" multiple required>
+                    <option value="1">One</option>
+                    <option value="2" selected>Two</option>
+                    <option value="3">Three</option>
+                    <option value="4" selected>Four</option>
+                    <option value="5" selected>Five</option>
+                    <option value="6">Six</option>
+                    <option value="7">Seven</option>
+                    <option value="8">Eight</option>
+                    <option value="9">Nine</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select, you can select multiple items.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="validationCustom03" required p-integer min="1" max="99999" placeholder="number">
+                <div class="invalid-feedback">
+                    Please provide a phone number.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Birthday</label>
+                <input type="text" class="form-control" id="birthday" required>
+                <div class="invalid-feedback">
+                    Please provide your birthday.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="validationCustom03" class="form-label">Stepper</label>
+                <input type="text" class="form-control" id="stepper">
+            </div>
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Switch</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                </div>
+            </div>
+            <div class="col-12 position-relative">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                    </label>
+                    <div class="invalid-tooltip">
+                        You must agree before submitting.
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <!-- <button type="button" class="btn btn-primary mb-3" id="save1">Save</button>
+                <button type="button" class="btn btn-secondary mb-3" id="cancel1">cancel</button> -->
+            </div>
+        </form>
+    </div>
+    <div class="col-md-12">
+        <a class="btn btn-danger" href="javascript:void(0)" id="alert">Alert</a><br />
+        <a class="btn btn-danger" href="javascript:void(0)" p-alert="This is a auto bind alert">Auto alert
+            info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" id="info">Info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" p-info="This is a auto bind info">Auto bind info</a><br />
+        <a class="btn btn-info" href="javascript:void(0)" id="dialog">Dialog</a><br />
+        <a class="btn btn-warning" href="javascript:void(0)" id="confirm">Confirm</a><br />
+    </div>
+    <div class="col-md-6 mt-5">
+        <div p-slider max="150" min="40" default="77"></div>
+    </div>
+    <div class="col-md-6 mt-5">
+        <div id="slider"></div>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+</div>
+
+<script type="text/html" id="form-tpl">
+    <form class="row g-3 needs-validation" novalidate onsubmit="return false;">
+        <div class="col-md-4">
+            <label for="validationCustom01" class="form-label">First name</label>
+            <input type="text" class="form-control" id="validationCustom01" required>
+            <div class="invalid-feedback">
+                not good!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="validationCustom02" required>
+            <div class="invalid-feedback">
+                not good!
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label for="validationCustomUsername" class="form-label">Username</label>
+            <div class="input-group has-validation">
+                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+                    required>
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="validationCustom03" class="form-label">City</label>
+            <input type="text" class="form-control" id="validationCustom03" required>
+            <div class="invalid-feedback">
+                Please provide a valid city.
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label for="validationCustom05" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="validationCustom05" pattern="^[0-9]+$">
+            <div class="invalid-feedback">
+                Please provide a valid zip.
+            </div>
+        </div>
+        <div class="col-md-6">
+            <select class="form-select" aria-label="Default select example" required>
+                <option value="">Please select</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col-12 position-relative">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                    Agree to terms and conditions
+                </label>
+                <div class="invalid-tooltip">
+                    You must agree before submitting.
+                </div>
+            </div>
+        </div>   
+    </form>
+</script>

@@ -6,6 +6,38 @@ body {
     overflow-x: hidden;
 }
 
+.bg-indigo {
+    background-color: #6610f2!important;
+}
+
+.bg-purple {
+    background-color: #6f42c1!important;
+}
+
+.bg-blue {
+    background-color: #0d6efd!important;
+}
+
+.bg-pink {
+    background-color: #d63384!important;
+}
+
+.bg-red {
+    background-color: #dc3545!important;
+}
+
+.bg-orange {
+    background-color: #984c0c!important;
+}
+
+.bg-cyan {
+    background-color: #0aa2c0!important;
+}
+
+.bg-gray {
+    background-color: #495057!important;
+}
+
 .navbar.navbar-light {
     border-bottom: 1px solid #e9ecef;
     box-shadow: 2px 1px 2px 1px rgb(0 0 0 / 5%);
@@ -65,6 +97,7 @@ body {
 
 .multiselect {
     position: relative;
+    background-color: #fff;
 }
 
 .multiselect .selected {
@@ -101,6 +134,27 @@ body {
     display: inline-block;
     line-height: 2.375rem;
     margin-left: 0.25rem;
+}
+
+.multiselect .selected input {
+    border: none;
+    margin: 0.3rem 0;
+    padding: 0;
+}
+
+.multiselect .selected input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.multiselect .placeholder {
+    background: none;
+    position: absolute;
+    left: 0.8rem;
+    display: flex;
+    align-items: center;
+    min-height: 2.375rem;
 }
 
 .multiselect .select {
@@ -161,17 +215,20 @@ body {
     padding-left: 2rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     width: 100%;
+    display: flex;
+    align-items: center;
+    height: 2.25rem;
 }
 
 .multiselect .select .search i.bi-search {
     font-size: 1rem;
+    margin-right: 0.5rem;
 }
 
 .multiselect .select .search input {
     border: none;
     background-color: #fff;
     outline-color: rgba(0, 0, 0, 0);
-    margin-bottom: 0.5rem;
     color: #212529;
     width: 80%;
 }
@@ -189,6 +246,20 @@ body {
     right: 1rem;
     top: 0.25rem;
     display: none;
+}
+
+.multiselect .select .waiting {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.multiselect .select .no-data {
+    display: none;
+    line-height: 2rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .multiselect .bi-chevron-down {
@@ -276,13 +347,13 @@ body {
     transition: left 0.2s ease-in;
 }
 
-.side-menu ~ .content {
+.side-menu~.content {
     margin-left: 21rem;
     padding: 1rem;
     transition: margin-left 0.2s ease-in;
 }
 
-.navbar.fixed ~ .content {
+.navbar.fixed~.content {
     margin-top: 4rem;
 }
 
@@ -309,7 +380,7 @@ body {
     height: 3rem;
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
 }
 
 .side-menu ul.menu {
@@ -336,11 +407,11 @@ body {
     padding-left: 1rem;
 }
 
-.side-menu ul li a ~ ul {
+.side-menu ul li a~ul {
     display: none;
 }
 
-.side-menu ul li a ~ ul li {
+.side-menu ul li a~ul li {
     padding-left: 1rem;
 }
 
@@ -359,7 +430,8 @@ body {
     text-align: right;
 }
 
-.side-menu ul li a.selected, .side-menu ul li a:hover {
+.side-menu ul li a.selected,
+.side-menu ul li a:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -397,7 +469,7 @@ body {
     display: none;
 }
 
-.side-menu.fold ~ .content {
+.side-menu.fold~.content {
     margin-left: 3rem;
     transition: margin-left 0.2s ease-in;
 }
@@ -460,7 +532,7 @@ body {
     align-items: center;
 }
 
-.datepicker .year-month>div>*{
+.datepicker .year-month>div>* {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -692,7 +764,8 @@ body {
     font-size: 20px;
 }
 
-.uploader .file .uploading, .uploader .file .failed {
+.uploader .file .uploading,
+.uploader .file .failed {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -716,7 +789,8 @@ body {
     animation: 0.75s linear infinite spinner-border;
 }
 
-.uploader .file .uploading span, .uploader .file .failed span {
+.uploader .file .uploading span,
+.uploader .file .failed span {
     color: #fff;
     font-size: 0.875rem;
     width: 100%;
@@ -939,7 +1013,8 @@ body {
     width: 100%;
 }
 
-.tree ul li .node, .tree .moving-node {
+.tree ul li .node,
+.tree .moving-node {
     width: 100%;
     display: flex;
     height: 2rem;
@@ -963,11 +1038,13 @@ body {
     padding: 0 0.5rem;
 }
 
-.tree ul li .node>i.bi, .tree .moving-node>i.bi {
+.tree ul li .node>i.bi,
+.tree .moving-node>i.bi {
     color: rgb(33, 37, 41, 0.6);
 }
 
-.tree ul li .node>.item, .tree .moving-node>.item{
+.tree ul li .node>.item,
+.tree .moving-node>.item {
     height: 100%;
     width: calc(100% - 1.5rem);
     display: flex;
@@ -979,17 +1056,20 @@ body {
     margin-left: 0.5rem;
 }
 
-.tree ul li .node>.item>*, .tree .moving-node>.item>* {
+.tree ul li .node>.item>*,
+.tree .moving-node>.item>* {
     display: flex;
     align-items: center;
 }
 
-.tree ul li .node>.item>.content>i.bi, .tree .moving-node>.item>.content>i.bi {
+.tree ul li .node>.item>.content>i.bi,
+.tree .moving-node>.item>.content>i.bi {
     width: 1.25rem;
     color: rgb(33, 37, 41, 0.4);
 }
 
-.tree ul li .node>.item>.content>.text, .tree .moving-node>.item.content>.text {
+.tree ul li .node>.item>.content>.text,
+.tree .moving-node>.item.content>.text {
     width: calc(100% - 1.25rem);
     white-space: nowrap;
     overflow: hidden;
@@ -1004,7 +1084,7 @@ body {
     align-items: center;
 }
 
-.tree ul li .node>.item>.description>.text{
+.tree ul li .node>.item>.description>.text {
     white-space: nowrap;
     overflow: hidden;
     display: inline-block;
@@ -1092,7 +1172,7 @@ body {
 
 .tree ul li .node>.item input[type='text'] {
     border: none;
-    color: #212529!important;
+    color: #212529 !important;
     border-radius: 2px;
     width: 88%;
 }
@@ -1248,11 +1328,11 @@ body {
     margin-left: 2rem;
 }
 
-.form-control.is-invalid ~ .crontab .expression .input {
+.form-control.is-invalid~.crontab .expression .input {
     border-color: #dc3545;
 }
 
-.form-control.is-valid ~ .crontab .expression .input {
+.form-control.is-valid~.crontab .expression .input {
     border-color: #198754;
 }
 
@@ -1268,7 +1348,7 @@ body {
     padding: 0.5rem 0;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     border-radius: 0.25rem;
     text-align: left;
     width: 100%;
@@ -1336,12 +1416,12 @@ body {
 }
 
 .p-search .condition .selected:after {
-    position: absolute;    
-    top: 0.5rem;    
-    height: calc(100% - 1rem);    
-    right: 0;    
-    content:'';    
-    width: 0;    
+    position: absolute;
+    top: 0.5rem;
+    height: calc(100% - 1rem);
+    right: 0;
+    content: '';
+    width: 0;
     border-right: 1px solid #ced4da;
 }
 
@@ -1418,12 +1498,12 @@ body {
 }
 
 .p-search .op .clear-btn:after {
-    position: absolute;    
-    top: 0.5rem;    
-    height: calc(100% - 1rem);    
-    right: 0;    
-    content:'';    
-    width: 0;    
+    position: absolute;
+    top: 0.5rem;
+    height: calc(100% - 1rem);
+    right: 0;
+    content: '';
+    width: 0;
     border-right: 1px solid #ced4da;
 }
 
@@ -1476,11 +1556,11 @@ body {
 }
 
 .p-text-ellipsis-ml {
-    display: -webkit-box; 
-    -webkit-box-orient: vertical; 
-    -webkit-line-clamp: 2; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .p-popover {
@@ -1510,7 +1590,7 @@ body {
     height: 1.5rem;
     background-color: #198754;
     border-radius: 4px;
-    color:#fff;
+    color: #fff;
     user-select: none;
     position: relative;
     top: -1rem;
@@ -1525,4 +1605,1483 @@ body {
 .p-progress .progress-bar {
     transition: none;
     transition: width 0.2s ease-in-out;
+}
+
+.p-minieditor {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+.p-minieditor .me-header {
+    display: flex;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.875rem;
+    border-bottom: 1px solid #ced4da;
+}
+
+.p-minieditor .me-header .title {
+    font-weight: bold;
+}
+
+.p-minieditor .me-header .tools {
+    display: flex;
+    align-items: center;
+}
+
+.p-minieditor .me-header .tools a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #212529;
+    text-align: center;
+    margin-right: 0.3rem;
+    font-size: 1.2rem;
+}
+
+.p-minieditor .me-header .tools a:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+}
+
+.p-minieditor .me-header .tools a.selected {
+    color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.2);
+}
+
+.p-minieditor .me-header .tools .font .btn {
+    padding: 0.2rem 0.4rem;
+    background-color: rgba(0, 0, 0, 0);
+    color: #212529;
+    border: none;
+    margin-right: 0.3rem;
+}
+
+.p-minieditor .me-header .tools .font .dropdown-toggle::after {
+    margin-left: 0;
+}
+
+.p-minieditor .me-header .tools .font .btn:focus {
+    box-shadow: none;
+}
+
+.p-minieditor .me-header .tools .font .btn:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+}
+
+.p-minieditor .me-header .tools .font .dropdown-item {
+    justify-content: flex-start;
+    height: 2rem;
+}
+
+.p-minieditor .me-header .tools .extension .btn {
+    padding: 0.2rem 0.4rem;
+    background-color: rgba(0, 0, 0, 0);
+    color: #212529;
+    border: none;
+    margin-right: 0.3rem;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-toggle::after {
+    display: none;
+    margin-left: 0;
+}
+
+.p-minieditor .me-header .tools .extension .btn:focus {
+    box-shadow: none;
+}
+
+.p-minieditor .me-header .tools .extension .btn:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+}
+
+.p-minieditor .me-header .tools .extension li {
+    margin: 0 0.25rem;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-menu {
+    padding: 0.3rem 0.1rem !important;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-item {
+    align-items: center;
+    border-radius: 0.25rem;
+    margin: 0;
+    padding: 0.2rem;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-item i {
+    width: 2rem;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-item .info {
+    width: calc(100% - 2rem);
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-item .info .name {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1rem;
+    margin-top: -0.15rem;
+}
+
+.p-minieditor .me-header .tools .extension .dropdown-item .info .description {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 0.875rem;
+}
+
+.p-minieditor .me-body {
+    padding: 1rem;
+    min-height: 8rem;
+    cursor: text;
+    position: relative;
+    box-shadow: none;
+    outline: none;
+}
+
+.p-minieditor .me-body p {
+    width: 100%;
+    margin: 0;
+    cursor: text;
+    line-height: 1.6rem;
+    height: 1.6rem;
+}
+
+.p-minieditor .me-body .cursor {
+    top: 0.2rem;
+    left: 0;
+    width: 1px;
+    height: 1.2rem;
+    background-color: #212529;
+    visibility: hidden;
+    /* animation: blink 1s infinite; */
+    position: absolute;
+}
+
+.measure {
+    visibility: hidden;
+    font-size: 1rem;
+    height: 0;
+    overflow: hidden;
+    white-space: pre;
+    width: fit-content;
+}
+
+.p-minieditor .italic {
+    font-style: italic;
+}
+
+.p-minieditor .bold {
+    font-weight: bold;
+}
+
+.p-minieditor .normal {
+    font-size: 1rem !important;
+}
+
+.p-minieditor .h1 {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+    display: block;
+}
+
+.p-minieditor .h2 {
+    font-size: 1.2rem !important;
+    font-weight: 600;
+    display: block;
+}
+
+.p-minieditor .h3 {
+    font-size: 1rem !important;
+    font-weight: 600;
+    display: block;
+}
+
+.p-minieditor .h4 {
+    font-size: 0.9rem !important;
+    font-weight: 600;
+    display: block;
+}
+
+.p-minieditor .h5 {
+    font-size: 0.8rem !important;
+    font-weight: 600;
+    display: block;
+}
+
+.p-minieditor .variable {
+    line-height: 2rem;
+    background-color: #fff;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    padding: 0.25rem;
+    border-radius: 0.35rem;
+    color: #0d6efd;
+    font-weight: 500;
+    -webkit-user-select: none;
+    user-select: none;
+    margin: 0 0.15rem;
+}
+
+.p-minieditor .dropdown-menu {
+    right: 0;
+}
+
+@keyframes blink {
+    50% {
+        visibility: hidden;
+    }
+
+    51% {
+        visibility: visible;
+    }
+}
+
+.p-cond {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    position: relative;
+}
+
+.p-cond .cop {
+    padding: 3px;
+    background-color: #fff;
+    cursor: pointer;
+    width: 80px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.p-cond .cop .inner {
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+.p-cond .cop .inner:hover {
+    background-color: rgb(0, 0, 0, 0.02);
+}
+
+.p-cond .cop .inner span {
+    width: 2rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.p-cond .conn {
+    border: 1px solid #ced4da;
+    border-right: none;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    width: 20px;
+    margin: 1rem 0 3.25rem 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 60px;
+    z-index: 1;
+    display: none;
+}
+
+.p-cond .conds {
+    width: calc(100% - 98px);
+}
+
+.p-cond .conds .cond {
+    margin-bottom: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.p-cond .conds .cond .input {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    width: calc(100% - 40px);
+}
+
+.p-cond .conds .cond .remove {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.p-cond .conds .cond .remove a {
+    color: #212529;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.p-cond .conds .cond .nao {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+}
+
+.p-cond .conds .cond .nao .name {
+    width: calc(100% - 120px);
+}
+
+.p-cond .conds .cond .select {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+.p-cond .conds .cond .op {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.p-cond .conds .cond .op .separator {
+    border-left: 1px solid #ced4da;
+    position: absolute;
+    left: -10px;
+    top: 6px;
+    bottom: 6px;
+}
+
+.p-cond .conds .cond .op .selected {
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    padding: 3px 8px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.p-cond .conds .cond .op .selected i {
+    font-size: 0.75rem;
+    margin-left: 10px;
+}
+
+.p-cond .conds .cond .op .selected:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+}
+
+.p-cond .conds .cond .op .selected.changing~.select {
+    display: block;
+}
+
+.p-cond .conds .cond .op .select {
+    position: absolute;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    z-index: 3;
+    width: 7rem;
+    padding: 4px;
+    right: 0;
+    top: 2.5rem;
+}
+
+.p-cond .conds .cond .op .select li {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+
+.p-cond .conds .cond .op .select li a {
+    color: #212529;
+    text-decoration: none;
+    width: 100%;
+}
+
+.p-cond .conds .cond .op .select li:hover {
+    background-color: rgb(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.p-cond .conds .cond .value {
+    border-top: 1px solid #ced4da;
+    padding: 4px;
+}
+
+.p-cond .conds .cond .multiselect .selected {
+    border: none;
+    padding: 0;
+}
+
+.p-cond .conds .cond .multiselect .bi-chevron-down {
+    display: none;
+}
+
+.p-cond .conds .cond .multiselect .selected .item {
+    margin-right: 0.5rem;
+    padding: 0.4rem 0.35rem 0.4rem 0.5rem;
+}
+
+.p-cond .add {
+    flex-basis: 100%;
+    margin-left: 0;
+}
+
+.p-cond .add.multi {
+    margin-left: 80px;
+}
+
+.p-cond .add button {
+    display: flex;
+    align-items: center;
+    padding: 1px 8px 1px 4px;
+}
+
+.p-cond .add i {
+    font-size: 1.25rem;
+}
+
+.p-workflow {
+    position: relative;
+    background: #f8f9fa;
+    width: 100%;
+    height: 400px;
+}
+
+.p-workflow .pane {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+    background-image: radial-gradient(#ccc 0.5px, transparent 0);
+    background-size: 14px 14px;
+    background-position: -19px -19px;
+    position: relative;
+}
+
+.p-workflow .pane .viewport {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    position: relative;
+    transform: translate(0, 0) scale(1);
+}
+
+.p-workflow .pane.dragging {
+    cursor: grabbing;
+}
+
+.p-workflow .pane.dragging .viewport {
+    cursor: grabbing;
+}
+
+.p-workflow .pane .viewport svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    overflow: visible;
+}
+
+.p-workflow .pane .viewport .node {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 220px;
+    background-color: #fff;
+    border: 0.5px solid rgba(0, 0, 0, .15);
+    border-radius: 14px;
+    padding: 8px;
+    font-size: 0.85rem;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+.p-workflow .pane .viewport .node:hover {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+.p-workflow .pane .viewport .node.selected {
+    border: 2px solid #0d6efd
+}
+
+.p-workflow .pane .viewport .node.error {
+    border: 1px solid #dc3545
+}
+
+.p-workflow .pane .viewport .node.running {
+    border: 1px solid #0dcaf0;
+}
+
+.p-workflow .pane .viewport .node.success {
+    border: 1px solid #198754;
+}
+
+.p-workflow .pane .viewport .node.percent {
+    border: 1px solid #0dcaf0;
+}
+
+.p-workflow .pane .viewport .node .header {
+    display: flex;
+    height: 28px;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    position: relative;
+}
+
+.p-workflow .pane .viewport .node .header .content {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+}
+
+.p-workflow .pane .viewport .node .header .icon {
+    margin-right: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.p-workflow .pane .viewport .node .header .waiting {
+    display: none;
+}
+
+.p-workflow .pane .viewport .node .header .progress {
+    display: none;
+    width: 32px;
+    height: 16px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 10px;
+}
+
+.p-workflow .pane .viewport .node.running .header .waiting {
+    display: block;
+}
+
+.p-workflow .pane .viewport .node.percent .header .progress {
+    display: flex;
+}
+
+.p-workflow .pane .viewport .node .header .waiting .spinner-border {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-width: 0.1em;
+}
+
+.p-workflow .pane .viewport .node .welding {
+    width: 2px;
+    height: 8px;
+    background-color: #0d6efd;
+    position: absolute;
+    top: 11px;
+    z-index: 1;
+    display: none;
+}
+
+.p-workflow .pane .viewport .node .welding.left {
+    left: -10px;
+}
+
+.p-workflow .pane .viewport .node .welding.right {
+    right: -10px;
+}
+
+.p-workflow .pane .viewport .node .plus {
+    position: absolute;
+    top: 7px;
+    right: -15px;
+    font-size: 16px;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 16px;
+    display: none;
+    align-items: center;
+}
+
+.p-workflow .pane .viewport .node .plus:hover {
+    top: 7px;
+    right: -17px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.p-workflow .pane .viewport .node .header:hover .plus {
+    display: flex;
+}
+
+.p-workflow .pane .viewport .node .body {
+    margin-top: 0.5rem;
+    background: none;
+}
+
+.p-workflow .pane .viewport .node .body .item {
+    position: relative;
+    display: flex;
+    height: 28px;
+    padding: 2px 8px;
+    align-items: center;
+    background: none;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+}
+
+.p-workflow .pane .viewport .node .body .item.branch {
+    background: none;
+    justify-content: end;
+}
+
+.p-workflow .pane .viewport .node .body .item:hover .plus {
+    display: flex;
+}
+
+.p-workflow .pane .viewport .node .footer {
+    padding: 6px;
+    font-size: 13px;
+    display: none;
+}
+
+.p-workflow .menu,
+.p-workflow .menu-add {
+    position: absolute;
+    left: 50px;
+    top: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 0.8px solid rgb(0, 0, 0, 0.05);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
+    padding: 4px;
+    cursor: pointer;
+    min-width: 198px;
+    font-size: 14px;
+    display: none;
+}
+
+.p-workflow .menu .item,
+.p-workflow .menu-add .item {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+}
+
+.p-workflow .menu .item a,
+.p-workflow .menu-add .item a {
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(0, 0, 0, 0.6);
+}
+
+.p-workflow .menu .item a:hover,
+.p-workflow .menu-add .item a:hover {
+    background-color: rgb(0, 0, 0, 0.06);
+}
+
+.p-workflow .menu .item .icon,
+.p-workflow .menu-add .item .icon {
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: #0d6efd;
+    color: #fff;
+    font-size: 12px;
+}
+
+.p-workflow .pane .viewport .path {
+    stroke: #999;
+    stroke-width: 2;
+    fill: transparent;
+    cursor: pointer;
+}
+
+.p-workflow .pane .viewport .path.selected {
+    stroke: #0d6efd;
+}
+
+.p-workflow .pane .viewport .path-area {
+    stroke: #999;
+    stroke-width: 40;
+    cursor: pointer;
+    fill: transparent;
+    opacity: 0
+}
+
+.p-workflow .zoom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    color: rgb(0, 0, 0, 0.7);
+    background-color: #fff;
+    border-radius: 6px;
+    padding: 2px;
+    margin: 8px;
+    cursor: pointer;
+    border: 0.8px solid rgb(0, 0, 0, 0.05);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.02);
+}
+
+.p-workflow .zoom a.inout {
+    color: rgb(0, 0, 0, 0.7);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    padding: 2px;
+    position: relative;
+}
+
+.p-workflow .zoom a.inout:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-workflow .zoom a.inout i {
+    font-size: 15px;
+}
+
+.p-workflow .zoom .scale {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+}
+
+.p-workflow .zoom .select {
+    position: absolute;
+    bottom: 45px;
+    right: 0;
+    padding: 1px;
+    border-radius: 16px;
+    background-color: #fff;
+    border: 0.8px solid rgb(0, 0, 0, 0.05);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.02);
+    width: 120px;
+    display: none;
+}
+
+.p-workflow .zoom .select .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    padding: 2px 2px;
+}
+
+.p-workflow .zoom .select .item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(0, 0, 0, 0.7);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.p-workflow .zoom .select .item a:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-workflow .toolbar {
+    position: absolute;
+    left: 10px;
+    top: 100px;
+    background-color: #fff;
+    border-radius: 8px;
+    width: 40px;
+    border: 0.8px solid rgb(0, 0, 0, 0.05);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.02);
+}
+
+.p-workflow .toolbar .tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    padding: 3px;
+}
+
+.p-workflow .toolbar .tool a {
+    text-decoration: none;
+    color: rgb(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.p-workflow .toolbar .tool a:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-workflow .topbar {
+    position: absolute;
+    background: none;
+    width: 100%;
+    left: 0;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 12px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 13px;
+}
+
+.p-workflow .topbar .tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.p-workflow .topbar .auto-save-time {
+    display: none;
+}
+
+.p-workflow .topbar .tools .btn {
+    font-size: 14px;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.p-workflow .topbar .tools .btn.btn-light {
+    border: 0.8px solid rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.02);
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.p-workflow .topbar .tools .btn.btn-light:hover {
+    background-color: #e9ecef
+}
+
+.p-workflow .topbar .tools .btn i {
+    margin-right: 8px;
+}
+
+.p-workflow .topbar .tools .btn .waiting {
+    display: none;
+    margin-right: 3px;
+}
+
+.p-workflow .panel {
+    position: absolute;
+    z-index: 1;
+    width: 400px;
+    top: 60px;
+    right: -430px;
+    bottom: 8px;
+    background-color: #fff;
+    border-radius: 18px;
+    border: 0.8px solid rgb(0, 0, 0, 0.08);
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.04);
+    transition: right 0.1s ease-in;
+}
+
+.p-workflow .panel a {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.p-workflow .panel .panel-header {
+    display: flex;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    font-size: 14px;
+}
+
+.p-workflow .panel .panel-header .icon {
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 5px;
+    border-radius: 6px;
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.p-workflow .panel .panel-header .name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.p-workflow .panel .panel-header>div {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.p-workflow .panel .panel-header .separator {
+    width: 2px;
+    height: 14px;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.p-workflow .panel .panel-header .tools-fixed {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-size: 16px;
+}
+
+.p-workflow .panel .panel-header .tools-fixed .tool {
+    padding: 0 10px;
+}
+
+.p-workflow .panel .panel-header .tools-fixed .tool.close {
+    padding-right: 0;
+    font-size: 14px;
+}
+
+.p-workflow .panel .panel-header .tool {
+    position: relative;
+}
+
+.p-workflow .panel .panel-header .tool a {
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.p-workflow .panel .panel-header .tool a:hover {
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.p-workflow .panel .panel-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+    padding: 0 12px;
+    position: relative;
+}
+
+.p-workflow .panel .panel-body .panel-overlay {
+    position: absolute;
+    background-color: #fff;
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    cursor: not-allowed;
+}
+
+.p-workflow .panel .panel-body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    background: transparent
+}
+
+.p-workflow .panel .panel-body .settings {
+    font-size: 0.875rem;
+}
+
+.p-workflow .panel .panel-body .settings hr {
+    background-color: #fff;
+    border-bottom: 0.8px solid rgba(0, 0, 0, 0.8);
+}
+
+.p-workflow .panel .panel-body .settings .form-label {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.p-workflow .panel .panel-body .settings .form-label .required {
+    color: #dc3545;
+}
+
+.p-workflow .panel .panel-body .settings .form-label>* {
+    margin-right: 4px;
+}
+
+.p-workflow .panel .panel-body .settings .form-control {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.85rem;
+    background-color: rgb(206, 212, 218, 0.2);
+    border-radius: 8px;
+}
+
+.p-workflow .panel .panel-body .settings .form-switch .form-check-input {
+    width: 2rem;
+    height: 1.2rem;
+}
+
+.p-workflow .panel .panel-body .settings .form-control:focus {
+    border: 0.8px solid rgba(13, 110, 253, 0.8);
+    box-shadow: none;
+}
+
+.p-workflow .panel .panel-body .settings .form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.p-workflow .panel .panel-body .settings .form-control.is-valid {
+    background: none;
+    background-color: rgb(206, 212, 218, 0.2);
+    padding-right: 8px;
+}
+
+.p-workflow .panel .panel-body .settings textarea {
+    resize: none;
+}
+
+.p-workflow .panel .panel-body .settings .btn {
+    font-size: 0.85rem;
+    border-radius: 8px;
+    border: none;
+    padding: 6px;
+}
+
+.p-workflow .panel .panel-body .settings .btn:focus {
+    box-shadow: none;
+}
+
+.p-workflow .panel .panel-body .settings .btn.btn-secondary {
+    background-color: rgb(206, 212, 218, 0.3);
+    color: #212529;
+}
+
+.p-workflow .panel .panel-body .settings .btn.btn-secondary:hover {
+    background-color: rgb(206, 212, 218, 0.8);
+}
+
+.p-workflow .panel .panel-body .settings .btn.btn-light {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    width: auto;
+}
+
+.p-workflow .panel .panel-body .settings .btn.btn-light:hover {
+    background-color: rgb(206, 212, 218, 0.3);
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .selected {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    background-color: rgb(206, 212, 218, 0.2);
+    border-radius: 8px;
+    min-height: 2.1rem;
+    padding: 0.1rem 1.5rem 0 0.45rem;
+    margin: 0;
+    position: relative;
+    font-size: 0.85rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .selected .item {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    margin: 1px 3px 2px 0;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .selected .item i {
+    font-size: 0.7rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .placeholder {
+    min-height: 2.1rem;
+    font-size: 0.825rem;
+    color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect input {
+    background: none;
+    padding-left: 4px;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect i.bi-chevron-down {
+    font-size: 0.75rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .select .search {
+    height: 28px;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .select .search i.bi-search {
+    font-size: 13px;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .select {
+    background-color: #fff;
+    padding: 0.5rem 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.03);
+    text-align: left;
+    width: 100%;
+    max-width: 80%;
+    margin-top: 0.125rem;
+    font-size: 0.85rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .selected label.single {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    line-height: 1.85rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .select ul li {
+    margin: 4px;
+    border-radius: 4px;
+    line-height: 1.8rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .select ul li:hover {
+    background-color: rgb(206, 212, 218, 0.2);
+}
+
+.p-workflow .panel .panel-body .settings .form-select.is-invalid~.multiselect .selected {
+    border-color: #dc3545;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .validation {
+    line-height: 2.1rem;
+}
+
+.p-workflow .panel .panel-body .settings .multiselect .validation .bi-check-lg {
+    display: none !important;
+}
+
+.p-workflow .panel .panel-body .settings .input-group .btn {
+    width: auto;
+}
+
+.p-workflow .panel .panel-body .settings .input-group .form-control {
+    border-radius: 0;
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.85rem;
+    background-color: rgb(206, 212, 218, 0.2);
+}
+
+.p-workflow .panel .panel-body .settings .input-group>:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+}
+
+.p-workflow .panel .panel-body .settings .input-group>:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+}
+
+.p-workflow .panel .panel-body .settings .input-group .border-secondary {
+    border: 0.8px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.p-workflow .panel .panel-body .settings .datepicker .btn-group .btn:not(:first-child),
+.p-workflow .panel .panel-body .settings .datepicker .btn-group .btn:not(:last-child) {
+    border-radius: 0;
+}
+
+.p-workflow .panel .panel-body .settings .datepicker .btn-group .btn:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.p-workflow .panel .panel-body .settings .datepicker .btn-group .btn:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.p-workflow .panel .panel-body .settings .uploader i {
+    font-size: 1.5rem;
+}
+
+.p-workflow .panel .panel-body .settings .uploader .remove i {
+    font-size: 1rem;
+}
+
+.p-workflow .panel .panel-body .settings .uploader .file,
+.p-workflow .panel .panel-body .settings .uploader .image {
+    border-radius: 8px;
+}
+
+.p-workflow .panel .panel-body .settings .crontab .expression .input {
+    border-radius: 8px;
+    background-color: rgb(206, 212, 218, 0.2);
+    height: 2.1rem;
+}
+
+.p-workflow .panel .panel-body .settings .crontab .expression .input input {
+    background-color: rgb(206, 212, 218, 0);
+}
+
+.p-workflow .panel .panel-body .settings .form-control.is-valid~.crontab .expression .input {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+}
+
+.p-workflow .panel .panel-body .settings .slider .btn {
+    border-radius: 50%;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conn {
+    left: 48px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds {
+    width: calc(100% - 70px);
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .cop {
+    width: 68px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .cop .inner {
+    border-radius: 8px;
+    color: #0d6efd;
+    padding: 2px 4px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .input {
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(206, 212, 218, 0.2);
+    width: calc(100% - 26px);
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .nao {
+    padding: 2px 4px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .nao .name {
+    width: calc(100% - 96px);
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect .selected {
+    border-radius: 0;
+    min-height: 27px;
+    border: none;
+    padding: 0;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .value {
+    padding: 0 4px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .op .selected i {
+    font-size: 12px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .op .select {
+    border-radius: 12px;
+    border: 0.8px solid rgb(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.03);
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect input {
+    width: 88px;
+    margin-left: 2px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect .select {
+    padding: 0;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .op .selected {
+    padding: 2px 4px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .btn.btn-secondary {
+    padding: 0 6px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect .select ul li {
+    padding: 0 4px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .name .multiselect .select .options li span:first-child {
+    display: none;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .remove {
+    width: auto;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .conds .cond .multiselect .selected .item {
+    border-radius: 6px;
+    padding: 3px 4px 3px 8px;
+    margin: 0;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .add.multi {
+    margin-left: 68px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect .select .search {
+    padding-left: 7px;
+}
+
+.p-workflow .panel .panel-body .settings .p-cond .multiselect .select .search i.bi-search {
+    font-size: 13px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    font-size: 0.85rem;
+    background-color: rgb(206, 212, 218, 0.2);
+    border-radius: 8px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header {
+    border-bottom: none;
+    padding: 0 8px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-body {
+    padding: 0 8px 4px 8px;
+    min-height: 5rem;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header i {
+    font-size: 14px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header .btn {
+    background: none;
+    border-radius: 3px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header .btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header .btn.show {
+    padding: 2px 6px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header .tools .extension .dropdown-menu {
+    border: 0.8px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-header .tools .extension .dropdown-item .info .name {
+    font-size: 14px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-body {
+    line-height: 23px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .me-body div {
+    line-height: 23px;
+}
+
+.p-workflow .panel .panel-body .settings .p-minieditor .variable {
+    line-height: 18px;
+    padding: 2px;
+    margin: 0 2px;
+}
+
+.p-workflow .panel .errors {
+    padding: 10px 8px;
+    border: 1px solid #dc3545;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.p-workflow .panel .errors .error {
+    display: flex;
+    color: #dc3545;
+    height: 30px;
+    align-items: center;
+}
+
+.p-workflow .panel .errors .error i {
+    margin-right: 8px;
+}
+
+.p-workflow .menu-context {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    padding: 6px 1px;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 0.8px solid rgb(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.03);
+    width: 180px;
+    display: none;
+    z-index: 10;
+}
+
+.p-workflow .menu-context .item {
+    padding: 0 4px;
+}
+
+.p-workflow .menu-context .item a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    color: rgb(0, 0, 0, 0.7);
+    border-radius: 6px !important;
+    font-size: 14px;
+    padding: 6px 8px !important;
+}
+
+.p-workflow .menu-context .item a:hover {
+    background-color: rgb(0, 0, 0, 0.08);
+}
+
+.p-workflow .settings-backup {
+    display: none;
+}
+
+.p-workflow .overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: none;
+    cursor: progress;
 }
