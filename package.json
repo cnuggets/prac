@@ -1,6 +1,6 @@
 {
   "name": "pracjs",
-  "version": "1.16.4",
+  "version": "1.16.5",
   "description": "A Simple but Powerful Web UI Framework & Toolkit",
   "main": "prac.js",
   "scripts": {},
