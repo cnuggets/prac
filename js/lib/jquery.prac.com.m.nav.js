@@ -210,7 +210,7 @@
             self.css("position", "fixed").css("top", options.fixed.top ? options.fixed.top : "0").css("bottom", "0");
         }
 
-        var navBtns = self.find(".nav li");
+        var navBtns = self.children(".nav").find("li");
         var contents = self.find(".contents > div");
         var selected = 0;
         self.find(".nav li.selected").addClass("text-" + options.class);

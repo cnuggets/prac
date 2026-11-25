@@ -11,9 +11,9 @@
                 <div class="p-picker">
                     <% if (cfg.toolbar) { %>
                         <div class="toolbar">
-                            <a href="javascript:void(0)" class="text-secondary" cancel><%=cfg.cancel.label%></a>
+                            <a href="javascript:void(0)" class="text-<%=cfg.cancel.class%>" cancel><%=cfg.cancel.label%></a>
                             <label class="title"><%=cfg.title%></label>
-                            <a href="javascript:void(0)" class="text-primary" confirm><%=cfg.confirm.label%></a>
+                            <a href="javascript:void(0)" class="text-<%=cfg.confirm.class%>" confirm><%=cfg.confirm.label%></a>
                         </div>
                     <% } %>
                     <div class="wrapper" style="height: <%=cfg.height%>">
