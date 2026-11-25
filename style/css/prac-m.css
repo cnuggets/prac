@@ -799,6 +799,9 @@ input:-webkit-autofill {
 }
 
 .p-tab>.nav {
+    position: fixed;
+    z-index: 8;
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -807,6 +810,7 @@ input:-webkit-autofill {
 }
 
 .p-tab>.nav li {
+    background-color: #fff;
     flex: 1;
     color: rgb(33, 37, 41, 0.5);
     height: 3rem;
@@ -825,30 +829,33 @@ input:-webkit-autofill {
     color: rgb(33, 37, 41);
 }
 
-.p-tab .contents {
+.p-tab>.contents {
     height: 100%;
     overflow-y: auto;
     scrollbar-width: none;
+    padding-top: 3rem;
 }
 
-.p-tab .contents::-webkit-scrollbar {
+.p-tab>.contents::-webkit-scrollbar {
     display: none;
 }
 
-.p-tab .contents>* {
+.p-tab>.contents>* {
     display: none;
     margin: 1rem;
 }
 
-.p-tab .contents>.selected {
+.p-tab>.contents>.selected {
     display: block;
 }
 
 .p-tab .underline {
-    position: absolute;
+    position: fixed;
+    z-index: 9;
     height: 0.2rem;
     border-radius: 0.125rem;
     left: 0;
+    top: 3rem;
     width: 80px;
 }
 
@@ -981,7 +988,7 @@ input:-webkit-autofill {
 }
 
 .p-tabbar>.contents {
-    height: calc(100% - 4rem);
+    height: calc(100% - 3rem);
     overflow-y: auto;
     scrollbar-width: none;
 }
