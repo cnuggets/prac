@@ -10,13 +10,17 @@ var require = {
         "moment": "moment",
         "async": "async",
         "clipboard": "clipboard",
+        "turndown": "turndown",
         "common": "jquery.prac.common",
         "component": "jquery.prac.component",
         "datepicker": "jquery.prac.com.datepicker",
         "uploader": "jquery.prac.com.uploader",
         "tree": "jquery.prac.com.tree",
         "crontab": "jquery.prac.com.crontab",
-        "autocomplete": "jquery.prac.com.autocomplete"
+        "autocomplete": "jquery.prac.com.autocomplete",
+        "condition": "jquery.prac.com.condition",
+        "editor": "jquery.prac.com.minieditor",
+        "workflow": "jquery.prac.com.workflow"
     },
     shim: {
         "bootstrap": ["jquery"]
@@ -63,7 +67,7 @@ function Prac() {
                         selector: '[p-tooltip]',
                     });
                 } else {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         _tooltip();
                     }, 200);
                 }
@@ -111,6 +115,8 @@ function Prac() {
             var lastModule;
             function _router(ctx) {
                 router.registerRoutes(cfg.routes).on("routeload", function (module, routeArguments) {
+                    $(".tooltip").remove();
+
                     if (lastModule) {
                         // leave
                         _exec(
@@ -165,8 +171,11 @@ function Prac() {
                                 [module.name, location.pathname, args, $]
                             );
 
-                            loading.stop();
-                            loading = null;
+                            if (loading) {
+                                loading.stop();
+                                loading = null;
+                            }
+
                         });
                     }
                 }).on("statechange", function () {
@@ -197,7 +206,7 @@ function Prac() {
 
                         function _do() {
                             if (self.attr("p-router") == "push") {
-                                _doRoute(self.attr("href"), self.attr("module-name"),self.attr("title"));
+                                _doRoute(self.attr("href"), self.attr("module-name"), self.attr("title"));
                             } else {
                                 _doRoute(self.attr("href"), null, self.attr("title"));
                             }

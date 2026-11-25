@@ -23,6 +23,10 @@ input:-webkit-autofill {
     -webkit-background-clip: text;
 }
 
+.offcanvas-body {
+    overflow: hidden;
+}
+
 .p-card {
     margin: 0.5rem;
     border-radius: 0.5rem;
@@ -70,7 +74,8 @@ input:-webkit-autofill {
     font-size: 0.875rem;
 }
 
-.p-cell-group .p-cell:not(:last-child):after, .p-form .p-cell:not(:last-child):after {
+.p-cell-group .p-cell:has(~ .p-cell)::after,
+.p-form .p-cell:has(~ .p-cell)::after {
     position: absolute;
     content: " ";
     right: 1.2rem;
@@ -83,7 +88,8 @@ input:-webkit-autofill {
     display: flex;
 }
 
-.p-cell div.control div.input input, .p-cell div.control div.input textarea {
+.p-cell div.control div.input input,
+.p-cell div.control div.input textarea {
     width: calc(100% - 1.5rem);
 }
 
@@ -119,7 +125,8 @@ input:-webkit-autofill {
     cursor: pointer;
 }
 
-.p-cell div.control input::placeholder, .p-cell div.control textarea::placeholder {
+.p-cell div.control input::placeholder,
+.p-cell div.control textarea::placeholder {
     color: rgb(0, 0, 0, 0.2);
 }
 
@@ -213,9 +220,9 @@ input:-webkit-autofill {
     overflow-wrap: break-word;
 }
 
-.p-cell div.control>div div.input .multiline:empty:not(:focus):before{
+.p-cell div.control>div div.input .multiline:empty:not(:focus):before {
     color: rgb(0, 0, 0, 0.2);
-    content:attr(placeholder)
+    content: attr(placeholder)
 }
 
 .p-form.validated .p-cell>div.control.is-invalid .invalid {
@@ -262,7 +269,8 @@ input:-webkit-autofill {
     border-radius: 0.5rem;
 }
 
-.p-card .p-cell-group .p-cell, .p-card .p-form .p-cell {
+.p-card .p-cell-group .p-cell,
+.p-card .p-form .p-cell {
     border-radius: 0.5rem;
 }
 
@@ -285,6 +293,14 @@ input:-webkit-autofill {
 
 .p-picker>.toolbar a {
     text-decoration: none;
+    display: flex;
+    min-width: 60px;
+    height: 30px;
+    align-items: center;
+}
+
+.p-picker>.toolbar a:last-child {
+    justify-content: end;
 }
 
 .p-picker>.toolbar .title {
@@ -361,6 +377,14 @@ input:-webkit-autofill {
 
 .p-pickers>.toolbar a {
     text-decoration: none;
+    display: flex;
+    min-width: 60px;
+    height: 30px;
+    align-items: center;
+}
+
+.p-pickers>.toolbar a:last-child {
+    justify-content: end;
 }
 
 .p-pickers>.toolbar .title {
@@ -774,7 +798,10 @@ input:-webkit-autofill {
     position: relative;
 }
 
-.p-tab .nav {
+.p-tab>.nav {
+    position: fixed;
+    z-index: 8;
+    width: 100%;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -782,7 +809,8 @@ input:-webkit-autofill {
     flex-wrap: nowrap;
 }
 
-.p-tab .nav li {
+.p-tab>.nav li {
+    background-color: #fff;
     flex: 1;
     color: rgb(33, 37, 41, 0.5);
     height: 3rem;
@@ -793,38 +821,41 @@ input:-webkit-autofill {
     justify-content: space-around;
 }
 
-.p-tab .nav li span {
+.p-tab>.nav li span {
     padding: 0 0.5rem;
 }
 
-.p-tab .nav li.selected {
+.p-tab>.nav li.selected {
     color: rgb(33, 37, 41);
 }
 
-.p-tab .contents {
+.p-tab>.contents {
     height: 100%;
     overflow-y: auto;
     scrollbar-width: none;
+    padding-top: 3rem;
 }
 
-.p-tab .contents::-webkit-scrollbar {
+.p-tab>.contents::-webkit-scrollbar {
     display: none;
 }
 
-.p-tab .contents>* {
+.p-tab>.contents>* {
     display: none;
     margin: 1rem;
 }
 
-.p-tab .contents>.selected {
+.p-tab>.contents>.selected {
     display: block;
 }
 
 .p-tab .underline {
-    position: absolute;
+    position: fixed;
+    z-index: 9;
     height: 0.2rem;
     border-radius: 0.125rem;
     left: 0;
+    top: 3rem;
     width: 80px;
 }
 
@@ -887,22 +918,21 @@ input:-webkit-autofill {
     bottom: 0;
 }
 
-.p-tabbar .nav {
+.p-tabbar>.nav {
     position: fixed;
     bottom: 0;
     width: 100%;
     list-style: none;
-    padding: 0.25rem 0;
     margin: 0;
     display: flex;
     flex-wrap: nowrap;
-    height: 4rem;
+    height: 3.5rem;
     background-color: #fff;
     border-top: 1px solid rgb(0, 0, 0, 0.05);
     border-bottom: 1px solid rgb(0, 0, 0, 0.05);
 }
 
-.p-tabbar .nav li {
+.p-tabbar>.nav li {
     flex: 1;
     color: rgb(33, 37, 41, 0.8);
     cursor: pointer;
@@ -912,15 +942,15 @@ input:-webkit-autofill {
     position: relative;
 }
 
-.p-tabbar .nav li span {
-    font-size: 0.875rem;
+.p-tabbar>.nav li span {
+    font-size: 0.8rem;
 }
 
-.p-tabbar .nav li i {
+.p-tabbar>.nav li i {
     font-size: 1.25rem;
 }
 
-.p-tabbar .nav li .badge {
+.p-tabbar>.nav li .badge {
     width: 100%;
     position: absolute;
     display: flex;
@@ -928,7 +958,7 @@ input:-webkit-autofill {
     align-items: center;
 }
 
-.p-tabbar .nav li .badge .info {
+.p-tabbar>.nav li .badge .info {
     padding: 0.25rem;
     display: flex;
     justify-content: center;
@@ -945,7 +975,7 @@ input:-webkit-autofill {
     transform: translateX(50%);
 }
 
-.p-tabbar .nav li .badge .dot {
+.p-tabbar>.nav li .badge .dot {
     padding: 0;
     position: absolute;
     width: 6px;
@@ -957,22 +987,22 @@ input:-webkit-autofill {
     top: 0;
 }
 
-.p-tabbar .contents {
-    height: calc(100% - 4rem);
+.p-tabbar>.contents {
+    height: calc(100% - 3rem);
     overflow-y: auto;
     scrollbar-width: none;
 }
 
-.p-tabbar .contents::-webkit-scrollbar {
+.p-tabbar>.contents::-webkit-scrollbar {
     display: none;
 }
 
-.p-tabbar .contents>* {
+.p-tabbar>.contents>* {
     display: none;
     margin: 1rem;
 }
 
-.p-tabbar .contents>.selected {
+.p-tabbar>.contents>.selected {
     display: block;
 }
 
@@ -1261,7 +1291,8 @@ input:-webkit-autofill {
     font-size: 16px;
 }
 
-.p-file-upload .file .uploading, .p-file-upload .file .failed {
+.p-file-upload .file .uploading,
+.p-file-upload .file .failed {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -1285,7 +1316,8 @@ input:-webkit-autofill {
     animation: 0.75s linear infinite spinner-border;
 }
 
-.p-file-upload .file .uploading span, .p-file-upload .file .failed span {
+.p-file-upload .file .uploading span,
+.p-file-upload .file .failed span {
     color: #fff;
     font-size: 0.875rem;
     width: 100%;
@@ -1394,7 +1426,8 @@ input:-webkit-autofill {
     font-size: 1rem;
 }
 
-.p-top-menu .menu .item:hover *, .p-top-menu .menu .item.selected * {
+.p-top-menu .menu .item:hover *,
+.p-top-menu .menu .item.selected * {
     color: #dc3545;
 }
 
@@ -2057,7 +2090,7 @@ input:-webkit-autofill {
     background-color: #fff;
     margin: 0;
     border-radius: 1rem;
-    width: 3.75rem!important;
+    width: 3.75rem !important;
     height: 3.75rem;
 }
 
@@ -2144,11 +2177,11 @@ input:-webkit-autofill {
 }
 
 .p-text-ellipsis-ml {
-    display: -webkit-box; 
-    -webkit-box-orient: vertical; 
-    -webkit-line-clamp: 2; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .p-popover {
@@ -2178,7 +2211,7 @@ input:-webkit-autofill {
     height: 1.5rem;
     background-color: #198754;
     border-radius: 4px;
-    color:#fff;
+    color: #fff;
     user-select: none;
     position: relative;
     top: -1rem;

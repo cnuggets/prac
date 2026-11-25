@@ -92,7 +92,7 @@
         }
     };
 
-    $.fn.popover = function (options) {
+    $.fn.popover = function (options, callback) {
         var self = $(this);
         if (!options) {
             options = {};
@@ -108,7 +108,8 @@
         var defaultCfg = {
             lang: "en",
             position: "bottom", // top, bottom, left, right
-            location: "begin" // begin, end, middle
+            location: "begin", // begin, end, middle
+            trigger: "click"
         };
         var langOpt = lang[options.lang] ? lang[options.lang] : lang["en"];
         options = $.extend(true, {}, defaultCfg, langOpt, options);
@@ -126,6 +127,9 @@
             }
 
             var popover = $(_.template(tpl)());
+            if (options.width) {
+                popover.css("width", options.width);
+            }
             self.after(popover);
 
             if (typeof content == "object") {
@@ -139,14 +143,22 @@
         var arrow = popover.find(".p-arrow");
 
         function _loc() {
+            var relativeParents = self.parents().filter(function () {
+                return $(this).css("position") === "relative";
+            });
+            var scrollTop = 0;
+            if (relativeParents.length > 0) {
+                scrollTop = relativeParents.first().scrollTop();
+            }
+
             // position
             if (options.position == "top") {
                 arrow.addClass("bi-caret-down-fill");
-                popover.css("top", self.position().top - popover.outerHeight() - 7);
+                popover.css("top", self.position().top - popover.outerHeight() - 7 + scrollTop);
                 arrow.css("top", popover.outerHeight() - 10);
             } else if (options.position == "bottom") {
                 arrow.addClass("bi-caret-up-fill");
-                popover.css("top", self.position().top + self.outerHeight() + 7);
+                popover.css("top", self.position().top + self.outerHeight() + 7 + scrollTop);
                 arrow.css("top", - 14);
             } else if (options.position == "left") {
                 arrow.addClass("bi-caret-right-fill");
@@ -156,27 +168,46 @@
                 arrow.addClass("bi-caret-left-fill");
                 popover.css("left", self.position().left + self.outerWidth() + 7);
                 arrow.css("left", -9);
+            } else if (options.position == "auto") {
+                if (self.distanceToBottom() - popover.outerHeight() < 0) {
+                    arrow.removeClass("bi-caret-up-fill").addClass("bi-caret-down-fill");
+                    popover.css("top", self.position().top - popover.outerHeight() - 7 + scrollTop);
+                    arrow.css("top", popover.outerHeight() - 10);
+                } else {
+                    arrow.removeClass("bi-caret-down-fill").addClass("bi-caret-up-fill");
+                    popover.css("top", self.position().top + self.outerHeight() + 7 + scrollTop);
+                    arrow.css("top", - 14);
+                }
             }
 
             // location
             if (options.location == "begin") {
-                if (options.position == "top" || options.position == "bottom") {
-                    arrow.css("left", self.outerWidth() * 0.3);
-                    popover.css("left", self.position().left);
+                if (options.position == "top" || options.position == "bottom" || options.position == "auto") {
+                    popover.css("left", self.position().left > 0 ? self.position().left : 10);
+                    if (popover.outerWidth() > self.outerWidth()) {
+                        arrow.css("left", self.outerWidth() * 0.3);
+                    } else {
+                        arrow.css("left", popover.outerWidth() * 0.3);
+                    }
                 } else {
                     arrow.css("top", self.outerHeight() * 0.3);
                     popover.css("top", self.position().top);
                 }
             } else if (options.location == "end") {
-                if (options.position == "top" || options.position == "bottom") {
-                    arrow.css("right", self.outerWidth() * 0.3);
-                    popover.css("left", self.position().left - (popover.outerWidth() - self.outerWidth()));
+                if (options.position == "top" || options.position == "bottom" || options.position == "auto") {
+                    var right = $(window).outerWidth() - (self.position().left + self.outerWidth());
+                    popover.css("right", right > 0 ? right : 10);
+                    if (popover.outerWidth() > self.outerWidth()) {
+                        arrow.css("right", self.outerWidth() * 0.3);
+                    } else {
+                        arrow.css("right", popover.outerWidth() * 0.3);
+                    }
                 } else {
                     arrow.css("bottom", self.outerHeight() * 0.3);
                     popover.css("top", self.position().top - (popover.outerHeight() - self.outerHeight()));
                 }
             } else if (options.location == "middle") {
-                if (options.position == "top" || options.position == "bottom") {
+                if (options.position == "top" || options.position == "bottom" || options.position == "auto") {
                     arrow.css("left", popover.outerWidth() * 0.5 - arrow.outerWidth() / 2)
                     popover.css("left", self.position().left + self.outerWidth() / 2 - popover.outerWidth() / 2);
                 } else {
@@ -186,20 +217,58 @@
             }
         }
 
-        $("body").on("click", function () {
+        $("body").on("click touchstart", function () {
+            if (options.onClose) {
+                options.onClose();
+            }
             $(".p-popover").hide();
         });
 
-        self.on("click", function (e) {
+        popover.on("click touchstart", function (e) {
             e.stopPropagation();
-            if (arrow.is(":hidden")) {
-                $(".p-popover").hide();
-                popover.show();
-                _loc();
-            } else {
-                popover.hide();
-            }
         });
+
+        if (options.trigger == "longPress") {
+            self.longPress(function (e) {
+                e.stopPropagation();
+                if (arrow.is(":hidden")) {
+                    $(".p-popover").hide();
+                    popover.show();
+                    if (options.onOpen) {
+                        options.onOpen(popover);
+                    }
+                    _loc();
+                }
+                if (callback) {
+                    callback(e);
+                }
+            }, 200);
+
+            self.on("click touchstart", function (e) {
+                e.stopPropagation();
+                if (options.onClose) {
+                    options.onClose();
+                }
+                $(".p-popover").hide();
+            });
+        } else {
+            self.on("click", function (e) {
+                e.stopPropagation();
+                if (arrow.is(":hidden")) {
+                    $(".p-popover").hide();
+                    popover.show();
+                    if (options.onOpen) {
+                        options.onOpen(popover);
+                    }
+                    _loc();
+                } else {
+                    popover.hide();
+                }
+                if (callback) {
+                    callback(e);
+                }
+            });
+        }
 
         popover.on("click", function (e) {
             e.stopPropagation();
@@ -210,6 +279,9 @@
         });
 
         function _close() {
+            if (options.onClose) {
+                options.onClose(popover);
+            }
             popover.hide();
         }
 

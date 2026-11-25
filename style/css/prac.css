@@ -103,7 +103,7 @@ body {
 .multiselect .selected {
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
-    min-height: 2.375rem;
+    min-height: 2.25rem;
     padding: 0 1.5rem 0 0.5rem;
     margin: 0;
     position: relative;
@@ -132,7 +132,7 @@ body {
 
 .multiselect .selected label.single {
     display: inline-block;
-    line-height: 2.375rem;
+    line-height: 2.25rem;
     margin-left: 0.25rem;
 }
 
@@ -154,7 +154,7 @@ body {
     left: 0.8rem;
     display: flex;
     align-items: center;
-    min-height: 2.375rem;
+    min-height: 2.25rem;
 }
 
 .multiselect .select {
@@ -290,7 +290,7 @@ body {
     position: absolute;
     top: 0;
     right: 2rem;
-    line-height: 2.375rem;
+    line-height: 2.25rem;
 }
 
 .multiselect .validation .bi-exclamation-circle {

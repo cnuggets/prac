@@ -270,7 +270,7 @@
                 if (!$.isArray(value)) {
                     value = [value];
                 }
-                value.forEach(function(v) {
+                value.forEach(function (v) {
                     if (queryString.length > 0) {
                         queryString += "&";
                     }
@@ -348,5 +348,68 @@
             }
         }
         return data;
+    }
+
+    $.fn.longPress = function (callback, delay = 800) {
+        var self = $(this);
+        var timer;
+        var isLongPressed = false;
+
+        function _start(e) {
+            // Prevent default context menu on mobile touch-and-hold
+            if (e.type === "touchstart") {
+                self.data("isTouch", true);
+            }
+
+            // Avoid firing duplicate mouse events right after touch
+            if (e.type === "mousedown" && self.data("isTouch")) {
+                return;
+            }
+
+            isLongPressed = false;
+
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                isLongPressed = true;
+                callback(e);
+            }, delay);
+        }
+
+        function _cancel() {
+            self.off("click", function (e) {
+                e.stopPropagation();
+            });
+            clearTimeout(timer);
+        }
+
+        self.on("mousedown touchstart", function (e) {
+            _start(e);
+        });
+
+        self.on("mouseup mouseleave touchend touchcancel touchmove", function (e) {
+            _cancel(e);
+        });
+
+        self.on("click", function (e) {
+            if (isLongPressed) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                isLongPressed = false;
+            }
+        });
+
+        self.on("contextmenu", function (e) {
+            if (self.data("isTouch")) {
+                e.preventDefault();
+            }
+        });
+    };
+
+    $.fn.distanceToBottom = function () {
+        var self = $(this);
+        var rect = self[0].getBoundingClientRect();
+        var windowHeight = window.innerHeight || $(window).height();
+        return windowHeight - rect.bottom;
     }
 }));

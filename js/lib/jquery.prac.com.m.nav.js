@@ -147,13 +147,14 @@
             self.css("position", "fixed").css("top", options.fixed.top ? options.fixed.top : "0").css("bottom", "0");
         }
 
+        var nav = self.find(".nav");
         var navBtns = self.find(".nav li");
         var contents = self.find(".contents > div");
         var underline = $(_.template(`<div class="underline bg-<%=clazz%>"></div>`)({
             clazz: options.class
         }));
         var selected = 0;
-        self.find(".nav").after(underline);
+        nav.after(underline);
         _move(0);
 
         navBtns.on("click", function () {
@@ -168,12 +169,15 @@
                 }
                 selected = index;
                 _move(index, true);
+            } else {
+                _move($(this).index());
             }
         });
 
         function _move(index, animation) {
             var tab = navBtns.eq(index).find("span");
             var pos = tab.position().left;
+            underline.css("top", nav[0].getBoundingClientRect().top + nav.height());
             underline.css("transform", "translateX(" + pos + "px)");
             underline.css("width", tab.outerWidth());
             if (animation) {
@@ -210,7 +214,7 @@
             self.css("position", "fixed").css("top", options.fixed.top ? options.fixed.top : "0").css("bottom", "0");
         }
 
-        var navBtns = self.find(".nav li");
+        var navBtns = self.children(".nav").find("li");
         var contents = self.find(".contents > div");
         var selected = 0;
         self.find(".nav li.selected").addClass("text-" + options.class);

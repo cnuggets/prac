@@ -117,6 +117,9 @@ function Prac() {
                         module.enter(routeArguments);
                     }
 
+                    if (loading) {
+                        loading.stop();
+                    }
                     loading = $.pageLoading();
 
                     // before
@@ -144,8 +147,10 @@ function Prac() {
                                 [module.name, location.pathname, args, $]
                             );
 
-                            loading.stop();
-                            loading = null;
+                            if (loading) {
+                                loading.stop();
+                                loading = null;
+                            }
                         });
                     }
                 }).on("statechange", function () {
@@ -180,7 +185,7 @@ function Prac() {
 
                         function _do() {
                             if (self.attr("p-router") == "push") {
-                                _doRoute(self.attr("href"), self.attr("module-name"),self.attr("title"));
+                                _doRoute(self.attr("href"), self.attr("module-name"), self.attr("title"));
                             } else {
                                 _doRoute(self.attr("href"), null, self.attr("title"));
                             }

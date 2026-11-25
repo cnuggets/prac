@@ -141,6 +141,8 @@
         });
     }
 
+    $.validate = _validation
+
     // Validation
     function _validation(form) {
         var valid = true;
@@ -212,6 +214,25 @@
                     }
                 }
             }
+
+            $.each(form.find("input[type='radio']"), function (i, item) {
+                _clear($(item).closest(".form-check"));
+                _check($(item));
+                $(item).on("change", function () {
+                    _check($(item));
+                });
+            });
+            function _check(obj) {
+                if (obj.attr("required")) {
+                    var name = obj.attr("name");
+                    var options = form.find("input[type='radio'][name='" + name + "']:checked");
+                    form.find("input[type='radio'][name='" + name + "']").closest(".form-check").removeClass("is-invalid");
+                    if (options.length == 0) {
+                        valid = false;
+                        obj.closest(".form-check").removeClass("is-valid").addClass("is-invalid");
+                    }
+                }
+            }
         }
 
         function _clear(ctx) {
@@ -230,6 +251,62 @@
 
         return valid;
     }
+
+
+    $.setFormData = function (form, data) {
+        for (var name in data) {
+            var values = _get(data[name]);
+            $.each(form.find("input[type='text'][name='" + name + "']"), function (i, item) {
+                if (i < values.length) {
+                    $(item).val(values[i]);
+                }
+            });
+            $.each(form.find("input[type='hidden'][name='" + name + "']"), function (i, item) {
+                if (i < values.length) {
+                    $(item).val(values[i]);
+                }
+            });
+            $.each(form.find("input[type='checkbox'][name='" + name + "']"), function (i, item) {
+                values.forEach(function (value) {
+                    if ($(item).attr("value") == value) {
+                        $(item).prop("checked", true);
+                    }
+                });
+            });
+            $.each(form.find("input[type='radio'][name='" + name + "']"), function (i, item) {
+                if ($(item).attr("value") == values[0]) {
+                    $(item).prop("checked", true);
+                }
+            });
+            $.each(form.find("textarea[name='" + name + "']"), function (i, item) {
+                if (i < values.length) {
+                    $(item).text(values[i]);
+                }
+            });
+            $.each(form.find("select[name='" + name + "'] option"), function (i, item) {
+                if ($(item).closest("select").attr("multiple") != undefined) {
+                    values.forEach(function (value) {
+                        if ($(item).attr("value") == value) {
+                            $(item).prop("selected", true);
+                        }
+                    });
+                } else {
+                    if ($(item).attr("value") == values[0]) {
+                        $(item).prop("selected", true);
+                    }
+                }
+            });
+        }
+
+        function _get(value) {
+            if (!$.isArray(value)) {
+                value = [value];
+            }
+            return value;
+        }
+    }
+
+    $.formData = _data;
 
     // Form data
     function _data(form) {
@@ -308,7 +385,8 @@
                     class: "primary",
                     label: "Confirm",
                     waiting: "Waiting",
-                    onConfirm: null
+                    onConfirm: null,
+                    close: true
                 },
                 cancel: {
                     class: "secondary",
@@ -327,7 +405,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" style="overflow-wrap: break-word;overflow: auto;"></h5>
                                 <% if (close) { %>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" close></button>
                                 <% } %>
                             </div>
                             <% } %>
@@ -401,6 +479,13 @@
                 });
                 modal.modal("toggle");
 
+                var closeBtn = modal.find("button[close]");
+                closeBtn.on("click", function () {
+                    if (options.onClose) {
+                        options.onClose();
+                    }
+                });
+
                 var cancelBtn = modal.find("button[cancel]");
                 cancelBtn.on("click", function () {
                     if (options.cancel.onCancel) {
@@ -434,7 +519,9 @@
                     function _complete() {
                         waiting.hide();
                         confirmBtn.show();
-                        modal.modal("toggle");
+                        if (options.confirm.close) {
+                            modal.modal("toggle");
+                        }
                     }
                 });
 
@@ -854,15 +941,33 @@
         if (!opt) {
             opt = {};
         }
+        var lang = {
+            en: {
+                text: {
+                    "noData": "No Data"
+                }
+            },
+            zh: {
+                text: {
+                    "noData": "没有数据"
+                }
+            }
+        };
         var defaultCfg = {
             search: false,
+            allowCreate: false,
+            singleClassic: false
         };
-        opt = $.extend(true, {}, defaultCfg, opt);
+        var langOpt = lang[opt.lang] ? lang[opt.lang] : lang["en"];
+        opt = $.extend(true, {}, defaultCfg, langOpt, opt);
 
         var tpl = `
             <div class="multiselect">
+                <% if (placeholder) { %>
+                <div class="placeholder"<% if (selecteds.length > 0) { %> style="display: none"<% } %>><%=placeholder%></div>
+                <% } %>
                 <div class="selected<% if (disabled) { %> disabled<% } %>">
-                    <% if (opt.single) { %>
+                    <% if (opt.single && opt.singleClassic) { %>
                         <% if (selecteds.length > 0) { %>
                         <label class="single" value="<%=selecteds[0].value%>"><%=selecteds[0].text%></label>
                         <% } %>
@@ -873,6 +978,9 @@
                                 <i class="bi bi-x-lg"></i>
                             </span>
                         <% }); %>
+                        <% if (opt.search && opt.allowCreate) { %>
+                        <input type="text">
+                        <% } %>
                     <% } %>
                 </div>
                 <div class="validation">
@@ -882,24 +990,35 @@
                 <i class="bi bi-chevron-down"></i>
                 <div class="select">
                     <% if (opt.search) { %>
-                    <div class="search">
-                        <i class="bi bi-search"></i>
-                        <input type="text">
-                        <% if (opt.search.async) { %>
-                        <div class="spinner-border text-secondary spinner-border-sm">
-                            <span class="visually-hidden">Loading...</span>
+                        <% if (opt.allowCreate) { %>
+                        <div class="waiting">
+                            <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <% } else { %>
+                        <div class="search">
+                            <i class="bi bi-search"></i>
+                            <input type="text">
+                            <% if (opt.search.async) { %>
+                            <div class="spinner-border text-secondary spinner-border-sm">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <% } %>
                         </div>
                         <% } %>
-                    </div>
                     <% } %>
                     <ul class="options">
                         <%_.each(options, function(option) {%>
                             <li>
+                                <% if (!opt.singleClassic) { %>
                                 <span class="checked"><i class="bi<% if (option.selected) { %> bi-check-lg<% } %>"></i></span>
+                                <% } %>
                                 <span value="<%=option.value%>"><%=option.text%></span>
                             </li>
                         <% }); %>
                     </ul>
+                    <div class="no-data" style="display:none"><%=opt.text.noData%></div>
                 </div>
             </div>
         `;
@@ -907,6 +1026,7 @@
         var single = !self.attr("multiple");
         var selecteds = [];
         var options = [];
+        var placeholder = self.attr("placeholder");
         $.each(self.find("option"), function (i, item) {
             var option = {
                 value: $(item).attr("value"),
@@ -924,7 +1044,8 @@
             disabled: self.attr("disabled"),
             selecteds: selecteds,
             options: options,
-            opt: opt
+            opt: opt,
+            placeholder: placeholder
         }));
         var selected = multi.find(".selected");
         var select = multi.find(".select");
@@ -941,7 +1062,22 @@
                 return;
             }
             e.stopPropagation();
-            select.is(":hidden") ? select.show() : select.hide();
+            if (select.is(":hidden")) {
+                $(".multiselect .select").hide();
+                select.show();
+            } else {
+                select.hide();
+            }
+            selected.find("input").focus();
+        });
+        selected.find("input").on("focus", function () {
+            $(".multiselect .select").hide();
+            select.show();
+            if (select.find("ul li:visible").length == 0) {
+                select.find(".no-data").show();
+            } else {
+                select.find(".no-data").hide();
+            }
         });
         select.on("click", function (e) {
             e.stopPropagation();
@@ -949,6 +1085,44 @@
         $("body").on("click", function () {
             select.hide();
         });
+        self.on("change", function () {
+            if (self.find("option:selected").length > 0) {
+                selected.prev(".placeholder").hide();
+            } else {
+                selected.prev(".placeholder").css("display", "flex");
+            }
+        });
+
+        function _addSelected(value, text) {
+            var tpl = `
+                <span class="item">
+                    <label value="<%=value%>"><%=text%></label>
+                    <i class="bi bi-x-lg"></i>
+                </span>
+            `;
+
+            var newSelected = $(_.template(tpl)({
+                value: value,
+                text: text
+            }));
+            newSelected.find("i").on("click", function (e) {
+                if (selected.hasClass("disabled")) {
+                    return;
+                }
+                e.stopPropagation();
+                _deselect($(this).closest("span"));
+            });
+            if (single) {
+                selected.find(".item").remove();
+            }
+            selected.append(newSelected);
+            var input = selected.find("input");
+            if (input.length > 0) {
+                input.val("").change().trigger("keyup");
+                selected.append(input);
+            }
+            self.find("option[value='" + value + "']").prop("selected", true).change();
+        }
 
         _bindOnSelect();
         function _bindOnSelect() {
@@ -961,39 +1135,25 @@
                     _deselect(selected.find("span label[value='" + value + "']").closest("span"));
                 } else {
                     if (single) {
-                        var tpl = `
-                            <label class="single" value="<%=value%>"><%=text%></label>
-                        `;
                         select.find("span.checked i").removeClass("bi-check-lg");
-                        checked.addClass("bi-check-lg");
-                        selected.html(_.template(tpl)({
-                            value: value,
-                            text: option.text()
-                        }));
-                        self.find("option[value='" + value + "']").prop("selected", true).change();
+                        if (opt.singleClassic) {
+                            var tpl = `
+                                <label class="single" value="<%=value%>"><%=text%></label>
+                            `;
+                            checked.addClass("bi-check-lg");
+                            selected.html(_.template(tpl)({
+                                value: value,
+                                text: option.text()
+                            }));
+                            self.find("option[value='" + value + "']").prop("selected", true).change();
+                        } else {
+                            checked.addClass("bi-check-lg");
+                            _addSelected(value, option.text());
+                        }
                         select.hide();
                     } else {
-                        var tpl = `
-                            <span class="item">
-                                <label value="<%=value%>"><%=text%></label>
-                                <i class="bi bi-x-lg"></i>
-                            </span>
-                        `;
-
-                        var newSelected = $(_.template(tpl)({
-                            value: value,
-                            text: option.text()
-                        }));
-                        newSelected.find("i").on("click", function (e) {
-                            if (selected.hasClass("disabled")) {
-                                return;
-                            }
-                            e.stopPropagation();
-                            _deselect($(this).closest("span"));
-                        });
+                        _addSelected(value, option.text());
                         checked.addClass("bi-check-lg");
-                        selected.append(newSelected);
-                        self.find("option[value='" + value + "']").prop("selected", true).change();
                     }
                 }
             });
@@ -1003,12 +1163,17 @@
             var value = obj.find("label").attr("value");
             select.find("li span[value='" + value + "']").siblings("span").find("i").removeClass("bi-check-lg");
             obj.remove();
-            self.find("option[value='" + value + "']").prop("selected", false).change();
+            var option = self.find("option[value='" + value + "']");
+            if (option.attr("created") != undefined) {
+                option.remove();
+            } else {
+                self.find("option[value='" + value + "']").prop("selected", false).change();
+            }
         }
 
         if (opt.search) {
-            var input = multi.find(".search input");
-            var waiting = select.find(".search .spinner-border");
+            var input = multi.find("input");
+            var waiting = select.find(".waiting");
             if (opt.search.async) {
                 if (opt.search.keyword) {
                     input.val(opt.search.keyword);
@@ -1026,7 +1191,7 @@
                 });
 
                 function _search(keyword) {
-                    waiting.show();
+                    waiting.css("display", "flex");
                     opt.search.async(keyword, function (data) {
                         var tpl = `
                             <%_.each(options, function(option) {%>
@@ -1070,11 +1235,65 @@
                 input.on("keyup", function (e) {
                     var keyword = $(this).val();
                     _highlight(keyword, true);
+
+                    if (!opt.allowCreate || opt.search.async) {
+                        return;
+                    }
+
+                    var text = $(this).val();
+                    var nc = select.find("ul li[new-created]");
+                    if (nc.length == 0) {
+                        nc = $(`
+                                <li new-created>
+                                    <span><i class="bi"></i></span>
+                                    <span value="${text}">${text}</span>
+                                </li>`
+                        );
+                        select.find("ul").append(nc);
+                        nc.on("click", function () {
+                            var item = $(this).find("span:last-child");
+                            var value = item.attr("value");
+
+                            if (self.find("option[value='" + value + "']").length > 0) {
+                                return;
+                            }
+
+                            var text = item.text();
+                            var option = $(`<option value="${value}" created>${text}</option>`);
+                            self.append(option);
+                            _addSelected(value, text);
+                            $(this).remove();
+                            input.val("").focus();
+                        });
+                        select.find(".no-data").hide();
+                    } else {
+                        select.find("ul li[new-created] span:last-child").attr("value", text).text(text);
+                    }
+
+                    if (text.length == 0) {
+                        select.find("ul li[new-created]").remove();
+                    }
+
+                    if (e.keyCode == 13) {
+                        e.stopImmediatePropagation();
+                        select.find("ul li[new-created]").trigger("click");
+                        select.find("ul li").show();
+                        _highlight($(this).val(), true);
+                        if (opt.single) {
+                            select.find("span.checked i").removeClass("bi-check-lg");
+                        }
+                    }
+
+                    if (select.find("ul li:visible").length == 0) {
+                        select.find(".no-data").show();
+                    } else {
+                        select.find(".no-data").hide();
+                    }
                 });
             }
 
             function _highlight(keyword, filter) {
-                var options = select.find("ul.options li span:last-child");
+                var options = select.find("ul.options li:not([new-created]) span:last-child");
                 $.each(options, function (i, option) {
                     var text = $(option).text();
                     var regexp = new RegExp(keyword, "i");
@@ -1107,13 +1326,19 @@
             select.find("ul li span[value='" + value + "']").parent().trigger("click");
         }
 
+        function _hide() {
+            select.hide();
+        }
+
+        self.next(".multiselect").remove();
         self.after(multi);
         self.hide();
 
         return {
             disable: _disable,
             enable: _enable,
-            select: _select
+            select: _select,
+            hide: _hide
         }
     };
 
@@ -1183,7 +1408,8 @@
 
         down.on("click", function () {
             var value = Number(self.val());
-            if (options.min == undefined || value > Number(options.min)) {
+            var min = self.attr("min");
+            if (min == undefined || value > Number(min)) {
                 if (options.decimal > 0) {
                     self.val((value - options.step / (10 ** options.decimal)).toFixed(options.decimal)).change();
                 } else {
@@ -1193,7 +1419,8 @@
         });
         up.on("click", function () {
             var value = Number(self.val());
-            if (options.max == undefined || value < Number(options.max)) {
+            var max = self.attr("max");
+            if (max == undefined || value < Number(max)) {
                 if (options.decimal > 0) {
                     self.val((value + options.step / (10 ** options.decimal)).toFixed(options.decimal)).change();
                 } else {
@@ -1203,15 +1430,17 @@
         });
         self.on("change", function () {
             var value = Number($(this).val());
-            if (options.min != undefined) {
-                if (value <= Number(options.min)) {
+            var min = self.attr("min");
+            if (min != undefined) {
+                if (value <= Number(min)) {
                     down.attr("disabled", true);
                 } else {
                     down.removeAttr("disabled");
                 }
             }
-            if (options.max != undefined) {
-                if (value >= Number(options.max)) {
+            var max = self.attr("max");
+            if (max != undefined) {
+                if (value >= Number(max)) {
                     up.attr("disabled", true);
                 } else {
                     up.removeAttr("disabled");
